@@ -4,12 +4,27 @@ console.disableYellowBox = true;
 import React from 'react';
 import { View, Button } from 'react-native';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from "@react-navigation/stack"
+/* Gradient Color Module */
+import { LinearGradient } from 'expo-linear-gradient';
 
+/* Navigation Between Screens */
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack'
+
+/* HomeScreen */
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <LinearGradient
+          colors={['rgba(255,177,153,1)', 'rgba(255,8,68,1)', 'transparent']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 1000,
+          }}
+        />
       <Button
         title="Go to Settings"
         onPress={() => navigation.navigate('Settings')}
@@ -18,9 +33,20 @@ function HomeScreen({ navigation }) {
   );
 }
 
+/* SettingScreen */
 function SettingScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <LinearGradient
+          colors={['rgba(255,177,153,1)', 'rgba(255,8,68,1)', 'transparent']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 1000,
+          }}
+        />
       <Button
         title="Go to Map"
         onPress={() => navigation.navigate('Map')}
@@ -30,9 +56,20 @@ function SettingScreen({ navigation }) {
   );
 }
 
+/* MapScreen */
 function MapScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <LinearGradient
+          colors={['rgba(255,177,153,1)', 'rgba(255,8,68,1)', 'transparent']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 1000,
+          }}
+        />
       <Button
         title="Go to Contacts"
         onPress={() => navigation.navigate('Contacts')}
@@ -42,9 +79,20 @@ function MapScreen({ navigation }) {
   );
 }
 
+/* ContactsScreen */
 function ContactsScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <LinearGradient
+          colors={['rgba(255,177,153,1)', 'rgba(255,8,68,1)', 'transparent']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 1000,
+          }}
+        />
     <Button
       title="Go to Chat"
       onPress={() => navigation.navigate('Chat')}
@@ -54,14 +102,26 @@ function ContactsScreen({ navigation }) {
   );
 }
 
+/* ChatScreen */
 function ChatScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <LinearGradient
+          colors={['rgba(255,177,153,1)', 'rgba(255,8,68,1)', 'transparent']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 1000,
+          }}
+        />
       <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
   );
 }
 
+/* createStackNavigator() */
 const Stack = createStackNavigator();
 
 function MyStack() {
