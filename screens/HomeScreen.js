@@ -1,10 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function HomeScreen() {
+function HomeScreen( {navigation} ) {
   return (
     <View style={styles.container}>
       <Text>HomeScreen</Text>
+      <Button
+      title="Go to Jane's profile"
+      onPress={() =>
+        navigation.navigate('Profile', { name: 'Jane' })
+      }
+    />
     </View>
   );
 }
@@ -12,7 +18,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FF3C5E',
     alignItems: 'center',
     justifyContent: 'center',
   },
