@@ -7,6 +7,9 @@
       "android",
       "web"
     ],
+    "facebookScheme" : "fb2524688944298263",
+    "facebookDisplayName" : "LovrOfficialVersion",
+    "facebookAppId" : "2524688944298263",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,8 +24,15 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourcompany.yourappname",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.yourcompany.yourappname",
+      "versionCode": 1
     }
   }
 }
