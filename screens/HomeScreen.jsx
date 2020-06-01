@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
-import {auth} from './firebase'
+import {auth, authF} from './firebase'
 import * as Facebook from 'expo-facebook';
 
 /* Gradient Background Color Module */
@@ -22,7 +22,13 @@ export default function HomeScreen() {
       if (type === 'success') {
         // Get the user's name using Facebook's Graph API
         const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-        Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+
+        const credential = authF.FacebookAuthProvider.credential(token);
+        console.log("logIn -> credential", credential)
+        
+        auth.signInWithCredential(credential).catch((err)=>{
+          console.log('error de la muerte', err)
+        });
       } else {
         // type === 'cancel'
       }
