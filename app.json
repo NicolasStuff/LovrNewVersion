@@ -27,11 +27,16 @@
     
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourcompany.yourappname",
-      "buildNumber": "1.0.0"
+      "bundleIdentifier": "com.lovr",
+      "buildNumber": "1.0.0",
+      "config": {
+        "googleSignIn" : {
+          
+        }
+      }
     },
     "android": {
-      "package": "com.yourcompany.yourappname",
+      "package": "com.lovr",
       "versionCode": 1
     }
   }

@@ -1,6 +1,10 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View, Button, Alert } from 'react-native';
+import {auth} from './firebase'
 import * as Facebook from 'expo-facebook';
+
+/* Gradient Background Color Module */
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function HomeScreen() {
   async function logIn() {
@@ -26,9 +30,26 @@ export default function HomeScreen() {
       alert(`Facebook Login Error: ${message}`);
     }
   }
+
+
   return (
     <View style={styles.container}>
+    <LinearGradient
+          colors={['rgba(255,177,153,1)', 'rgba(255,8,68,1)', 'transparent']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 1000,
+          }}
+        />
       <Text>HomeScreen</Text>
+      <Button
+      rounded
+      title="Sign In With Facebook"
+      onPress={() => logIn()}
+    />
     </View>
   );
 }
@@ -36,7 +57,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },

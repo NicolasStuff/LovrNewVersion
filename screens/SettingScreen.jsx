@@ -1,10 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
-export default function SettingScreen() {
+/* Gradient Background Color Module */
+import { LinearGradient } from 'expo-linear-gradient';
+
+export default function SettingScreen({navigation}) {
   return (
     <View style={styles.container}>
+    <LinearGradient
+          colors={['rgba(255,177,153,1)', 'rgba(255,8,68,1)', 'transparent']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 1000,
+          }}
+        />  
       <Text>SettingScreen</Text>
+      <Button
+        title="Go to Map"
+        onPress={() => navigation.navigate('Map')}
+      />
+      <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
   );
 }
