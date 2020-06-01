@@ -15,7 +15,8 @@
     "expo-facebook": "~8.1.0",
     "expo-firebase": "0.0.0-alpha.0",
     "expo-linear-gradient": "~8.1.0",
-    "firebase": "7.9.0",
+    "firebase": "^7.9.0",
+    "firebase-cli": "^1.2.0",
     "galio-framework": "^0.6.3",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
@@ -29,7 +30,7 @@
     "react-navigation-stack": "^2.5.1"
   },
   "devDependencies": {
-    "babel-preset-expo": "~8.1.0",
+    "babel-preset-expo": "^8.1.0",
     "@babel/core": "^7.8.6"
   },
   "private": true
