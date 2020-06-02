@@ -6,7 +6,7 @@ import * as Facebook from 'expo-facebook';
 /* Gradient Background Color Module */
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
   async function logIn() {
     try {
       await Facebook.initializeAsync('2524688944298263');
@@ -52,11 +52,14 @@ export default function HomeScreen() {
         />
       <Text>HomeScreen</Text>
       <Button
-      title="Go to Jane's profile"
-      onPress={() =>
-        navigation.navigate('Settings', { name: 'Jane' })
-      }
+      rounded
+      title="Sign In With Facebook"
+      onPress={() => logIn()}
     />
+    <Button
+        title="Go to Settings"
+        onPress={() => navigation.navigate('Settings')}
+      />
     </View>
   );
 }
