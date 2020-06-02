@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
 import {auth, authF} from './firebase'
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
@@ -62,41 +62,69 @@ export default function HomeScreen({navigation}) {
 
 
   return (
-    <View style={styles.container}>
-    <LinearGradient
-          colors={['rgba(255,177,153,1)', 'rgba(255,8,68,1)', 'transparent']}
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 0,
-            height: 1000,
-          }}
-        />
-      
-      <Button
-      rounded
-      title="Sign In With Facebook"
-      onPress={() => logIn()}
-      />
-      <Button
-      rounded
-      title="Sign In With Google"
-      onPress={() => signInWithGoogleAsync()}
-      />
-      <Button
-      rounded
-      title="Go to Settings"
-      onPress={() => navigation.navigate('Settings')}
-      />
-    </View>
+    <LinearGradient colors={['#FFB199', '#FF164B']} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Image source={require('../assets/Logo-White.png')} style={styles.Logo}/>
+            <Image source={require('../assets/LovrTypo.png')} style={styles.LogoTypo}/>
+            <View style={{marginTop: 110}}>
+              <Text style={styles.text}>Se connecter.</Text>
+              <TouchableOpacity
+                  onPress={() => logIn()}
+                  style={styles.signInFacebook}>
+                    <Text style={styles.signInFacebookText}> Sign in with Facebook</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                  onPress={() => signInWithGoogleAsync()}
+                  style={styles.signInGoogle}>
+                  <Text style={styles.signInGoogleText}> Sign in with Google</Text>
+              </TouchableOpacity>
+            </View>
+        </LinearGradient>
+
   );
 }
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  Logo: {
+    width: 158,
+    height: 123,
   },
-});
+  LogoTypo: {
+    width: 94,
+    height: 54,
+  },
+  text: {
+    fontSize: 18,
+    paddingBottom: 10,
+    color: 'white',
+    fontWeight: 'normal',
+  },
+  signInFacebook: {
+    width: 250,
+    height: 60,
+    fontSize: 15,
+    backgroundColor: '#4267B2',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5
+  },
+  signInFacebookText: {
+    color: 'white',
+    fontSize: 15,
+    textAlign: 'center',
+  },
+  signInGoogle: {
+    width: 250,
+    height: 60,
+    fontSize: 15,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    textDecorationColor: 'black',
+    marginTop: 25,
+  },
+  signInGoogleText: {
+    color: 'black',
+    fontSize: 15,
+    textAlign: 'center',
+  }
+  });
