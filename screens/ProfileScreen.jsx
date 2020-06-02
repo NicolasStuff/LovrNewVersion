@@ -23,7 +23,7 @@ export default function ProfileScreen({navigation}) {
    colors={['#61045f', '#20011f',]}>
   
    
-   <View style={{flexDirection:'row',marginLeft:'5%',marginTop:'5%'}}>
+   <View style={{flexDirection:'row',marginLeft:'5%',marginTop:'50%'}}>
    <Image 
            style={styles.firstCardImg}
            source={require('../assets/images/5.jpg')} />
