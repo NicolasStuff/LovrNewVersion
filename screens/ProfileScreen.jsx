@@ -1,287 +1,167 @@
 import React from 'react';
-import {StyleSheet, View,  ScrollView,Image } from 'react-native';
-import {Badge} from 'react-native-elements';
+import {
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  Image,
+  ImageBackground,
+  Platform
+} from "react-native";
+import { Block, Text, theme } from "galio-framework";
 
-/* galio framework module */
-import { Icon,Card,Button, Text, Block} from 'galio-framework';
+import { Button } from "../components";
+import { Images, argonTheme } from "../constants";
+import { HeaderHeight } from "../constants/utils";
 
-/* Gradient Background Color Module */
-import { LinearGradient } from 'expo-linear-gradient';
+const { width, height } = Dimensions.get("screen");
+
+const thumbMeasure = (width - 48 - 32) / 3;
 
 export default function ProfileScreen({navigation}) {
  return (
-   <View style={styles.container}>
-   <LinearGradient 
-       style={styles.gradient} 
-       colors={['#61045f', '#20011f',]}
-       start={{ x: 1, y: 1 }}
-       end={{ x: 0, y: 0 }}>
-   <LinearGradient 
-   style={styles.gradientJob} 
-   start={{ x: 1, y: 1 }}
-   end={{ x: 0, y: 0 }} 
-   colors={['#61045f', '#20011f',]}>
-  
-   
-   <View style={{flexDirection:'row',marginLeft:'5%',marginTop:'50%'}}>
-   <Image 
-           style={styles.firstCardImg}
-           source={require('../assets/images/5.jpg')} />
-  <View style={{flexDirection:'row'}}>
-  <View style={{flexDirection:'colum'}}>
-       <Text h5 style={styles.Mao}>Hippie Mao</Text>
-       <Text h6 style={styles.Designer}>{'UI/UX Designer Job \nhunting'}</Text>
-   </View>
-   <Icon
-               style={styles.maoIcon} 
-               name="chevron-small-right" 
-               family="Entypo" 
-               color={'#fff'} 
-               size={35}         
-               />
-   </View>
-   </View>
-   
 
-   </LinearGradient>
-   <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-   
-   <Text h5 style={styles.horizontalText}>You make know </Text>
-   <Text h5 style={styles.textRow1}>More</Text>
-   </View>
-
-   <View style={{height:'4%',}}>
-   <View style={{flexDirection:'row',justifyContent:'space-around'}}>
-       
-       <Button  
-           size='small'
-           shadowless
-           style={styles.horizontalButton}
-           onPress={() => navigation.navigate('MapScreen')}>
-           <Image 
-           style={styles.img1S1}
-           source={require('../assets/images/5.jpg')} ></Image>
-       </Button>
-       
-       <Button  
-           size='small'
-           shadowless
-           style={styles.horizontalButton}
-           onPress={() => navigation.navigate('MapScreen')}>
-           <Image 
-           style={styles.img1S1}
-           source={require('../assets/images/5.jpg')} />
-       </Button>
-       <Button  
-           size='small'
-           shadowless
-           style={styles.horizontalButton}
-           onPress={() => navigation.navigate('MapScreen')}>
-           <Image 
-           style={styles.img1S1}
-           source={require('../assets/images/5.jpg')} />
-       </Button>
-       <Button  
-           size='small'
-           shadowless
-           style={styles.horizontalButton}
-           onPress={() => navigation.navigate('MapScreen')}>
-           <Image 
-           style={styles.img1S1}
-           source={require('../assets/images/5.jpg')} />
-       </Button>
-   </View>
-   </View>
-   
-   
-   <View style={{marginTop:60,flexDirection:'row',}}>
-       <Text h5 style={styles.MessageText}>Message </Text>
-       <Badge style={styles.badge} value="99+" status="error" /> 
-   </View>
-   <View style={{alignSelf:'flex-end',marginTop:'-9%'}}>
-   <Text h5 style={styles.textRow2}>More</Text>  
-   </View>
-
-   <ScrollView>
-   <View style={{marginTop:'2%'}}>
-       
-           <View 
-               style={{
-                   flexDirection:'row',
-                   backgroundColor:'#5a0e54',
-                   marginLeft:'5%',
-                   marginRight:'5%',
-                   borderRadius:'10%',
-                   marginBottom:'3%',     
-               }}>
-           <Icon
-               style={styles.loginIcon} 
-               name="user-circle" 
-               family="FontAwesome" 
-               color={'#fc408a'} 
-               size={35}         
-               />
-           <Text style={styles.textLogin}>{'We detected an unusal\n Login attempt'}</Text> 
-           </View>   
-
-       <View style={{
-                   flexDirection:'row',
-                   backgroundColor:'#5a0e54',
-                   marginLeft:'5%',
-                   marginRight:'5%',
-                   borderRadius:'10%',
-                   paddingBottom:'5%'
-                }}>
-           <Icon
-               style={styles.locationIcon} 
-               name="location-pin" 
-               family="Entypo" 
-               color={'#4ec5f9'} 
-               size={35}         
-                />
-             <Text style={styles.locationText}>{'Pleas turn on real-time position \nto ensure that your friends can \ninteract with you at any time '}</Text>  
-       </View>      
+  <Block flex style={styles.profile}>
+  <Block flex>
+    <ImageBackground
+      source={Images.ProfileBackground}
+      style={styles.profileContainer}
+      imageStyle={styles.profileBackground}
+    >
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ width, marginTop: '25%' }}
+      >
       
-   </View>
-   </ScrollView>
-</LinearGradient>
-</View>
-   );
+        <Block flex style={styles.profileCard}>
+          <Block middle style={styles.avatarContainer}>
+            <Image
+              source={{ uri: Images.ProfilePicture }}
+              style={styles.avatar}
+            />
+          </Block>
+          <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
+              <Block row space="between" style={{ flexWrap: "wrap" }}>
+                {Images.Viewed.map((img, imgIndex) => (
+                  <Image
+                    source={{ uri: img }}
+                    key={`viewed-${img}`}
+                    resizeMode="cover"
+                    style={styles.thumb}
+                  />
+                ))}
+              </Block>
+            </Block>
+          <Block flex>
+            <Block middle style={styles.nameInfo}>
+              <Text bold size={28} color="#32325D">
+                Marie, 22
+              </Text>
+              <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
+                Vit à : Paris
+              </Text>
+              <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
+                Photographe
+              </Text>
+            </Block>
+            <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
+              <Block style={styles.divider} />
+            </Block>
+            <Block middle>
+              <Text
+                size={16}
+                color="#525F7F"
+                style={{ textAlign: "center" }}
+              >
+                Salut, Je suis Marie j'habite à Paris et je suis dispo pour aller boire un verre et rencontrer de nouvelles têtes!
+              </Text>
+              <Button
+                color="transparent"
+                textStyle={{
+                  color: "#233DD2",
+                  fontWeight: "500",
+                  fontSize: 16
+                }}
+              >
+                Show more
+              </Button>
+            </Block>
+            <Block
+              row
+              style={{ paddingVertical: 14, alignItems: "baseline" }}
+            >
+            <Button 
+            rounded
+            color="transparent"
+      ></Button>
+            </Block>
+          </Block>
+        </Block>
+      </ScrollView>
+    </ImageBackground>
+  </Block>
+  {
+    }
+    </Block>
+  );
 }
 
 
 const styles = StyleSheet.create({
-
-container:{
-   flex:1
+profile: {
+  marginTop: Platform.OS === "android" ? -HeaderHeight : 0,
+  // marginBottom: -HeaderHeight * 2,
+  flex: 1
 },
-gradient:{
-   flex:1
+profileContainer: {
+  width: width,
+  height: height,
+  padding: 0,
+  zIndex: 1
 },
-gradientJob:{
-   marginLeft:'5%',
-   marginRight:'5%',
-   height:'20%',
-   borderRadius:15
+profileBackground: {
+  width: width,
+  height: height / 2
 },
-profileText:{
-   fontSize:40,
-   fontWeight:'bold',
-   color:'#fff',
-   marginTop:'13%',
-   marginLeft:'5%',
-   marginBottom:'2%'
+profileCard: {
+  // position: "relative",
+  padding: theme.SIZES.BASE,
+  marginHorizontal: theme.SIZES.BASE,
+  marginTop: 65,
+  borderTopLeftRadius: 6,
+  borderTopRightRadius: 6,
+  backgroundColor: theme.COLORS.WHITE,
+  shadowColor: "black",
+  shadowOffset: { width: 0, height: 0 },
+  shadowRadius: 8,
+  shadowOpacity: 0.2,
+  zIndex: 2
 },
-jobCard:{
-   height:'100%',
-   borderColor:'transparent',
-   
+info: {
+  paddingHorizontal: 40
 },
-horizontalText:{
-   fontWeight:'700',
-   color:'#fff',
-   marginLeft:'5%',
-   marginTop:'3%',
-   paddingBottom:'3%',
-
-},  
-horizontalButton:{
-   borderRadius:230,
-   width:'5%',
-   justifyContent:'space-between',
-   marginTop:'1%',
-},  
-img1S1:{
-   height:75,
-   width:75,
-   borderRadius:35,
- 
+avatarContainer: {
+  position: "relative",
+  marginTop: -80
 },
-MessageText:{
-   alignSelf:'flex-start',
-   fontWeight:'700',
-  
-   color:'#fff',
-   marginLeft:'5%',
-   marginTop:'2%',
-       
+avatar: {
+  width: 124,
+  height: 124,
+  borderRadius: 62,
+  borderWidth: 0
 },
-loginCard:{
-   marginLeft:'5%',
-   marginRight:'5%',
-   backgroundColor:'#680d64',
-   borderColor:'transparent'
-
+nameInfo: {
+  marginTop: 35
 },
-loginIcon:{
-  paddingLeft:'7%',
-  marginBottom:'5%',
-  marginTop:'5%' 
-  
+divider: {
+  width: "90%",
+  borderWidth: 1,
+  borderColor: "#E9ECEF"
 },
-textLogin:{
-   fontSize:15,
-   fontWeight:'400',
-   color:'grey',
-   alignSelf:'center',
-   paddingLeft:'5%',
-   marginBottom:'3%',
-},
-locationCard:{
-   marginLeft:'5%',
-   marginRight:'5%',
-   backgroundColor:'#680d64',
-   borderColor:'transparent'
-},
-locationIcon:{
-   paddingLeft:'7%',
-   marginTop:'6%' 
-},
-locationText:{
-   fontSize:15,
-   fontWeight:'400',
-   color:'grey',
-   alignSelf:'center',
-   marginTop:'2%',
-   paddingLeft:'5%'
-},
-textRow1:{
-   color:'grey',
-   marginRight:'5%',
-   marginTop:'3%',
-   paddingBottom:'3%',
-   fontWeight:'bold'
-},
-textRow2:{
-   color:'grey',
-   marginRight:'5%',
-   marginTop:'3%',
-   paddingBottom:'3%',
-   fontWeight:'bold'
-},
-firstCardImg:{
-   borderRadius:25,
-   marginLeft:'5%',
-   width: 50,
-   height: 50 
-},
-Mao:{
-   color:'#fff',
-   fontWeight:'bold',
-   marginLeft:'15%',
-   // paddingTop:'2%'
-},
-maoIcon:{
-   // paddingBottom:'40%',
-   // marginTop:'2%'
-},
-Designer:{
-   color:'grey',
-   marginLeft:'15%',
-   marginBottom:'25%',
-},
-badge:{
-   // marginTop:'5%'
-},  
+thumb: {
+  borderRadius: 4,
+  marginVertical: 4,
+  alignSelf: "center",
+  width: thumbMeasure,
+  height: thumbMeasure
+}
 });
-
