@@ -73,7 +73,7 @@ export default function HomeScreen({navigation}) {
             height: 1000,
           }}
         />
-      <Text>HomeScreen</Text>
+      
       <Button
       rounded
       title="Sign In With Facebook"
