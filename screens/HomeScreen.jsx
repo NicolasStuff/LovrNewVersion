@@ -77,6 +77,11 @@ export default function HomeScreen({navigation}) {
                   style={styles.signInGoogle}>
                   <Text style={styles.signInGoogleText}> Sign in with Google</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                  onPress={() => navigation.navigate('Settings')}
+                  style={styles.signInGoogle}>
+                  <Text style={styles.signInGoogleText}> Go to settings</Text>
+              </TouchableOpacity>
             </View>
         </LinearGradient>
 
