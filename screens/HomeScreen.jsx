@@ -69,14 +69,14 @@ export default function HomeScreen({navigation}) {
             <View style={{marginTop: 110}}>
               <Text style={styles.text}>Se connecter.</Text>
               <SocialIcon
-                title='Sign In With Facebook'
+                title='Se connecter avec Facebook'
                 onPress={() => logIn()}
                 button
                 type='facebook'
                 style={styles.signInFacebook}
               />
               <SocialIcon
-                title='Sign In With Google'
+                title='Se connecter avec Google'
                 onPress={() => signInWithGoogleAsync()}
                 button
                 type='google'
