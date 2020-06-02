@@ -6,10 +6,10 @@ export default function MapScreen({navigation}) {
   return (
     <View>
       <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.profileLink}>
-        <Image source={require('../assets/Logos/ProfileScreenLogo.png')} />
+        <Image source={require('../assets/Logos/ProfileScreenLogo.png')} style={{width: 75, height: 50}} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Contacts')} style={styles.ChatLink}>
-        <Image source={require('../assets/Logos/ChatScreenLogo.png')} />
+        <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
       </TouchableOpacity>
       <MapView style={styles.mapStyle}
       initialRegion={{
@@ -30,9 +30,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 60,
     left: 0,
-    width: 100,
-    height: 100,
-    resizeMode: 'stretch',
   },
   ChatLink: {
     zIndex: 9,
@@ -40,9 +37,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 60,
     right: 0,
-    width: 100,
-    height: 100,
-    resizeMode: 'stretch',
   },
   radiusFour: {
     width: 250,
