@@ -47,7 +47,6 @@ export default function HomeScreen() {
         scopes: ['profile', 'email'],
         behavior: 'web'
       });      
-      console.log(result.type)
       if (result.type === 'success') {
         const credential = authF.GoogleAuthProvider.credential(result.idToken, result.accessToken) 
         auth.signInWithCredential(credential).catch((err)=>{
