@@ -64,8 +64,8 @@ export default function HomeScreen({navigation}) {
 
   return (
     <LinearGradient colors={['#FFB199', '#FF164B']} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={require('../assets/Logo-White.png')} style={styles.Logo}/>
-            <Image source={require('../assets/Tracé.png')} style={styles.LogoTypo}/>
+            <Image source={require('../assets/Logos/Logo-White.png')} style={styles.Logo}/>
+            <Image source={require('../assets/Logos/LovrTypo.png')} style={styles.LogoTypo}/>
             <View style={{marginTop: 110}}>
               <Text style={styles.text}>Se connecter.</Text>
               <SocialIcon
