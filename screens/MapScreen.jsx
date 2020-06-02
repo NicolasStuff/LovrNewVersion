@@ -1,9 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
-/* Gradient Background Color Module */
-import { LinearGradient } from 'expo-linear-gradient';
-
 export default function MapScreen({navigation}) {
   return (
     <View style={styles.container}>
