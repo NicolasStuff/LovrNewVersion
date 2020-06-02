@@ -3,9 +3,10 @@ import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-n
 import {auth, authF} from './firebase'
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
+import { SocialIcon } from 'react-native-elements'
+import { LinearGradient } from 'expo-linear-gradient';
 
 /* Gradient Background Color Module */
-import { LinearGradient } from 'expo-linear-gradient';
 
 export default function HomeScreen({navigation}) {
   async function logIn() {
@@ -64,24 +65,24 @@ export default function HomeScreen({navigation}) {
   return (
     <LinearGradient colors={['#FFB199', '#FF164B']} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Image source={require('../assets/Logo-White.png')} style={styles.Logo}/>
-            <Image source={require('../assets/LovrTypo.png')} style={styles.LogoTypo}/>
+            <Image source={require('../assets/Tracé.png')} style={styles.LogoTypo}/>
             <View style={{marginTop: 110}}>
               <Text style={styles.text}>Se connecter.</Text>
-              <TouchableOpacity
-                  onPress={() => logIn()}
-                  style={styles.signInFacebook}>
-                    <Text style={styles.signInFacebookText}> Sign in with Facebook</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                  onPress={() => signInWithGoogleAsync()}
-                  style={styles.signInGoogle}>
-                  <Text style={styles.signInGoogleText}> Sign in with Google</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                  onPress={() => navigation.navigate('Settings')}
-                  style={styles.signInGoogle}>
-                  <Text style={styles.signInGoogleText}> Go to settings</Text>
-              </TouchableOpacity>
+              <SocialIcon
+                title='Sign In With Facebook'
+                onPress={() => logIn()}
+                button
+                type='facebook'
+                style={styles.signInFacebook}
+              />
+              <SocialIcon
+                title='Sign In With Google'
+                onPress={() => signInWithGoogleAsync()}
+                button
+                type='google'
+                light='true'
+                style={styles.signInGoogle}
+              />
             </View>
         </LinearGradient>
 
@@ -93,8 +94,8 @@ const styles = StyleSheet.create({
     height: 123,
   },
   LogoTypo: {
-    width: 94,
-    height: 54,
+    width: 115,
+    height: 50,
   },
   text: {
     fontSize: 18,
@@ -111,11 +112,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5
   },
-  signInFacebookText: {
-    color: 'white',
-    fontSize: 15,
-    textAlign: 'center',
-  },
   signInGoogle: {
     width: 250,
     height: 60,
@@ -127,9 +123,4 @@ const styles = StyleSheet.create({
     textDecorationColor: 'black',
     marginTop: 25,
   },
-  signInGoogleText: {
-    color: 'black',
-    fontSize: 15,
-    textAlign: 'center',
-  }
   });
