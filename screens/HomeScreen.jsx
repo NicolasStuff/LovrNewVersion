@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 import {auth, authF} from './firebase'
 import * as Facebook from 'expo-facebook';
+import * as Google from 'expo-google-app-auth';
 
 /* Gradient Background Color Module */
 import { LinearGradient } from 'expo-linear-gradient';
@@ -37,6 +38,29 @@ export default function HomeScreen() {
     }
   }
 
+  async function signInWithGoogleAsync() {
+    console.log('here')
+    try {
+      const result = await Google.logInAsync({
+        androidClientId: '917655662400-kaaf84i2pdpbu3e5gcmpeignd0hrs6bc.apps.googleusercontent.com',
+        iosClientId: '917655662400-qc10lkdllkhqt01oj3rerl5je0cl04di.apps.googleusercontent.com',
+        scopes: ['profile', 'email'],
+        behavior: 'web'
+      });      
+      console.log(result.type)
+      if (result.type === 'success') {
+        const credential = authF.GoogleAuthProvider.credential(result.idToken, result.accessToken) 
+        auth.signInWithCredential(credential).catch((err)=>{
+            console.log('error de la muerte google', err)
+        })
+      } else {
+        return { cancelled: true };
+      }
+    } catch (e) {
+      return { error: true };
+    }    
+  }
+
 
   return (
     <View style={styles.container}>
@@ -55,7 +79,12 @@ export default function HomeScreen() {
       rounded
       title="Sign In With Facebook"
       onPress={() => logIn()}
-    />
+      />
+      <Button
+      rounded
+      title="Sign In With Google"
+      onPress={() => signInWithGoogleAsync()}
+      />
     </View>
   );
 }
