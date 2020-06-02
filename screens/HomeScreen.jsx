@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import {auth, authF} from './firebase'
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
@@ -73,15 +73,21 @@ export default function HomeScreen({navigation}) {
             height: 1000,
           }}
         />
-      
+        <View style={{marginBottom: 150}}>
+          <Image source={require("../assets/Logo-White.png")} style={styles.Logo}/>
+          <Image source={require("../assets/LovrTypo.png")} style={styles.LogoTypo}/>
+        </View>
+        <Text style={styles.Textconnection}>Se connecter avec : </Text>
       <Button
       rounded
       title="Sign In With Facebook"
+      style={styles.Facebook}
       onPress={() => logIn()}
       />
       <Button
       rounded
       title="Sign In With Google"
+      style={styles.Google}
       onPress={() => signInWithGoogleAsync()}
       />
       <Button
@@ -99,4 +105,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  Logo: {
+    width: 120,
+    height: 100,
+  },
+  LogoTypo: {
+    alignItems: 'center',
+    width: 120,
+    height: 50,
+  },
+  Textconnection: {
+    color: "white", 
+    marginBottom: 20,
+    fontSize: 20
+  },
+  Facebook: {
+    color: "#3B589E"
+  }
 });
