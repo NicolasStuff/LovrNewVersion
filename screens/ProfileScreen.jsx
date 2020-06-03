@@ -31,7 +31,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
       "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
       "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
       "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80"
+      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
     ])   
   
  return (
@@ -46,76 +46,73 @@ const thumbMeasure = (width - 48 - 32) / 3;
         <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
     </TouchableOpacity>
             
-    <Block flex style={styles.profile}>
-      <Block flex>
+    <Block style={styles.profile}>
         <ImageBackground
             style={styles.profileContainer}>
-        <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ width, marginTop: '25%' }}>
-       <SliderBox
-          images={images}
-          sliderBoxHeight={400}
-          onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
-          dotColor="#FF164B"
-          inactiveDotColor="#90A4AE"
-      />
-            <Block middle style={styles.nameInfo}>
-              <Text bold size={28} color="#32325D" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
-                Marie, 22
-              </Text>
-              <Text size={16} color="#32325D" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
-                Vit à : Paris
-              </Text>
-              <Text size={16} color="#32325D" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
-              Photographe
-              </Text>
-            </Block>
-            <Block middle style={{ marginTop: 30, marginBottom: 1 }}>
-              <Block style={styles.divider} />
-            </Block>
-            <Block middle>
-              <Text
-                size={16}
-                color="#525F7F"
-                style={{ textAlign: "left",  marginTop: 10, marginHorizontal: 10 }}
-              >
-                Salut, Je suis Marie j'habite à Paris et je suis dispo pour aller boire un verre et rencontrer de nouvelles têtes!
-              </Text>
-              <TouchableOpacity
-                      onPress={() => navigation.navigate('Settings')}
-                      style={styles.button}>
-                      <Text style={{color: "#5E72E4", fontSize: 16}}>Show more</Text>
-                    </TouchableOpacity>
+          <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ width }}>
+            <SliderBox
+              images={images}
+              sliderBoxHeight={400}
+              onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
+              dotColor="#FF164B"
+              inactiveDotColor="#90A4AE"
+            />
+              <Block middle style={styles.nameInfo}>
+                <Text bold size={28} color="#32325D" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
+                  Marie, 22
+                </Text>
+                <Text size={16} color="#32325D" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
+                  Vit à : Paris
+                </Text>
+                <Text size={16} color="#32325D" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
+                Photographe
+                </Text>
               </Block>
-              <Block
-                    row
-                    style={{ paddingBottom: 10, justifyContent: "flex-start" }}
-                  >
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate('Settings')}
-                      style={styles.button}>
-                      <Text style={{color: "#5E72E4", fontSize: 8}}>27 photos Instagram</Text>
-                    </TouchableOpacity>
-                  </Block>
-              <Block style={{ paddingBottom: -HeaderHeight * 2, marginHorizontal: 10 }}>
-              <Block row space="between" style={{ flexWrap: "wrap" }}>
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
+              <Block middle style={{ marginTop: 30, marginBottom: 1 }}>
+                <Block style={styles.divider} />
               </Block>
-            </Block>
-      </ScrollView>
-    </ImageBackground>
-  </Block>
-  {
-    }
+              <Block middle>
+                <Text
+                  size={16}
+                  color="#525F7F"
+                  style={{ textAlign: "left",  marginTop: 10, marginHorizontal: 10 }}
+                >
+                  Salut, Je suis Marie j'habite à Paris et je suis dispo pour aller boire un verre et rencontrer de nouvelles têtes!
+                </Text>
+                <TouchableOpacity
+                        onPress={() => navigation.navigate('Settings')}
+                        style={styles.button}>
+                        <Text style={{color: "#5E72E4", fontSize: 16}}>Show more</Text>
+                      </TouchableOpacity>
+                </Block>
+                <Block
+                      row
+                      style={{ paddingBottom: 10, justifyContent: "flex-start" }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate('Settings')}
+                        style={styles.button}>
+                        <Text style={{color: "#5E72E4", fontSize: 8}}>27 photos Instagram</Text>
+                      </TouchableOpacity>
+                    </Block>
+                <Block style={{ paddingBottom: -HeaderHeight * 2, marginHorizontal: 10 }}>
+                <Block row space="between" style={{ flexWrap: "wrap" }}>
+                  {Images.Viewed.map((img, imgIndex) => (
+                    <Image
+                      source={{ uri: img }}
+                      key={`viewed-${img}`}
+                      resizeMode="cover"
+                      style={styles.thumb}
+                    />
+                  ))}
+                </Block>
+              </Block>
+          </ScrollView>
+      </ImageBackground>
     </Block>
+        
     </View>
   );
 }
@@ -123,9 +120,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
 
 const styles = StyleSheet.create({
 profile: {
-  marginTop: Platform.OS === "android" ? -HeaderHeight : 2,
-  //marginBottom: -HeaderHeight * 2,
-  flex: 1
+  flex: 1,
 },
 profileContainer: {
   width: width,
@@ -135,9 +130,6 @@ profileContainer: {
 },
 profileCard: {
   position: "relative",
-  padding: theme.SIZES.BASE,
-  marginHorizontal: theme.SIZES.BASE,
-  marginTop: 65,
   borderTopLeftRadius: 6,
   borderTopRightRadius: 6,
   backgroundColor: theme.COLORS.WHITE,
