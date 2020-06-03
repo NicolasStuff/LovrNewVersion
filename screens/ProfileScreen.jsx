@@ -90,7 +90,6 @@ const thumbMeasure = (width - 48 - 32) / 3;
  return (
   
   <View>
-
     <TouchableOpacity onPress={() => navigation.navigate('Map')} style={styles.ChatLink}>
         <Image source={require('../assets/Logos/MapScreenLogoFromProfile.png')} style={{width: 75, height: 50}}/>
     </TouchableOpacity>

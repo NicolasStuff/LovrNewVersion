@@ -7,8 +7,12 @@ import * as Permissions from 'expo-permissions';
 export default function MapScreen({navigation}) {
   const [mapRegion, setMapRegion] = useState({ latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421, })
   const [location, setLocation] = useState({coords: { latitude: 37.78825, longitude: -122.4324}})
+  const [fakeUsers, setFakeUsers] = useState([{ latitude: 49.125971, longitude: 2.228506, latitudeDelta: 0.0922, longitudeDelta: 0.0421, },
+                                              { latitude: 49.129971, longitude: 2.228, latitudeDelta: 0.0922, longitudeDelta: 0.0421, },
+                                              { latitude: 49.222, longitude: 2.228, latitudeDelta: 0.0922, longitudeDelta: 0.0421, },
+                                              { latitude: 49.12, longitude: 2.22, latitudeDelta: 0.0922, longitudeDelta: 0.0421, }])
   
-  useEffect(() => {
+useEffect(() => {
     _getLocationAsync();
   }, []);
 
@@ -26,6 +30,25 @@ export default function MapScreen({navigation}) {
     let location = await Location.getCurrentPositionAsync({});
     setLocation( location );
   };
+
+  var NewUsers = 
+    fakeUsers.map((user,i) => {
+        return (
+        <Marker
+          style={styles.FrontMarker}
+          key={i}
+          coordinate={ user }
+          anchor={{x: 0.5, y: 0.5}}>
+              
+            <View style={styles.marker}>
+                <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/>
+            </View>
+        </Marker>
+         )
+        }
+      )
+     
+      console.log(location)
 
   return (
     <View>
@@ -51,15 +74,14 @@ export default function MapScreen({navigation}) {
                   <View style={styles.radiusFour}>
                       <View style={styles.radiusThree}>
                           <View style={styles.radiusTwo}>
-                              <View style={styles.radius}>
-                                  <View style={styles.marker}>
-                                      <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/>
-                                  </View>
+                              <View style={styles.marker}>
+                                  <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/>
                               </View>
+                          </View>
                       </View>
                   </View>
-              </View>
           </Marker>
+          {NewUsers}
       </MapView>
     </View>
   );
@@ -67,36 +89,36 @@ export default function MapScreen({navigation}) {
 
 const styles = StyleSheet.create({
   profileLink: {
-    zIndex: 9,
+    zIndex: 1,
     position: 'absolute',
     flexDirection: 'row',
     marginTop: 60,
     left: 0,
   },
   ChatLink: {
-    zIndex: 9,
+    zIndex: 1,
     position: 'absolute',
     flexDirection: 'row',
     marginTop: 60,
     right: 0,
   },
   radiusFour: {
-    width: 250,
-    height: 250,
-    borderRadius: 250 / 2,
+    width: 300,
+    height: 300,
+    borderRadius: 300 / 2,
     overflow: "hidden",
     backgroundColor: 'rgba(135, 135, 135, 0.44)',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
 },
   radiusThree: {
-    width: 200,
-    height: 200,
-    borderRadius: 200 / 2,
+    width: 230,
+    height: 230,
+    borderRadius: 230 / 2,
     overflow: "hidden",
     backgroundColor: 'rgba(135, 135, 135, 0.44)',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
 },
 radiusTwo: {
     width: 150,
@@ -105,17 +127,17 @@ radiusTwo: {
     overflow: "hidden",
     backgroundColor: 'rgba(135, 135, 135, 0.44)',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
 },
-radius: {
-    width: 100,
-    height: 100,
-    borderRadius: 100 / 2,
-    overflow: "hidden",
-    backgroundColor: 'rgba(135, 135, 135, 0.44)',
-    alignItems: 'center',
-    justifyContent: 'center'
-},
+// radius: {
+//     width: 100,
+//     height: 100,
+//     borderRadius: 100 / 2,
+//     overflow: "hidden",
+//     backgroundColor: 'rgba(135, 135, 135, 0.44)',
+//     alignItems: 'center',
+//     justifyContent: 'center'
+// },
 marker: {
     height: 60,
     width: 60,
@@ -123,7 +145,10 @@ marker: {
     borderColor: 'white',
     borderRadius: 60 / 2,
     overflow: 'hidden',
-    backgroundColor: '#007AFF'
+    backgroundColor: '#007AFF',
+  },
+FrontMarker: {
+    zIndex: 1,
   },
 mapStyle: {
     width: Dimensions.get('window').width,
@@ -139,5 +164,6 @@ pictureBox: {
     width: 60,
     borderRadius: 60 / 2,
     overflow: 'hidden',
+    elevation : 100,
   }
 });
