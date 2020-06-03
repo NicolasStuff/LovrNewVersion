@@ -9,7 +9,7 @@ export default function MapScreen({navigation}) {
         title="Go to Contacts"
         onPress={() => navigation.navigate('Contacts')}
       />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
+      <Button title="Go back" onPress={() => navigation.navigate('Home')} />
     </View>
   );
 }
