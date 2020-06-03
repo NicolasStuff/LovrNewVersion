@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
 import {auth, authF} from './firebase'
 import * as Facebook from 'expo-facebook';
@@ -9,6 +9,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 /* Gradient Background Color Module */
 
 export default function HomeScreen({navigation}) {
+
+  //const [connected, setConnected] = useState(false)
+
   async function logIn() {
     try {
       await Facebook.initializeAsync('2524688944298263');
@@ -23,6 +26,7 @@ export default function HomeScreen({navigation}) {
       });
       if (type === 'success') {
         // Get the user's name using Facebook's Graph API
+        //setConnected = true;
         const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
 
         const credential = authF.FacebookAuthProvider.credential(token);
@@ -31,6 +35,7 @@ export default function HomeScreen({navigation}) {
         auth.signInWithCredential(credential).catch((err)=>{
           console.log('error de la muerte', err)
         });
+        navigation.navigate('Map')
       } else {
         // type === 'cancel'
       }
@@ -49,10 +54,12 @@ export default function HomeScreen({navigation}) {
         behavior: 'web'
       });      
       if (result.type === 'success') {
+        //setConnected = true;
         const credential = authF.GoogleAuthProvider.credential(result.idToken, result.accessToken) 
         auth.signInWithCredential(credential).catch((err)=>{
             console.log('error de la muerte google', err)
         })
+        navigation.navigate('Map')
       } else {
         return { cancelled: true };
       }
@@ -64,19 +71,21 @@ export default function HomeScreen({navigation}) {
 
   return (
     <LinearGradient colors={['#FFB199', '#FF164B']} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={require('../assets/Logo-White.png')} style={styles.Logo}/>
-            <Image source={require('../assets/Tracé.png')} style={styles.LogoTypo}/>
+            <Image source={require('../assets/Logos/Logo-White.png')} style={styles.Logo}/>
+            <Image source={require('../assets/Logos/LovrTypo.png')} style={styles.LogoTypo}/>
             <View style={{marginTop: 110}}>
               <Text style={styles.text}>Se connecter.</Text>
               <SocialIcon
-                title='Sign In With Facebook'
-                onPress={() => logIn()}
+                title='Se connecter avec Facebook'
+                onPress={
+                  () => logIn()
+                }
                 button
                 type='facebook'
                 style={styles.signInFacebook}
               />
               <SocialIcon
-                title='Sign In With Google'
+                title='Se connecter avec Google'
                 onPress={() => signInWithGoogleAsync()}
                 button
                 type='google'
