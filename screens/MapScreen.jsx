@@ -1,8 +1,31 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity ,Dimensions, mapCustom} from 'react-native';
 import MapView from 'react-native-maps';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 export default function MapScreen({navigation}) {
+  const [position, setPosition] = useState({ latitude: 49.125947, longitude: 2.2285104, latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+})
+  useEffect(() => {
+    async function askPermissions() {
+      var { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status === 'granted') {
+        
+        Location.watchPositionAsync({distanceInterval: 10},
+          (location) => {
+            //console.log(location);
+              setPosition(location)
+              console.log("la")
+            }
+        );
+      }
+    }
+    askPermissions();
+  }, []);
+  console.log(position)
+
   return (
     <View>
       <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.profileLink}>
@@ -12,12 +35,7 @@ export default function MapScreen({navigation}) {
         <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
       </TouchableOpacity>
       <MapView style={styles.mapStyle}
-      initialRegion={{
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      }}
+      initialRegion={position}
     />
     </View>
   );
@@ -84,14 +102,13 @@ marker: {
     backgroundColor: '#007AFF'
   },
 mapStyle: {
-      width: Dimensions.get('window').width,
-      height: Dimensions.get('window').height
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height
   },
 profileAndMessage: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignSelf: 'stretch',
-    //  paddingTop: Constants.statusBarHeight
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
   },
 pictureBox: {
     height: 60,
