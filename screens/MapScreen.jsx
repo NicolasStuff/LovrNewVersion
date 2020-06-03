@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity ,Dimensions, mapCustom} from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
@@ -34,9 +34,35 @@ export default function MapScreen({navigation}) {
       <TouchableOpacity onPress={() => navigation.navigate('Contacts')} style={styles.ChatLink}>
         <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
       </TouchableOpacity>
-      <MapView style={styles.mapStyle}
+      {/* <MapView style={styles.mapStyle}
       initialRegion={position}
-    />
+      /> */}
+      <MapView style={styles.mapStyle}
+      initialRegion = { position }
+      showsUserLocation = { false }
+      minZoomLevel={12}
+      maxZoomLevel={19}
+      showsCompass = { false }
+      enableHighAccuracy = {true}
+      rotateEnabled = { false }
+      //provider={ PROVIDER_GOOGLE }
+      >
+          <Marker
+              coordinate={ position }
+              anchor={{x: 0.5, y: 0.5}}>
+                  <View style={styles.radiusFour}>
+                      <View style={styles.radiusThree}>
+                          <View style={styles.radiusTwo}>
+                              <View style={styles.radius}>
+                                  <View style={styles.marker}>
+                                      <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/>
+                                  </View>
+                              </View>
+                      </View>
+                  </View>
+              </View>
+          </Marker>
+      </MapView>
     </View>
   );
 }
