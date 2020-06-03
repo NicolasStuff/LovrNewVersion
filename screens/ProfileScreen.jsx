@@ -1,25 +1,54 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   Dimensions,
   ScrollView,
   Image,
   ImageBackground,
-  Platform
+  Platform,
+  View,
+  TouchableOpacity
 } from "react-native";
+
+/* Galio Framework */
 import { Block, Text, theme } from "galio-framework";
 
+/* Links to components and constants folders */
 import { Button } from "../components";
 import { Images } from "../constants";
 import { HeaderHeight } from "../constants/utils";
+
+/* Profile images slider box module */
+import { SliderBox } from "react-native-image-slider-box";
 
 const { width, height } = Dimensions.get("screen");
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
-export default function ProfileScreen({navigation}) {
- return (
+//export default function ProfileScreen({navigation}) {     
 
+  export default class ProfileScreen extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        images: [
+          "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
+          "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
+          "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
+          "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80"
+        ]
+      };
+    }
+  
+    render() {
+ return (
+  <View>
+    <TouchableOpacity onPress={() => navigation.navigate('Settings')} style={styles.profileLink}>
+        <Image source={require('../assets/Logos/ProfileScreenLogo.png')} style={{width: 75, height: 50}} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Map')} style={styles.ChatLink}>
+        <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
+      </TouchableOpacity>
   <Block flex style={styles.profile}>
   <Block flex>
   <ImageBackground
@@ -30,15 +59,14 @@ export default function ProfileScreen({navigation}) {
         showsVerticalScrollIndicator={false}
         style={{ width, marginTop: '25%' }}
       >
-      
-        <Block flex style={styles.profileCard}>
-          <Block middle style={styles.avatarContainer}>
-            <Image
-              source={{ uri: Images.ProfilePicture }}
-              style={styles.avatar}
-            />
-          </Block>
-        
+       <SliderBox
+  images={this.state.images}
+  sliderBoxHeight={400}
+  onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
+  dotColor="#FF164B"
+  inactiveDotColor="#90A4AE"
+/>
+        <Block flex style={styles.profileCard}>    
           <Block flex>
             <Block middle style={styles.nameInfo}>
               <Text bold size={28} color="#32325D">
@@ -107,9 +135,10 @@ export default function ProfileScreen({navigation}) {
   {
     }
     </Block>
+    </View>
   );
 }
-
+  }
 
 const styles = StyleSheet.create({
 profile: {
@@ -151,7 +180,7 @@ avatarContainer: {
 avatar: {
   width: 124,
   height: 124,
-  borderRadius: 62,
+  borderRadius: 0,
   borderWidth: 0
 },
 nameInfo: {
@@ -168,6 +197,20 @@ thumb: {
   alignSelf: "center",
   width: thumbMeasure,
   height: thumbMeasure
+},
+profileLink: {
+  zIndex: 9,
+  position: 'absolute',
+  flexDirection: 'row',
+  marginTop: 60,
+  left: 0,
+},
+ChatLink: {
+  zIndex: 9,
+  position: 'absolute',
+  flexDirection: 'row',
+  marginTop: 60,
+  right: 0,
 }
 });
 
