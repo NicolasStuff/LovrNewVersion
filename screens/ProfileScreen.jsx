@@ -33,7 +33,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
       "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
       "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80"
     ])   
-   
+  
  return (
   
   <View>
@@ -82,30 +82,21 @@ const thumbMeasure = (width - 48 - 32) / 3;
               >
                 Salut, Je suis Marie j'habite à Paris et je suis dispo pour aller boire un verre et rencontrer de nouvelles têtes!
               </Text>
-              <Button
-                color="transparent"
-                shadowless
-                overflow="hidden"
-                textStyle={{
-                  color: "#233DD2",
-                  fontWeight: "500",
-                  fontSize: 16
-                }}
-              >
-                Show more
-              </Button>
+              <TouchableOpacity
+                      onPress={() => navigation.navigate('Settings')}
+                      style={styles.button}>
+                      <Text style={{color: "#5E72E4", fontSize: 16}}>Show more</Text>
+                    </TouchableOpacity>
               </Block>
               <Block
                     row
-                    style={{ paddingBottom: 20, justifyContent: "flex-start" }}
+                    style={{ paddingBottom: 10, justifyContent: "flex-start" }}
                   >
-                    <Button
-                      small
-                      color="transparent"
-                      textStyle={{ color: "#5E72E4", fontSize: 8 }}
-                    >
-                      27 photos Instagram
-                    </Button>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('Settings')}
+                      style={styles.button}>
+                      <Text style={{color: "#5E72E4", fontSize: 8}}>27 photos Instagram</Text>
+                    </TouchableOpacity>
                   </Block>
               <Block style={{ paddingBottom: -HeaderHeight * 2, marginHorizontal: 10 }}>
               <Block row space="between" style={{ flexWrap: "wrap" }}>
@@ -168,6 +159,11 @@ avatar: {
   height: 124,
   borderRadius: 0,
   borderWidth: 0
+},
+button: {
+  alignItems: "center",
+  backgroundColor: "transparent",
+  padding: 10
 },
 nameInfo: {
   marginTop: 35,
