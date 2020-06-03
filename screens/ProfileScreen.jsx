@@ -47,12 +47,11 @@ const thumbMeasure = (width - 48 - 32) / 3;
     </TouchableOpacity>
             
     <Block flex style={styles.profile}>
-      <Block flex>
         <ImageBackground
             style={styles.profileContainer}>
         <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{ width, marginTop: '25%' }}>
+        style={{ width }}>
        <SliderBox
           images={images}
           sliderBoxHeight={400}
@@ -112,9 +111,6 @@ const thumbMeasure = (width - 48 - 32) / 3;
             </Block>
       </ScrollView>
     </ImageBackground>
-  </Block>
-  {
-    }
     </Block>
     </View>
   );
@@ -123,8 +119,6 @@ const thumbMeasure = (width - 48 - 32) / 3;
 
 const styles = StyleSheet.create({
 profile: {
-  marginTop: Platform.OS === "android" ? -HeaderHeight : 2,
-  //marginBottom: -HeaderHeight * 2,
   flex: 1
 },
 profileContainer: {
