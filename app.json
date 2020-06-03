@@ -37,7 +37,12 @@
     },
     "android": {
       "package": "com.lovr",
-      "versionCode": 1
+      "versionCode": 1, 
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCKP44zGRuDco_gQVRR0xBzKUwXpbSNyA4"
+        }
+      }
     }
   }
 }

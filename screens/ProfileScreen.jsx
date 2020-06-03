@@ -10,7 +10,7 @@ import {
 import { Block, Text, theme } from "galio-framework";
 
 import { Button } from "../components";
-import { Images, argonTheme } from "../constants";
+import { Images } from "../constants";
 import { HeaderHeight } from "../constants/utils";
 
 const { width, height } = Dimensions.get("screen");
@@ -22,11 +22,10 @@ export default function ProfileScreen({navigation}) {
 
   <Block flex style={styles.profile}>
   <Block flex>
-    <ImageBackground
-      source={Images.ProfileBackground}
-      style={styles.profileContainer}
-      imageStyle={styles.profileBackground}
-    >
+  <ImageBackground
+            source={{uri: Images.Profile}}
+            style={styles.profileContainer}
+            imageStyle={styles.profileImage}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{ width, marginTop: '25%' }}
@@ -39,18 +38,7 @@ export default function ProfileScreen({navigation}) {
               style={styles.avatar}
             />
           </Block>
-          <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
-              <Block row space="between" style={{ flexWrap: "wrap" }}>
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </Block>
-            </Block>
+        
           <Block flex>
             <Block middle style={styles.nameInfo}>
               <Text bold size={28} color="#32325D">
@@ -76,6 +64,8 @@ export default function ProfileScreen({navigation}) {
               </Text>
               <Button
                 color="transparent"
+                shadowless
+                overflow="hidden"
                 textStyle={{
                   color: "#233DD2",
                   fontWeight: "500",
@@ -84,15 +74,30 @@ export default function ProfileScreen({navigation}) {
               >
                 Show more
               </Button>
+              <Block
+                    row
+                    style={{ paddingBottom: 20, justifyContent: "flex-end" }}
+                  >
+                    <Button
+                      small
+                      color="transparent"
+                      textStyle={{ color: "#5E72E4", fontSize: 8 }}
+                    >
+                      27 photos Instagram
+                    </Button>
+                  </Block>
+              <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
+              <Block row space="between" style={{ flexWrap: "wrap" }}>
+                {Images.Viewed.map((img, imgIndex) => (
+                  <Image
+                    source={{ uri: img }}
+                    key={`viewed-${img}`}
+                    resizeMode="cover"
+                    style={styles.thumb}
+                  />
+                ))}
+              </Block>
             </Block>
-            <Block
-              row
-              style={{ paddingVertical: 14, alignItems: "baseline" }}
-            >
-            <Button 
-            rounded
-            color="transparent"
-      ></Button>
             </Block>
           </Block>
         </Block>
@@ -108,8 +113,8 @@ export default function ProfileScreen({navigation}) {
 
 const styles = StyleSheet.create({
 profile: {
-  marginTop: Platform.OS === "android" ? -HeaderHeight : 0,
-  // marginBottom: -HeaderHeight * 2,
+  marginTop: Platform.OS === "android" ? -HeaderHeight : 2,
+  marginBottom: -HeaderHeight * 2,
   flex: 1
 },
 profileContainer: {
@@ -123,7 +128,7 @@ profileBackground: {
   height: height / 2
 },
 profileCard: {
-  // position: "relative",
+  position: "relative",
   padding: theme.SIZES.BASE,
   marginHorizontal: theme.SIZES.BASE,
   marginTop: 65,
@@ -165,3 +170,4 @@ thumb: {
   height: thumbMeasure
 }
 });
+
