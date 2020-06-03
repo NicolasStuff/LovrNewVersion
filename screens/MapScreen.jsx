@@ -34,9 +34,6 @@ export default function MapScreen({navigation}) {
       <TouchableOpacity onPress={() => navigation.navigate('Contacts')} style={styles.ChatLink}>
         <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
       </TouchableOpacity>
-      {/* <MapView style={styles.mapStyle}
-      initialRegion={position}
-      /> */}
       <MapView style={styles.mapStyle}
       initialRegion = { position }
       showsUserLocation = { false }
@@ -45,7 +42,7 @@ export default function MapScreen({navigation}) {
       showsCompass = { false }
       enableHighAccuracy = {true}
       rotateEnabled = { false }
-      //provider={ PROVIDER_GOOGLE }
+      provider={ PROVIDER_GOOGLE }
       >
           <Marker
               coordinate={ position }
