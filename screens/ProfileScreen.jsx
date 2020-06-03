@@ -61,24 +61,24 @@ const thumbMeasure = (width - 48 - 32) / 3;
           inactiveDotColor="#90A4AE"
       />
             <Block middle style={styles.nameInfo}>
-              <Text bold size={28} color="#32325D">
+              <Text bold size={28} color="#32325D" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
                 Marie, 22
               </Text>
-              <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
+              <Text size={16} color="#32325D" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
                 Vit à : Paris
               </Text>
-              <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
-                Photographe
+              <Text size={16} color="#32325D" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
+              Photographe
               </Text>
             </Block>
-            <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
+            <Block middle style={{ marginTop: 30, marginBottom: 1 }}>
               <Block style={styles.divider} />
             </Block>
             <Block middle>
               <Text
                 size={16}
                 color="#525F7F"
-                style={{ textAlign: "center" }}
+                style={{ textAlign: "left",  marginTop: 10, marginHorizontal: 10 }}
               >
                 Salut, Je suis Marie j'habite à Paris et je suis dispo pour aller boire un verre et rencontrer de nouvelles têtes!
               </Text>
@@ -94,9 +94,10 @@ const thumbMeasure = (width - 48 - 32) / 3;
               >
                 Show more
               </Button>
+              </Block>
               <Block
                     row
-                    style={{ paddingBottom: 20, justifyContent: "flex-end" }}
+                    style={{ paddingBottom: 20, justifyContent: "flex-start" }}
                   >
                     <Button
                       small
@@ -106,7 +107,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
                       27 photos Instagram
                     </Button>
                   </Block>
-              <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
+              <Block style={{ paddingBottom: -HeaderHeight * 2, marginHorizontal: 10 }}>
               <Block row space="between" style={{ flexWrap: "wrap" }}>
                 {Images.Viewed.map((img, imgIndex) => (
                   <Image
@@ -117,7 +118,6 @@ const thumbMeasure = (width - 48 - 32) / 3;
                   />
                 ))}
               </Block>
-            </Block>
             </Block>
       </ScrollView>
     </ImageBackground>
