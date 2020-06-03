@@ -5,26 +5,27 @@ import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
 export default function MapScreen({navigation}) {
-  const [position, setPosition] = useState({ latitude: 49.125947, longitude: 2.2285104, latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-})
+  const [mapRegion, setMapRegion] = useState({ latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421, })
+  const [location, setLocation] = useState({coords: { latitude: 37.78825, longitude: -122.4324}})
+  
   useEffect(() => {
-    async function askPermissions() {
-      var { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (status === 'granted') {
-        
-        Location.watchPositionAsync({distanceInterval: 10},
-          (location) => {
-            //console.log(location);
-              setPosition(location)
-              console.log("la")
-            }
-        );
-      }
-    }
-    askPermissions();
+    _getLocationAsync();
   }, []);
-  console.log(position)
+
+  const _handleMapRegionChange = mapRegion => {
+    setMapRegion({ mapRegion });
+  };
+
+  const _getLocationAsync = async () => {
+
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      
+    }
+    
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation( location );
+  };
 
   return (
     <View>
@@ -35,17 +36,17 @@ export default function MapScreen({navigation}) {
         <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
       </TouchableOpacity>
       <MapView style={styles.mapStyle}
-      initialRegion = { position }
+      region = { { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } }
       showsUserLocation = { false }
       minZoomLevel={12}
       maxZoomLevel={19}
       showsCompass = { false }
       enableHighAccuracy = {true}
       rotateEnabled = { false }
-      provider={ PROVIDER_GOOGLE }
-      >
+      onRegionChange={_handleMapRegionChange}
+      provider={ PROVIDER_GOOGLE }>
           <Marker
-              coordinate={ position }
+              coordinate={ location.coords }
               anchor={{x: 0.5, y: 0.5}}>
                   <View style={styles.radiusFour}>
                       <View style={styles.radiusThree}>
