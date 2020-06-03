@@ -14,7 +14,6 @@ import {
 import { Block, Text, theme } from "galio-framework";
 
 /* Links to components and constants folders */
-import { Button } from "../components";
 import { Images } from "../constants";
 import { HeaderHeight } from "../constants/utils";
 
@@ -38,7 +37,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
   
   <View>
     <TouchableOpacity onPress={() => navigation.navigate('Map')} style={styles.ChatLink}>
-        <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
+        <Image source={require('../assets/Logos/MapScreenLogoFromProfile.png')} style={{width: 75, height: 50}}/>
     </TouchableOpacity>
             
     <Block style={styles.profile}>
@@ -183,4 +182,3 @@ ChatLink: {
   right: 0,
 }
 });
-
