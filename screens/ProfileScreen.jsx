@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -25,49 +25,41 @@ const { width, height } = Dimensions.get("screen");
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
-//export default function ProfileScreen({navigation}) {     
 
-  export default class ProfileScreen extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        images: [
-          "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-          "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-          "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-          "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80"
-        ]
-      };
-    }
-  
-    render() {
+  export default function ProfileScreen({navigation}) {
+     const [images, setImages] = useState ([
+      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
+      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
+      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
+      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80"
+    ])   
+   
  return (
+  
   <View>
+
     <TouchableOpacity onPress={() => navigation.navigate('Settings')} style={styles.profileLink}>
         <Image source={require('../assets/Logos/ProfileScreenLogo.png')} style={{width: 75, height: 50}} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Map')} style={styles.ChatLink}>
+    </TouchableOpacity>
+  
+    <TouchableOpacity onPress={() => navigation.navigate('Map')} style={styles.ChatLink}>
         <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
-      </TouchableOpacity>
-  <Block flex style={styles.profile}>
-  <Block flex>
-  <ImageBackground
-            source={{uri: Images.Profile}}
-            style={styles.profileContainer}
-            imageStyle={styles.profileImage}>
-      <ScrollView
+    </TouchableOpacity>
+            
+    <Block flex style={styles.profile}>
+      <Block flex>
+        <ImageBackground
+            style={styles.profileContainer}>
+        <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{ width, marginTop: '25%' }}
-      >
+        style={{ width, marginTop: '25%' }}>
        <SliderBox
-  images={this.state.images}
-  sliderBoxHeight={400}
-  onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
-  dotColor="#FF164B"
-  inactiveDotColor="#90A4AE"
-/>
-        <Block flex style={styles.profileCard}>    
-          <Block flex>
+          images={images}
+          sliderBoxHeight={400}
+          onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
+          dotColor="#FF164B"
+          inactiveDotColor="#90A4AE"
+      />
             <Block middle style={styles.nameInfo}>
               <Text bold size={28} color="#32325D">
                 Marie, 22
@@ -127,8 +119,6 @@ const thumbMeasure = (width - 48 - 32) / 3;
               </Block>
             </Block>
             </Block>
-          </Block>
-        </Block>
       </ScrollView>
     </ImageBackground>
   </Block>
@@ -138,12 +128,12 @@ const thumbMeasure = (width - 48 - 32) / 3;
     </View>
   );
 }
-  }
+
 
 const styles = StyleSheet.create({
 profile: {
   marginTop: Platform.OS === "android" ? -HeaderHeight : 2,
-  marginBottom: -HeaderHeight * 2,
+  //marginBottom: -HeaderHeight * 2,
   flex: 1
 },
 profileContainer: {
@@ -151,10 +141,6 @@ profileContainer: {
   height: height,
   padding: 0,
   zIndex: 1
-},
-profileBackground: {
-  width: width,
-  height: height / 2
 },
 profileCard: {
   position: "relative",
@@ -184,7 +170,8 @@ avatar: {
   borderWidth: 0
 },
 nameInfo: {
-  marginTop: 35
+  marginTop: 35,
+  alignItems: 'flex-start'
 },
 divider: {
   width: "90%",
