@@ -1,7 +1,7 @@
 /* Hide Error Messages */ 
 console.disableYellowBox = true;
 
-import React from 'react';
+import React, {useEffect} from 'react';
 
 /* Navigation Between Screens */
 import { NavigationContainer } from '@react-navigation/native';
@@ -21,6 +21,7 @@ const Stack = createStackNavigator();
 function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Map" component={MapScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />

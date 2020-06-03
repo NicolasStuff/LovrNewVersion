@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
-import {auth, authF} from './firebase'
+import {auth, authF, database} from './firebase'
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import { SocialIcon } from 'react-native-elements'
@@ -11,6 +11,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 export default function HomeScreen({navigation}) {
 
   //const [connected, setConnected] = useState(false)
+  //Detecting loged user
+  useEffect(() => {
+    async function serchingLogUsers() {
+        auth.onAuthStateChanged(user => {
+            if(user){
+                navigation.navigate('Map')
+            } else{
+                console.log('no users loged')
+            }
+        })
+    }
+    serchingLogUsers();    
+  }, [])
 
   async function logIn() {
     try {
@@ -30,12 +43,32 @@ export default function HomeScreen({navigation}) {
         const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
 
         const credential = authF.FacebookAuthProvider.credential(token);
-        console.log("logIn -> credential", credential)
         
-        auth.signInWithCredential(credential).catch((err)=>{
+        auth.signInWithCredential(credential).then((user)=>{
+          //testing if is a new user
+          if(user.additionalUserInfo.isNewUser === true) {
+            //creating user profile in firebase
+            database.ref('users/' + user.user.uid).set({
+              uid: user.user.uid,
+              createdAt: Date.now(),
+              active: true,
+              first_name: user.additionalUserInfo.profile.first_name,
+              last_name: user.additionalUserInfo.profile.last_name,
+              mail: user.user.email,
+              city: 'test city',
+              job: 'test job',
+              desc: 'test descrip',
+              avatar: user.user.photoURL,
+              photos: ['photo1', 'photo2', 'photo3'],
+              lovable: false,
+              premium: false,
+              lovable_date: Date.now()    
+           })
+          }
+        }).catch((err)=>{
           console.log('error de la muerte', err)
         });
-        navigation.navigate('Map')
+        // navigation.navigate('Map')
       } else {
         // type === 'cancel'
       }
@@ -45,7 +78,6 @@ export default function HomeScreen({navigation}) {
   }
 
   async function signInWithGoogleAsync() {
-    console.log('here')
     try {
       const result = await Google.logInAsync({
         androidClientId: '917655662400-kaaf84i2pdpbu3e5gcmpeignd0hrs6bc.apps.googleusercontent.com',
@@ -56,16 +88,42 @@ export default function HomeScreen({navigation}) {
       if (result.type === 'success') {
         //setConnected = true;
         const credential = authF.GoogleAuthProvider.credential(result.idToken, result.accessToken) 
-        auth.signInWithCredential(credential).catch((err)=>{
+        
+        auth.signInWithCredential(credential).then((user)=>{
+          //testing if is a new user
+          if(user.additionalUserInfo.isNewUser === true) {
+            //creating user profile in firebase
+            database.ref('users/' + user.user.uid).set({
+              uid: user.user.uid,
+              createdAt: Date.now(),
+              active: true,
+              first_name: user.additionalUserInfo.profile.given_name,
+              last_name: user.additionalUserInfo.profile.family_name,
+              mail: user.additionalUserInfo.profile.email,
+              city: 'test city',
+              job: 'test job',
+              desc: 'test descrip',
+              avatar: user.additionalUserInfo.profile.picture,
+              photos: ['photo1', 'photo2', 'photo3'],
+              lovable: false,
+              premium: false,
+              lovable_date: Date.now()    
+           })
+          }
+        }).catch((err)=>{
             console.log('error de la muerte google', err)
         })
-        navigation.navigate('Map')
+        // navigation.navigate('Map')
       } else {
         return { cancelled: true };
       }
     } catch (e) {
       return { error: true };
     }    
+  }
+
+  const Logout = () => {
+    auth.signOut()
   }
 
 
@@ -96,6 +154,11 @@ export default function HomeScreen({navigation}) {
                   onPress={() => navigation.navigate('Settings')}
                   style={styles.signInGoogle}>
                   <Text style={styles.signInGoogleText}> Go to settings</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                  onPress={() => Logout()}
+                  style={styles.signInGoogle}>
+                  <Text style={styles.signInGoogleText}> Logout</Text>
               </TouchableOpacity>
             </View>
         </LinearGradient>
