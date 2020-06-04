@@ -11,8 +11,10 @@ import { createStackNavigator } from '@react-navigation/stack'
 import HomeScreen from './screens/HomeScreen';
 import SettingScreen from './screens/SettingScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import MyProfileScreen from './screens/MyProfileScreen';
 import MapScreen from'./screens/MapScreen';
 import ContactsScreen from './screens/ContactsScreen';
+import EditProfile from './screens/EditProfileScreen';
 import ChatScreen from './screens/ChatScreen';
 
 /* createStackNavigator() */
@@ -21,6 +23,8 @@ const Stack = createStackNavigator();
 function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="MyProfile" component={MyProfileScreen} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Map" component={MapScreen} />
