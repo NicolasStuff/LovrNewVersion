@@ -105,44 +105,38 @@ const thumbMeasure = (width - 48 - 32) / 3;
               images={images}
               sliderBoxHeight={400}
               onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
-              dotColor="#FF164B"
-              inactiveDotColor="#DEDEDE"
+              dotColor="rgba(212, 212, 212, 0.70)"
+              inactiveDotColor="rgba(81, 81, 81, 0.70)"
             />
 
               <Block middle style={styles.nameInfo}>
-                  <Text bold size={28} color="#363636" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
+                  <Text bold size={28} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
                   Marie, 22
                   </Text>
-                  <Text size={16} color="#363636" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
+                  <Text light size={16} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
                   Vit à : Paris
                   </Text>
-                  <Text size={16} color="#363636" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
-                  Photographe
-                  </Text>
+                  <Block middle style={{ marginTop: 10, marginBottom: 1 }}>
+                    <Block style={styles.divider} />
+                  </Block>
+                  <View style={{flex: 1, flexDirection: "row", marginHorizontal: 12, alignItems: 'center', marginVertical: 15}}>
+                    <Image source={require('../assets/Logos/JobLogo.png')} style={{ width: 32, height: 29 }}/>
+                    <Text light size={16} color="#363636" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
+                    Photographe
+                    </Text>
+                  </View>
+                  <Block middle style={{ marginTop: 10, marginBottom: 1 }}>
+                    <Block style={styles.divider} />
+                  </Block>
               </Block>
               
-              <Block middle style={{ marginTop: 30, marginBottom: 1 }}>
-                <Block style={styles.divider} />
-              </Block>
               
-              <Block middle>
+              
+              <Block middle style={{marginBottom: 41}}>
                   <Text size={16} color="#32325D" style={{ textAlign: "left",  marginTop: 10, marginHorizontal: 10 }}>
                   Salut, Je suis Marie j'habite à Paris et je suis dispo pour aller boire un verre et rencontrer de nouvelles têtes!
                   </Text>
-                  <TouchableOpacity
-                        onPress={() => navigation.navigate('Settings')}
-                        style={styles.button}>
-                        <Text style={{color: "#2648ED", fontSize: 16}}>Show more</Text>
-                  </TouchableOpacity>
-                </Block>
-                
-                <Block row style={{ paddingBottom: 10, justifyContent: "flex-start" }}>
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate('Settings')}
-                      style={styles.button}>
-                      <Text style={{color: "#60B5FF", fontSize: 8}}>27 photos Instagram</Text>
-                    </TouchableOpacity>
-                </Block>
+              </Block>
 
               <View style={styles.wrapper}>
                   <Carousel 
@@ -157,7 +151,19 @@ const thumbMeasure = (width - 48 - 32) / 3;
                       autoplayInterval={3000}
                   />
               </View>
-
+              
+              <View style={{flex:1, flexDirection: "row", justifyContent: 'center', alignItems: 'center', marginBottom: 10}}>
+                <TouchableOpacity
+                          onPress={() => navigation.navigate('Settings')}
+                          style={styles.button}>
+                          <Image source={require('../assets/Logos/SignalLogo.png')} style={{ width: 64, height: 64 }}/>
+                </TouchableOpacity>
+                <TouchableOpacity
+                          onPress={() => navigation.navigate('Chat')}
+                          style={styles.button}>
+                          <Image source={require('../assets/Logos/AskForChatLogo.png')} style={{ width: 66, height: 64 }}/>
+                </TouchableOpacity>
+              </View>
         </ScrollView>
       </ImageBackground>
     </Block>    
@@ -197,7 +203,7 @@ button: {
   padding: 10
 },
 nameInfo: {
-  marginTop: 35,
+  marginTop: 25,
   alignItems: 'flex-start'
 },
 divider: {
