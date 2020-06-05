@@ -109,7 +109,7 @@ export default function EditProfile ({navigation, props}) {
     };
 
     var cleanupSingleImage = (index) => {
-      //console.log("id",id)
+      console.log("id",index)
         var iList = [...fileList]
         iList.splice(index, 1);
         console.log("contenu de iList", iList)
@@ -155,7 +155,8 @@ export default function EditProfile ({navigation, props}) {
                 <SlidingUpPanel 
                 ref={c => _panel = c}
                 draggableRange={{top: height / 2.5, bottom: 10}}
-                animatedValue={draggedValue}>
+                //animatedValue={draggedValue}
+                >
                   <View style={styles.container}>
                     <TouchableOpacity onPress={() => _panel.hide()} style={styles.RectangleBox}>
                       <Image source={require('../assets/Logos/RectangleSlidingPanel.png')}/>
