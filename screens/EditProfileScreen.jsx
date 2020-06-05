@@ -16,7 +16,6 @@ export default function EditProfile ({navigation, props}) {
   
   var draggedValue = new Animated.Value(180);
 
-
     useEffect(() => {
     (async () => {
       if (Constants.platform.ios) {
@@ -99,7 +98,7 @@ export default function EditProfile ({navigation, props}) {
     };
 
     var cleanupSingleImage = (index) => {
-      //console.log("id",id)
+        //console.log("id",id)
         var iList = [...fileList]
         iList.splice(index, 1);
         console.log("contenu de iList", iList)
@@ -120,9 +119,7 @@ export default function EditProfile ({navigation, props}) {
                   contentContainerStyle={styles.list}
                   data= {fileList}
                   renderItem={({ item, index }) => {
-                    
                     return (
-                          
                           <View>
                             <Image source={{uri : item.uri}} style={styles.item}/>
                             { item.uri != 'a' && item.uri != 'j' ? (
@@ -136,7 +133,6 @@ export default function EditProfile ({navigation, props}) {
                           </View>
                       )}
                     }
-                    
                   keyExtractor={(item, index) => index}
                   //extraData={{fileList}}
                   >
@@ -145,7 +141,7 @@ export default function EditProfile ({navigation, props}) {
                 <SlidingUpPanel 
                 ref={c => _panel = c}
                 draggableRange={{top: height / 2.5, bottom: 10}}
-                animatedValue={draggedValue}>
+                >
                   <View style={styles.container}>
                     <TouchableOpacity onPress={() => _panel.hide()} style={styles.RectangleBox}>
                       <Image source={require('../assets/Logos/RectangleSlidingPanel.png')}/>
