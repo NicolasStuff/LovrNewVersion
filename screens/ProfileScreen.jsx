@@ -109,7 +109,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
               inactiveDotColor="rgba(81, 81, 81, 0.70)"
             />
 
-              <Block middle style={styles.nameInfo}>
+<Block middle style={styles.nameInfo}>
                   <Text bold size={28} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
                   Marie, 22
                   </Text>
@@ -120,8 +120,8 @@ const thumbMeasure = (width - 48 - 32) / 3;
                     <Block style={styles.divider} />
                   </Block>
                   <View style={{flex: 1, flexDirection: "row", marginHorizontal: 12, alignItems: 'center', marginVertical: 15}}>
-                    <Image source={require('../assets/Logos/JobLogo.png')} style={{ width: 32, height: 29 }}/>
-                    <Text light size={16} color="#363636" style={{ textAlign: "left", marginTop: 10, marginHorizontal: 10 }}>
+                    <Image source={require('../assets/Logos/JobLogo.png')} style={{ width: 24, height: 21 }}/>
+                    <Text light size={16} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
                     Photographe
                     </Text>
                   </View>
@@ -132,7 +132,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
               
               
               
-              <Block middle style={{marginBottom: 41}}>
+              <Block middle style={{marginBottom: 20}}>
                   <Text size={16} color="#32325D" style={{ textAlign: "left",  marginTop: 10, marginHorizontal: 10 }}>
                   Salut, Je suis Marie j'habite à Paris et je suis dispo pour aller boire un verre et rencontrer de nouvelles têtes!
                   </Text>
@@ -156,12 +156,12 @@ const thumbMeasure = (width - 48 - 32) / 3;
                 <TouchableOpacity
                           onPress={() => navigation.navigate('Settings')}
                           style={styles.button}>
-                          <Image source={require('../assets/Logos/SignalLogo.png')} style={{ width: 64, height: 64 }}/>
+                          <Image source={require('../assets/Logos/SignalLogo.png')} style={{ width: 60, height: 60 }}/>
                 </TouchableOpacity>
                 <TouchableOpacity
                           onPress={() => navigation.navigate('Chat')}
                           style={styles.button}>
-                          <Image source={require('../assets/Logos/AskForChatLogo.png')} style={{ width: 66, height: 64 }}/>
+                          <Image source={require('../assets/Logos/AskForChatLogo.png')} style={{ width: 60, height: 60 }}/>
                 </TouchableOpacity>
               </View>
         </ScrollView>
