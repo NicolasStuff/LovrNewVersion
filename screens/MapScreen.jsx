@@ -39,6 +39,7 @@ function MapScreen({navigation, user}) {
     let geoFireInstance = new geofire.GeoFire(fireRef);
 
     let geoQuery = geoFireInstance.query({
+      //change for user location
       center: [48.79098, 2.39717],
       radius: 5
     }); 
