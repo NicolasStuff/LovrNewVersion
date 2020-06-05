@@ -138,6 +138,9 @@ const thumbMeasure = (width - 48 - 32) / 3;
                   </Text>
               </Block>
 
+              {/* Instagram Basic Display API */}
+              
+
               <View style={styles.wrapper}>
                   <Carousel 
                       data={sliderImg}

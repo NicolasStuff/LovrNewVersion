@@ -55,7 +55,7 @@ useEffect(() => {
       <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.profileLink}>
         <Image source={require('../assets/Logos/ProfileScreenLogo.png')} style={{width: 75, height: 50}} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Contacts')} style={styles.ChatLink}>
+      <TouchableOpacity onPress={() => navigation.navigate('MyChat')} style={styles.ChatLink}>
         <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
       </TouchableOpacity>
       <MapView style={styles.mapStyle}

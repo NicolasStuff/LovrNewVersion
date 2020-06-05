@@ -15,6 +15,7 @@ import MyProfileScreen from './screens/MyProfileScreen';
 import MapScreen from'./screens/MapScreen';
 import ContactsScreen from './screens/ContactsScreen';
 import EditProfile from './screens/EditProfileScreen';
+import MyChatScreen from './screens/MyChatScreen';
 import ChatScreen from './screens/ChatScreen';
 
 /* createStackNavigator() */
@@ -30,6 +31,7 @@ function MyStack() {
       <Stack.Screen name="Map" component={MapScreen} />
       <Stack.Screen name="Settings" component={SettingScreen} />
       <Stack.Screen name="Contacts" component={ContactsScreen} />
+      <Stack.Screen name="MyChat" component={MyChatScreen} />
       <Stack.Screen name="Chat" component={ChatScreen} />
     </Stack.Navigator>
   );
