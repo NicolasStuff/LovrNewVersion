@@ -1,174 +1,296 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-  Image,
-  ImageBackground,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, FlatList, Dimensions, View, Image, TouchableOpacity, TextInput, Animated} from 'react-native';
+import firebase from 'firebase';
+import {ActionSheet, Root} from 'native-base';
+//import ImagePicker from 'react-native-image-crop-picker';
+import SlidingUpPanel from 'rn-sliding-up-panel';
 
-/* Galio Framework */
-import { Block, Text, theme } from "galio-framework";
+import Constants from 'expo-constants';
+import * as ImagePicker from 'expo-image-picker';
 
-/* Links to components and constants folders */
-import { Images } from "../constants";
-
-/* Profile images slider box module */
-import { SliderBox } from "react-native-image-slider-box";
-
-/* Carousel for Instagram photos module */ 
-import Carousel, {Pagination} from 'react-native-snap-carousel';
-import ViewPager from '@react-native-community/viewpager';
-
-/* Responsive design for iOS and android devices */
-const { width, height } = Dimensions.get("screen");
-
-/* Instagram photos thumbnail */
-const thumbMeasure = (width - 48 - 32) / 3;
+//import RNFetchBlob from 'react-native-fetch-blob';
 
 
-  export default function ProfileScreen({navigation}) {
+const height = Dimensions.get('screen').height;
 
-     const [images, setImages] = useState ([
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-    ])   
+//const Blob = RNFetchBlob.polyfill.Blob
+//const fs = RNFetchBlob.fs
+//window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+//window.Blob = Blob
 
-    const [sliderImg, setSliderImg] = useState ([
-      'https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80',
-    ])
+export default function EditProfile ({navigation, props}) {
+  
+  const [name, setName] = useState(null)
+  const [fileList, setFileList] = useState([ { uri: 'a' }, { uri: 'a' }, { uri: 'a' }, { uri: 'a' }, { uri: 'a' }, { uri: 'a' }, { uri: 'a' }, { uri: 'a' }, { uri: 'a' } ])
+  const [urlArray, setUrlArray] = useState([])
+  
+  var draggedValue = new Animated.Value(180);
 
-    //const [activeSlide, setActiveSlide] = useState(0);
 
-    const _renderItem = ({ item }) => {
-      return (
-        <ViewPager style={styles.viewPager} initialPage={0}>
-            <View key="1" row space="between" style={{ flexWrap: "wrap" }}>
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </View>
-            <View key="2" row space="between" style={{ flexWrap: "wrap" }}>
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </View>
-            <View key="3" row space="between" style={{ flexWrap: "wrap" }}>
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </View>
-        </ViewPager>
-      );
+    useEffect(() => {
+    (async () => {
+      if (Constants.platform.ios) {
+        const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
+
+  var onSelectedImage = (image) => {
+    //console.log("resulat recu", image)
+    let newDataImg = [...fileList];
+    const source = {uri: image.uri};
+    let item = {
+      id: Date.now(),
+      uri: source.uri,
+      //content: image.data
     };
+    //console.log("mon item",item)
+    newDataImg.unshift(item);
+    //urlArray.unshift(image.uri);
+    newDataImg[10] != item ? newDataImg.pop() : null
+    console.log("my new Data",newDataImg);
+    setFileList(newDataImg)
+    //for (var i=0; i<urlArray.length; i++){
+    //  storeInCloud(urlArray[i], i)
+    //}
+  }
+  //console.log("contenu defileList",fileList)
+
+  var takePhotoFromCamera = () => {
+    //console.log("je suis passer")
+    ImagePicker.openCamera({
+      width: 300,
+      height: 300,
+      cropping: true,
+    }).then(image => {
+      onSelectedImage(image);
+      //console.log(image);
+    });
+  };
+
+  var ChoosePhotofromLibrary = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [9, 16],
+        quality: 1,
+      })
+      
+      //console.log('mon resultat',result);
   
-  
- return (
-  
-  <Text>Edit PROFILE</Text>
-  );
-}
+      if (!result.cancelled) {
+        onSelectedImage(result);
+        //setImage(result.uri);
+      }
+  };
+
+  var onClickAddImage = () => {
+    const BUTTONS = ['Prendre un photo', 'Choisir une photo depuis la gallerie', 'Annuler'];
+    ActionSheet.show(
+      {options: BUTTONS,
+      cancelButtonIndex: 2,
+      title: 'Selectionner une photo'},
+      buttonIndex => {
+        switch (buttonIndex) {
+          case 0:
+              console.log("coucou")
+            takePhotoFromCamera();
+            break;
+          case 1:
+            ChoosePhotofromLibrary();
+            break;
+          default:
+            break;
+        }
+      })
+    };
+
+    var cleanupSingleImage = (index) => {
+      //console.log("id",id)
+        var iList = [...fileList]
+        iList.splice(index, 1);
+        console.log("contenu de iList", iList)
+        iList.push({ uri: 'j'});
+        setFileList(iList)
+    }
+
+    console.log('my filelist',fileList)
+    return (
+        <Root>
+            <View>
+              <TouchableOpacity style={styles.BackButton} onPress={() => navigation.navigate('Profile')}>
+                <Image source={require('../assets/Logos/BackLogoFromChatRequets.png')} style={{width: 75, height: 50}}></Image>
+              </TouchableOpacity>
+                
+                <FlatList
+                  onEndReachedThreshold={0}
+                  contentContainerStyle={styles.list}
+                  data= {fileList}
+                  renderItem={({ item, index }) => {
+                    
+                    return (
+                          
+                          <View>
+                            <Image source={{uri : item.uri}} style={styles.item}/>
+                            { item.uri != 'a' && item.uri != 'j' ? (
+                             <TouchableOpacity onPress={() => cleanupSingleImage(index)} style={styles.deleteButton}>
+                                 <Image source={require("../assets/Logos/DeleteButtonEditProfile.png")} style={styles.deleteButtonImage}></Image>
+                             </TouchableOpacity>
+                             ) : (
+                             <TouchableOpacity
+                               disabled={true}/>
+                             )}
+                          </View>
+                      )}
+                    }
+                    
+                  keyExtractor={(item, index) => index}
+                  //extraData={{fileList}}
+                  >
+                </FlatList>
+                
+                <SlidingUpPanel 
+                ref={c => _panel = c}
+                draggableRange={{top: height / 2.5, bottom: 10}}
+                animatedValue={draggedValue}>
+                  <View style={styles.container}>
+                    <TouchableOpacity onPress={() => _panel.hide()} style={styles.RectangleBox}>
+                      <Image source={require('../assets/Logos/RectangleSlidingPanel.png')}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={onClickAddImage} style={styles.CameraBox}>
+                      <Image source={require('../assets/Logos/AddPictureLogo.png')} style={styles.Camera}/>
+                    </TouchableOpacity>
+
+                    <Text style={styles.ProfileName}>{name}, 22</Text>
+                    <Text style={styles.AboutMe}>A Propos de {name}</Text>
+                    <TextInput
+                      style={styles.DescriptionTextBox}
+                      placeholder={'  N\'\hésites pas'}/>
+                    <Text style={styles.Job}>Job et études</Text>
+                    <TextInput
+                      style={styles.JobTextBox}
+                      placeholder={'  Poste'}/>
+                    <TouchableOpacity style={styles.LovrButton} onPress={ () => {}}>
+                      <Text style={styles.TextButton}>Obtenir Lovr+</Text>
+                    </TouchableOpacity>
+                  </View>
+                </SlidingUpPanel>
+            </View>
+        </Root>
+    )
+  }
 
 
 const styles = StyleSheet.create({
-profile: {
-  flex: 1
-},
-profileContainer: {
-  width: width,
-  height: height,
-  padding: 0,
-  zIndex: 1
-},
-profileCard: {
-  position: "relative",
-  borderTopLeftRadius: 6,
-  borderTopRightRadius: 6,
-  backgroundColor: theme.COLORS.WHITE,
-  shadowColor: "black",
-  shadowOffset: { width: 0, height: 0 },
-  shadowRadius: 8,
-  shadowOpacity: 0.2,
-  zIndex: 2
-},
-container: {
-  alignItems: 'center'
-},
-button: {
-  alignItems: "center",
-  backgroundColor: "transparent",
-  padding: 10
-},
-nameInfo: {
-  marginTop: 25,
-  alignItems: 'flex-start'
-},
-divider: {
-  width: "90%",
-  borderWidth: 1,
-  borderColor: "#E9ECEF"
-},
-thumb: {
-  borderRadius: 4,
-  marginVertical: 4,
-  width: thumbMeasure,
-  height: thumbMeasure
-},
-profileLink: {
-  zIndex: 9,
-  position: 'absolute',
-  flexDirection: 'row',
-  marginTop: 60,
-  left: 0,
-},
-ChatLink: {
-  zIndex: 9,
-  position: 'absolute',
-  flexDirection: 'row',
-  marginTop: 60,
-  right: 0,
-},
-viewPager: {
-  flex: 1,
-},
-wrapper: {
-  height: 300
-},
-slide: {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-  backgroundColor: "#ffff"
-},
-slideImg: {
-  flex: 1,
-  height: "100%",
-  width: "100%",
-  alignItems: "center",
-  justifyContent: "center"
-}
+  container: {
+    flex: 1,
+    zIndex: -1,
+    backgroundColor: '#DEDEDE',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  RectangleBox: {
+    position: 'absolute',
+    top: 10,
+  },
+  ProfileName: {
+    position: "absolute",
+    fontWeight: '900',
+    fontSize: 30,
+    paddingBottom: 580,
+    left: 20
+  },
+  AboutMe: {
+    position: "absolute",
+    fontWeight: '500',
+    fontSize: 15,
+    paddingBottom: 510,
+    left: 20
+  },
+  DescriptionTextBox: {
+    position: "absolute",
+    width: Dimensions.get('screen').width,
+    height: 80,
+    backgroundColor: 'white',
+    bottom:500
+  },
+  Job: {
+    position: "absolute",
+    fontWeight: '500',
+    fontSize: 15,
+    paddingBottom: 260,
+    left: 20
+  },
+  JobTextBox: {
+    position: "absolute",
+    width: Dimensions.get('screen').width,
+    height: 80,
+    backgroundColor: 'white',
+    bottom: 380,
+  },
+  LovrButton: {
+    position: "absolute",
+    width: Dimensions.get('screen').width - 150,
+    height: 50,
+    backgroundColor: '#FF3C5E',
+    borderRadius: 25,
+    bottom: 250
+  },
+  TextButton: {
+    alignSelf: "center",
+    paddingTop: 11,
+    color: "white",
+    fontSize: 18,
+  },
+  CameraBox: {
+    position: 'absolute',
+    top: -24,
+    right: 24,
+    width: 60,
+    height: 60,
+    padding: 8,
+    borderRadius: 24,
+    zIndex: 1
+  },
+  BackButton: {
+    zIndex: 1,
+    position: 'absolute',
+    marginTop: 60,
+    left: 0,
+  },
+  Camera: {
+    width: 60,
+    height: 60,
+    top: -12,
+    right: 35,
+  },
+  list: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  item: {
+    flex: 1,
+    margin: 9,
+    width: Dimensions.get('screen').width / 4,
+    height: 150,
+    maxHeight: 304,
+    backgroundColor: '#CCC',
+    borderRadius: 10,
+  },
+  deleteButton: {
+    height: 20, 
+    width: 20,
+    bottom: 15,
+    right: 15,
+    position: 'absolute',
+    borderRadius: 10,
+    },
+  deleteButtonImage: {
+      height: 20, 
+      width: 20,
+  },
 });
