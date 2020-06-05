@@ -63,6 +63,7 @@ function MapScreen({navigation, user}) {
           let userToPush = {id : key, coords: {latitude: location[0], longitude: location[1]}}
           nearbyUsersArray.push(userToPush)
           setNearbyUsers(nearbyUsersArray)
+          console.log("addQueryListenner -> nearbyUsersArray", nearbyUsersArray)
         }
       })    
 
@@ -71,11 +72,13 @@ function MapScreen({navigation, user}) {
         // removing user from state
         nearbyUsersArray.splice(nearbyUsersArray.findIndex(obj => {obj.id === key}),1)        
         setNearbyUsers(nearbyUsersArray)        
+        console.log("addQueryListenner -> nearbyUsersArray", nearbyUsersArray)
       });
 
       geoQuery.on("ready", function() {
         console.log('all nearby users taken from frirebase');
         setNearbyUsers(nearbyUsersArray)
+        firsTime = false;
         console.log("addQueryListenner -> nearbyUsersArray", nearbyUsersArray)
       })
 
@@ -87,62 +90,7 @@ function MapScreen({navigation, user}) {
       geoQuery.cancel();
     };
   }, []);
-
-  // useEffect(()=>{
-  //   //ref for GeoFire
-  //   let locationArray = geoQueryLoc
-  //   let fireRef = database.ref('usersPosition')
-  //   let geoFireInstance = new geofire.GeoFire(fireRef);
-
-  //   let geoQuery = geoFireInstance.query({
-  //     center: locationArray,
-  //     radius: 5
-  //   }); 
-  //   const addQueryListenner = () =>{
-  //     console.log('inside addQueryListenner')
-  //     let nearbyUsersArray = [];
-  //     let firsTime = true;
-      
-  //     // geoquery listeners
-  //     geoQuery.on('key_entered', function(key, location, distance) {
-  //       console.log("inside user", key)
-        
-  //       let objectIndex = nearbyUsersArray.findIndex(obj => {obj.id === key})
-  //       // for first time
-  //       if(firsTime && objectIndex === -1){
-  //           let userToPush = {id : key, coords: {latitude: location[0], longitude: location[1], latitudeDelta: 0.0922, longitudeDelta: 0.0421}}
-  //           nearbyUsersArray.push(userToPush)          
-  //       }
-  //       //adding new users
-  //       if(!firsTime && objectIndex === -1){
-  //         let userToPush = {id : key, coords: {latitude: location[0], longitude: location[1], latitudeDelta: 0.0922, longitudeDelta: 0.0421}}
-  //         nearbyUsersArray.push(userToPush)
-  //         setNearbyUsers(nearbyUsersArray)
-  //       }
-  //     })    
-
-  //     geoQuery.on("key_exited", function(key, location, distance) {
-  //       console.log('user go out', key)
-  //       // removing user from state
-  //       nearbyUsersArray.splice(nearbyUsersArray.findIndex(obj => {obj.id === key}),1)        
-  //       setNearbyUsers(nearbyUsersArray)        
-  //     });
-
-  //     geoQuery.on("ready", function() {
-  //       console.log('all nearby users taken from frirebase');
-  //       setNearbyUsers(nearbyUsersArray)
-  //       console.log("addQueryListenner -> nearbyUsersArray", nearbyUsersArray)
-  //     })
-
-  //   }
-  //   addQueryListenner()
-    
-  //   return () => {
-  //     // detaching listener
-  //     geoQuery.cancel();
-  //   };
-  // }, [])
-  
+   
   // just for testing => delete
   // const addingFakePositionToFirebase = () => {
   //   let fireRef = database.ref('usersPosition')
