@@ -2,21 +2,11 @@ import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, FlatList, Dimensions, View, Image, TouchableOpacity, TextInput, Animated} from 'react-native';
 import firebase from 'firebase';
 import {ActionSheet, Root} from 'native-base';
-//import ImagePicker from 'react-native-image-crop-picker';
 import SlidingUpPanel from 'rn-sliding-up-panel';
-
 import Constants from 'expo-constants';
 import * as ImagePicker from 'expo-image-picker';
 
-//import RNFetchBlob from 'react-native-fetch-blob';
-
-
 const height = Dimensions.get('screen').height;
-
-//const Blob = RNFetchBlob.polyfill.Blob
-//const fs = RNFetchBlob.fs
-//window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-//window.Blob = Blob
 
 export default function EditProfile ({navigation, props}) {
   
