@@ -15,6 +15,12 @@ import MapScreen from'./screens/MapScreen';
 import ContactsScreen from './screens/ContactsScreen';
 import ChatScreen from './screens/ChatScreen';
 
+// for Redux
+import {createStore, combineReducers} from 'redux';
+import {Provider} from 'react-redux';
+import user from './reducers/user';
+const store = createStore(combineReducers({ user }));
+
 /* createStackNavigator() */
 const Stack = createStackNavigator();
 
@@ -33,8 +39,10 @@ function MyStack() {
 
 export default function App() {
   return (
+    <Provider store={store}>
     <NavigationContainer>
       <MyStack />
     </NavigationContainer>
+    </Provider>
   );
 }
