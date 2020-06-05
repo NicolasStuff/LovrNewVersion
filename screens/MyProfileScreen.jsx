@@ -109,7 +109,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
               inactiveDotColor="rgba(81, 81, 81, 0.70)"
             />
 
-<Block middle style={styles.nameInfo}>
+              <Block middle style={styles.nameInfo}>
                   <Text bold size={28} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
                   Marie, 22
                   </Text>
@@ -137,31 +137,24 @@ const thumbMeasure = (width - 48 - 32) / 3;
                   Salut, Je suis Marie j'habite à Paris et je suis dispo pour aller boire un verre et rencontrer de nouvelles têtes!
                   </Text>
               </Block>
-
-              <View style={styles.wrapper}>
-                  <Carousel 
-                      data={sliderImg}
-                      renderItem={_renderItem}
-                      sliderWidth={width}
-                      itemWidth={width - 70}
-                      enableMomentum={false}
-                      lockScrollWhileSnapping
-                      autoplay
-                      loop
-                      autoplayInterval={3000}
-                  />
-              </View>
               
               <View style={{flex:1, flexDirection: "row", justifyContent: 'center', alignItems: 'center', marginBottom: 10}}>
                 <TouchableOpacity
                           onPress={() => navigation.navigate('Settings')}
                           style={styles.button}>
-                          <Image source={require('../assets/Logos/SignalLogo.png')} style={{ width: 60, height: 60 }}/>
+                          <Image source={require('../assets/Logos/SettingLogo.png')} style={{ width: 60, height: 60, marginRight: 70 }}/>
                 </TouchableOpacity>
                 <TouchableOpacity
-                          onPress={() => navigation.navigate('Chat')}
+                          onPress={() => navigation.navigate('EditProfile')}
                           style={styles.button}>
-                          <Image source={require('../assets/Logos/AskForChatLogo.png')} style={{ width: 60, height: 60 }}/>
+                          <Image source={require('../assets/Logos/EditLogo.png')} style={{ width: 60, height: 60 }}/>
+                </TouchableOpacity>
+              </View>
+              <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 10}}>
+                <TouchableOpacity
+                          onPress={() => navigation.navigate('Settings')}
+                          style={styles.button}>
+                          <Image source={require('../assets/Logos/icon.png')} style={{ width: 60, height: 60 }}/>
                 </TouchableOpacity>
               </View>
         </ScrollView>
