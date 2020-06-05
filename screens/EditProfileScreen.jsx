@@ -98,11 +98,7 @@ export default function EditProfile ({navigation, props}) {
     };
 
     var cleanupSingleImage = (index) => {
-<<<<<<< HEAD
-      console.log("id",index)
-=======
         //console.log("id",id)
->>>>>>> b7a4e709f5b3198971a0ccb94f05d8f563252009
         var iList = [...fileList]
         iList.splice(index, 1);
         console.log("contenu de iList", iList)
@@ -145,10 +141,6 @@ export default function EditProfile ({navigation, props}) {
                 <SlidingUpPanel 
                 ref={c => _panel = c}
                 draggableRange={{top: height / 2.5, bottom: 10}}
-<<<<<<< HEAD
-                //animatedValue={draggedValue}
-=======
->>>>>>> b7a4e709f5b3198971a0ccb94f05d8f563252009
                 >
                   <View style={styles.container}>
                     <TouchableOpacity onPress={() => _panel.hide()} style={styles.RectangleBox}>

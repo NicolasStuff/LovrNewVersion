@@ -3,59 +3,141 @@ import { StyleSheet, Text, View, Image, TouchableOpacity ,Dimensions, mapCustom}
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import { database } from './firebase';
+const geofire = require('geofire');
+import {connect} from 'react-redux';
 
-export default function MapScreen({navigation}) {
-  const [mapRegion, setMapRegion] = useState({ latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421, })
-  const [location, setLocation] = useState({coords: { latitude: 37.78825, longitude: -122.4324}})
-  const [fakeUsers, setFakeUsers] = useState([{ latitude: 49.125971, longitude: 2.228506, latitudeDelta: 0.0922, longitudeDelta: 0.0421, },
-                                              { latitude: 49.129971, longitude: 2.228, latitudeDelta: 0.0922, longitudeDelta: 0.0421, },
-                                              { latitude: 49.222, longitude: 2.228, latitudeDelta: 0.0922, longitudeDelta: 0.0421, },
-                                              { latitude: 49.12, longitude: 2.22, latitudeDelta: 0.0922, longitudeDelta: 0.0421, }])
+function MapScreen({navigation, user}) {
+  const [mapRegion, setMapRegion] = useState({ latitude: 48.8534, longitude: 2.3488, latitudeDelta: 0.0922, longitudeDelta: 0.0421})
+  const [location, setLocation] = useState({coords: { latitude: 48.8534, longitude: 2.3488}})  
+  const [nearbyUsers, setNearbyUsers] = useState([]);
+                                              
   
-useEffect(() => {
-    _getLocationAsync();
-  }, []);
+  useEffect(() => {
+    const _getLocationAsync = async () => {
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+        // some code here
+      }
+      
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation( location );
 
+      //creating document in firebase with GeoFire
+      let locationArray = [location.coords.latitude, location.coords.longitude]
+      let fireRef = database.ref('usersPosition')
+      let geoFireInstance = new geofire.GeoFire(fireRef);
+      
+      geoFireInstance.set(user, locationArray)
+        .then(console.log('location saved'))
+        .catch(err => console.log('err =>', err));       
+    };
+    _getLocationAsync();
+
+    //ref for GeoFire
+    let fireRef = database.ref('usersPosition')
+    let geoFireInstance = new geofire.GeoFire(fireRef);
+
+    let geoQuery = geoFireInstance.query({
+      //change for user location
+      center: [48.79098, 2.39717],
+      radius: 5
+    }); 
+    const addQueryListenner = () =>{
+      console.log('inside addQueryListenner')
+      let nearbyUsersArray = [];
+      let firsTime = true;
+      
+      // geoquery listeners
+      geoQuery.on('key_entered', function(key, location, distance) {
+        console.log("inside user", key)
+        
+        let objectIndex = nearbyUsersArray.findIndex(obj => {obj.id === key})
+        // for first time
+        if(firsTime && objectIndex === -1){
+            let userToPush = {id : key, coords: {latitude: location[0], longitude: location[1]}}
+            // , latitudeDelta: 0.0922, longitudeDelta: 0.0421
+            nearbyUsersArray.push(userToPush)          
+        }
+        //adding new users
+        if(!firsTime && objectIndex === -1){
+          let userToPush = {id : key, coords: {latitude: location[0], longitude: location[1]}}
+          nearbyUsersArray.push(userToPush)
+          setNearbyUsers(nearbyUsersArray)
+          console.log("addQueryListenner -> nearbyUsersArray", nearbyUsersArray)
+        }
+      })    
+
+      geoQuery.on("key_exited", function(key, location, distance) {
+        console.log('user go out', key)
+        // removing user from state
+        nearbyUsersArray.splice(nearbyUsersArray.findIndex(obj => {obj.id === key}),1)        
+        setNearbyUsers(nearbyUsersArray)        
+        console.log("addQueryListenner -> nearbyUsersArray", nearbyUsersArray)
+      });
+
+      geoQuery.on("ready", function() {
+        console.log('all nearby users taken from frirebase');
+        setNearbyUsers(nearbyUsersArray)
+        firsTime = false;
+        console.log("addQueryListenner -> nearbyUsersArray", nearbyUsersArray)
+      })
+
+    }
+    addQueryListenner()
+    
+    return () => {
+      // detaching listener
+      geoQuery.cancel();
+    };
+  }, []);
+   
+  // just for testing => delete
+  // const addingFakePositionToFirebase = () => {
+  //   let fireRef = database.ref('usersPosition')
+  //   for (let i=0; i<fakeUsers.length; i++){
+  //     let locationArray = [fakeUsers[i].latitude, fakeUsers[i].longitude]
+  //     let geoFireInstance = new geofire.GeoFire(fireRef);
+  //     geoFireInstance.set("userId"+i, locationArray).then(console.log('location saved')).catch(err => console.log('err =>', err))
+  //   }
+  // }
+
+    
   const _handleMapRegionChange = mapRegion => {
     setMapRegion({ mapRegion });
   };
 
-  const _getLocationAsync = async () => {
-
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      
-    }
-    
-    let location = await Location.getCurrentPositionAsync({});
-    setLocation( location );
-  };
-
+  //creating markers
   var NewUsers = 
-    fakeUsers.map((user,i) => {
+    nearbyUsers.map((user,i) => {
+      if(user.coords != null){
         return (
-        <Marker
-          style={styles.FrontMarker}
-          key={i}
-          coordinate={ user }
-          anchor={{x: 0.5, y: 0.5}}>
-              
-            <View style={styles.marker}>
-                <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/>
-            </View>
-        </Marker>
+          <Marker
+            style={styles.FrontMarker}
+            key={i}
+            coordinate={user.coords}
+            anchor={{x: 0.5, y: 0.5}}>
+                
+              <View style={styles.marker}>
+                  <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/>
+              </View>
+          </Marker>
          )
-        }
-      )
+      }
+    })
      
-      console.log(location)
+      // console.log(location)
 
   return (
     <View>
       <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.profileLink}>
         <Image source={require('../assets/Logos/ProfileScreenLogo.png')} style={{width: 75, height: 50}} />
       </TouchableOpacity>
+<<<<<<< HEAD
       <TouchableOpacity onPress={() => navigation.navigate('MyChat')} style={styles.ChatLink}>
+=======
+      <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={styles.ChatLink}>
+>>>>>>> 4f4ed0171d64c0080f6fb116b8ac9f5bf2349ff3
         <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
       </TouchableOpacity>
       <MapView style={styles.mapStyle}
@@ -167,3 +249,13 @@ pictureBox: {
     elevation : 100,
   }
 });
+
+// for redux
+function mapStateToProps(state) {
+  return { user : state.user }
+}
+
+export default connect(
+  mapStateToProps, 
+  null
+)(MapScreen);

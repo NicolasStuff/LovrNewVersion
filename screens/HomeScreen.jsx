@@ -5,10 +5,11 @@ import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import { SocialIcon } from 'react-native-elements'
 import { LinearGradient } from 'expo-linear-gradient';
+import {connect} from 'react-redux';
 
 /* Gradient Background Color Module */
 
-export default function HomeScreen({navigation}) {
+function HomeScreen({navigation, onUser}) {
 
   //const [connected, setConnected] = useState(false)
   //Detecting loged user
@@ -16,6 +17,7 @@ export default function HomeScreen({navigation}) {
     async function serchingLogUsers() {
         auth.onAuthStateChanged(user => {
             if(user){
+                onUser(user.uid)
                 navigation.navigate('Map')
             } else{
                 console.log('no users loged')
@@ -201,3 +203,17 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   });
+
+  // for Redux
+  function mapDispatchToProps(dispatch) {
+    return {
+      onUser: function(user) { 
+        dispatch( {type: 'addUser', user }) 
+      }
+    }
+  }
+  
+  export default connect(
+    null, 
+    mapDispatchToProps
+  )(HomeScreen);

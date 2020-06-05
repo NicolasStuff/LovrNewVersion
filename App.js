@@ -18,16 +18,22 @@ import EditProfile from './screens/EditProfileScreen';
 import MyChatScreen from './screens/MyChatScreen';
 import ChatScreen from './screens/ChatScreen';
 
+// for Redux
+import {createStore, combineReducers} from 'redux';
+import {Provider} from 'react-redux';
+import user from './reducers/user';
+const store = createStore(combineReducers({ user }));
+
 /* createStackNavigator() */
 const Stack = createStackNavigator();
 
 function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="MyProfile" component={MyProfileScreen} />
-      <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Map" component={MapScreen} />
       <Stack.Screen name="Settings" component={SettingScreen} />
       <Stack.Screen name="Contacts" component={ContactsScreen} />
@@ -39,8 +45,10 @@ function MyStack() {
 
 export default function App() {
   return (
+    <Provider store={store}>
     <NavigationContainer>
       <MyStack />
     </NavigationContainer>
+    </Provider>
   );
 }
