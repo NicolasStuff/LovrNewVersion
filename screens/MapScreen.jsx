@@ -26,7 +26,7 @@ function MapScreen({navigation, user}) {
       
       let location = await Location.getCurrentPositionAsync({});
       setLocation( location );
-      
+
       //creating document in firebase with GeoFire
       let locationArray = [location.coords.latitude, location.coords.longitude]
       
@@ -125,7 +125,6 @@ function MapScreen({navigation, user}) {
       }
     })
      
-      // console.log(location)
 
   return (
     <View>
