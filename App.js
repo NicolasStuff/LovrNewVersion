@@ -17,7 +17,7 @@ import SettingScreen from './screens/SettingScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import MyProfileScreen from './screens/MyProfileScreen';
 import MapScreen from'./screens/MapScreen';
-import ContactsScreen from './screens/ContactsScreen';
+import ConversationScreen from './screens/ConversationScreen';
 import RequestScreen from './screens/RequestScreen';
 
 import EditProfile from './screens/EditProfileScreen';
@@ -37,7 +37,7 @@ function MyTabs() {
   
   return (
     <Tab.Navigator tabBarOptions= {{labelStyle: { textTransform: 'none' }}}>
-      <Tab.Screen name="Conversation" component={ChatScreen} />
+      <Tab.Screen name="Conversation" component={ConversationScreen} />
       <Tab.Screen name="Demande de chat" component={RequestScreen} />
     </Tab.Navigator>
   );
