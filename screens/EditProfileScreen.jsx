@@ -142,11 +142,12 @@ export default function EditProfile ({navigation, props}) {
                 ref={c => _panel = c}
                 draggableRange={{top: height / 2.5, bottom: 10}}
                 >
+                  
                   <View style={styles.container}>
                     <TouchableOpacity onPress={() => _panel.hide()} style={styles.RectangleBox}>
                       <Image source={require('../assets/Logos/RectangleSlidingPanel.png')}/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={onClickAddImage} style={styles.CameraBox}>
+                    <TouchableOpacity onPress={() => onClickAddImage()} style={styles.CameraBox}>
                       <Image source={require('../assets/Logos/AddPictureLogo.png')} style={styles.Camera}/>
                     </TouchableOpacity>
 
@@ -173,7 +174,7 @@ export default function EditProfile ({navigation, props}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    zIndex: -1,
+    zIndex: 2,
     backgroundColor: '#DEDEDE',
     alignItems: 'center',
     justifyContent: 'center'
@@ -233,8 +234,8 @@ const styles = StyleSheet.create({
   },
   CameraBox: {
     position: 'absolute',
-    top: -24,
-    right: 24,
+    top: -36,
+    right: 59,
     width: 60,
     height: 60,
     padding: 8,
@@ -250,8 +251,8 @@ const styles = StyleSheet.create({
   Camera: {
     width: 60,
     height: 60,
-    top: -12,
-    right: 35,
+    //top: -36,
+    //right: 59,
   },
   list: {
     justifyContent: 'center',

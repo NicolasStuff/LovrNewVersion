@@ -29,8 +29,8 @@ const Stack = createStackNavigator();
 function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="MyProfile" component={MyProfileScreen} />
       <Stack.Screen name="Map" component={MapScreen} />
