@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity ,Dimensions, mapCustom} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity ,Dimensions, mapCustom, Alert} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -39,7 +39,8 @@ function MapScreen({navigation, user}) {
         center: [location.coords.latitude, location.coords.longitude],
         radius: 5
       }); 
-      let nearbyUsersArray = [];
+
+      var nearbyUsersArray = [];
       let firsTime = true;
 
       // geoquery listeners
@@ -50,32 +51,28 @@ function MapScreen({navigation, user}) {
         
         // for first time
         if(firsTime && objectIndex === -1){
-            let userToPush = {id : key, coords: {latitude: location[0], longitude: location[1]}}
-            nearbyUsersArray.push(userToPush)          
+          let userToPush = {id : key, avatar: null, coords: {latitude: location[0], longitude: location[1]}}
+          nearbyUsersArray.push(userToPush)            
         }
         
         //adding new users to state
-        if(!firsTime && objectIndex === -1){
-          let userToPush = {id : key, coords: {latitude: location[0], longitude: location[1]}}
-          nearbyUsersArray.push(userToPush)
-          setNearbyUsers(nearbyUsersArray)
-          console.log("addQueryListenner -> nearbyUsersArray", nearbyUsersArray)
+        if(!firsTime && objectIndex === -1){   
+          newNearbyUser(key, location)
         }
       })    
       
-      geoQuery.on("key_exited", function(key, location, distance) {
+      geoQuery.on("key_exited", function(key) {
         console.log('user go out', key)
         // removing user from state
-        nearbyUsersArray.splice(nearbyUsersArray.findIndex(obj => {obj.id === key}),1)        
-        setNearbyUsers(nearbyUsersArray)        
-        console.log("addQueryListenner -> nearbyUsersArray", nearbyUsersArray)
+        var usersCopy = [...nearbyUsers]
+        var filteredUsers = usersCopy.filter(obj => obj.id != key)
+        setNearbyUsers(filteredUsers)        
       });
   
       geoQuery.on("ready", function() {
         console.log('all nearby users taken from frirebase');
-        setNearbyUsers(nearbyUsersArray)
+        updateUsersState(nearbyUsersArray)
         firsTime = false;
-        console.log("addQueryListenner -> nearbyUsersArray", nearbyUsersArray)
       })
 
     };
@@ -90,18 +87,26 @@ function MapScreen({navigation, user}) {
       geoQuery.cancel();
     };
   }, []);
-   
-  // just for testing => delete
-  // const addingFakePositionToFirebase = () => {
-  //   let fireRef = database.ref('usersPosition')
-  //   for (let i=0; i<fakeUsers.length; i++){
-  //     let locationArray = [fakeUsers[i].latitude, fakeUsers[i].longitude]
-  //     let geoFireInstance = new geofire.GeoFire(fireRef);
-  //     geoFireInstance.set("userId"+i, locationArray).then(console.log('location saved')).catch(err => console.log('err =>', err))
-  //   }
-  // }
 
-    
+  //to set state of neraby users the first time
+  const updateUsersState = async (usersArray) => {
+    await Promise.all(usersArray.map(async (obj) => {
+      var snapshot = await database.ref('/users/'+ obj.id + '/avatar').once('value')
+      obj.avatar = snapshot.val()          
+      return obj
+    }))
+    setNearbyUsers(usersArray)
+  }
+
+  //to set state of neraby users after first time
+  const newNearbyUser = async (user, location) => {
+    let usersCopy = [...nearbyUsers];
+    let avatarNewUser = await database.ref('/users/'+ user + '/avatar').once('value')
+    let userToPush = {id : user, avatar: avatarNewUser.val(), coords: {latitude: location[0], longitude: location[1]}};
+    usersCopy.push(userToPush)
+    setNearbyUsers(usersCopy)
+  }
+
   const _handleMapRegionChange = mapRegion => {
     setMapRegion({ mapRegion });
   };
@@ -112,13 +117,14 @@ function MapScreen({navigation, user}) {
       if(user.coords != null){
         return (
           <Marker
+            onPress={()=>{Alert.alert('send to user profile id: ' + user.id)}}
             style={styles.FrontMarker}
             key={i}
             coordinate={user.coords}
             anchor={{x: 0.5, y: 0.5}}>
                 
               <View style={styles.marker}>
-                  <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/>
+                  <Image source={ !user.avatar ? require('../assets/images/5.jpg') : {uri: user.avatar}} style={styles.pictureBox}/>
               </View>
           </Marker>
          )
@@ -151,7 +157,7 @@ function MapScreen({navigation, user}) {
                       <View style={styles.radiusThree}>
                           <View style={styles.radiusTwo}>
                               <View style={styles.marker}>
-                                  <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/>
+                                  {/* <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/> */}
                               </View>
                           </View>
                       </View>
