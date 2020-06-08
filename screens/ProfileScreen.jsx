@@ -9,9 +9,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+/* Social Icon Module for Instagram API */
 import { SocialIcon } from 'react-native-elements';
 
-import InstagramLogin from 'react-instagram-login';
+import InstagramBasicDisplayApi from 'instagram-basic-display';
 
 /* Galio Framework */
 import { Block, Text, theme } from "galio-framework";
@@ -30,11 +31,11 @@ import ViewPager from '@react-native-community/viewpager';
 const { width, height } = Dimensions.get("screen");
 
 /* Instagram photos thumbnail */
-const thumbMeasure = (width - 48 - 32) / 3;
+const thumbMeasure = (width - 46 - 30) / 3;
 
   export default function ProfileScreen({navigation}) {
 
-  //const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0);
 
      const [images, setImages] = useState ([
       "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
@@ -55,7 +56,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
     const _renderItem = ({ item, index }) => {
       return (
         <ViewPager style={styles.viewPager} initialPage={0}>
-            <View key="1" row space="between" style={{ flexWrap: "wrap" }}>
+            <View key="1" style={{ flex: 1, flexWrap: 'wrap', flexDirection:'row', justifyContent:'space-between'}}>
                 {Images.Viewed.map((img, imgIndex) => (
                   <Image
                     source={{ uri: img }}
@@ -93,48 +94,31 @@ const thumbMeasure = (width - 48 - 32) / 3;
       )
     }
 
-      async function logIn() {
-        try {
-          await Instagram.initializeAsync('3002863106448794');
-          const {
-            type,
-            token,
-            expires,
-            permissions,
-            declinedPermissions,
-          } = await Instagram.logInWithReadPermissionsAsync({
-            permissions: ['public_profile'],
-          });
-          if (type === 'success') {
-            // Get the user's name and media access using Instagram's Basic display API
-            //setConnected = true;
-            const Instagramresponse = await fetch(`https://graph.instagram.com/me?access_token=${token}`);
-    
-            const credential = authF.InstagramAuthProvider.credential(token);
-            
-            auth.signInWithCredential(credential).then((user)=>{
-              //testing if is a new user
-              if(user.additionalUserInfo.isNewUser === true) {
-                //creating user profile in firebase
-                database.ref('users/' + user.user.uid).set({
-                  uid: user.user.uid,
-                  createdAt: Date.now(),
-                  active: true,
-                  photos: ['photo1', 'photo2', 'photo3'], 
-               })
-              }
-            }).catch((err)=>{
-              console.log('error de la muerte', err)
-            });
-            // navigation.navigate('Map')
-          } else {
-            // type === 'cancel'
-          }
-        } catch ({ message }) {
-          alert(`Instagram Login Error: ${message}`);
-        }
-      }
+    const ig = new InstagramBasicDisplayApi({
+      appId: '3002863106448794',
+      appSecret: '5ce0e3c60cac85ceb905df501b46d2ff',
+      redirectUri: 'https://github.com/NicolasStuff/LovrNewVersion',
+      getCode: '',
+      apiBaseUrl: 'https://api.instagram.com',
+      graphBaseUrl: 'htts://graph.instagram.com',
+      userAccesToken: '',
+      userAccessTokenExpires: ''
       
+  })
+
+      console.log(ig.authorizationUrl)
+// -> generates a user-code after successfull authorization
+ 
+    const code = 'IGQVJVNDlGeS0tWEJFTHhhOGpvUjRhMTRHcmt6SXFTaDFKbkczbnF4OHA3c1FwOHFaaG52ZA1ZAKUG96NF9tcm5SeGR0bDJHdWd1UGZA3QmNIdWdYTmczWXc2STdjRjF0anhHalZAxbU5n'
+ 
+      ig.retrieveToken(code).then(data => {
+    
+    const token = data.access_token
+ 
+      ig.retrieveUserNode(token).then(data => {
+        console.log(data)
+    })
+})
   
  return (
   
@@ -158,7 +142,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
               inactiveDotColor="rgba(81, 81, 81, 0.70)"
             />
 
-<Block middle style={styles.nameInfo}>
+    <Block middle style={styles.nameInfo}>
                   <Text bold size={28} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
                   Marie, 22
                   </Text>
@@ -188,17 +172,15 @@ const thumbMeasure = (width - 48 - 32) / 3;
               </Block>
 
               {/* Instagram Basic Display API */}
-              <SocialIcon
-                title='Se connecter avec Instagram'
+              <Text size={10} style={{ textAlign: "left",  marginTop: 10, marginHorizontal: 18, marginBottom: 10 }}>{setCount} photos Instagram</Text>
+              {/* <SocialIcon
+                title='Synchronisez vos photos Instagram'
                 onPress={
                   () => logIn()
                 }
                 button
-                type=''
-                style={styles.signInFacebook}
-              />
-
-              
+                type='instagram'
+              /> */}
 
               <View style={styles.wrapper}>
                   <Carousel 
@@ -313,14 +295,5 @@ slideImg: {
   width: "100%",
   alignItems: "center",
   justifyContent: "center"
-},
-signInFacebook: {
-  width: 250,
-  height: 60,
-  fontSize: 15,
-  backgroundColor: '#4267B2',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 5
 }
 });
