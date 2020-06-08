@@ -6,15 +6,16 @@ import { ListItem } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function ConversationScreen({navigation}) {
+  var name = ['Elodie','Elodie','Elodie','Elodie','Elodie',]
   return (
     <View style={styles.container}>
     <ListItem
       leftAvatar={{
-        source: {uri : ("../assets/images/5.jpg")},
-        showAccessory: true,
+        title: "NI",
+        source: require("../assets/images/5.jpg"),
       }}
-      title={"name"}
-      subtitle={"role"}
+      title='Nicolas'
+      subtitle='Nicolas'
       chevron
     />
     </View>
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    //alignItems: 'center',
+    //justifyContent: 'center',
   },
 });
