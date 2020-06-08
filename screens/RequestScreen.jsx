@@ -17,7 +17,7 @@ export default function ContactsScreen({navigation}) {
             height: 1000,
           }}
         />
-      <Text>ContactsScreen</Text>
+      <Text>RequestScreen</Text>
       <Button
       title="Go to Chat"
       onPress={() => navigation.navigate('Chat')}
