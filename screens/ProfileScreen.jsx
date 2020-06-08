@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -8,6 +8,10 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
+
+import { SocialIcon } from 'react-native-elements';
+
+import InstagramLogin from 'react-instagram-login';
 
 /* Galio Framework */
 import { Block, Text, theme } from "galio-framework";
@@ -19,7 +23,7 @@ import { Images } from "../constants";
 import { SliderBox } from "react-native-image-slider-box";
 
 /* Carousel for Instagram photos module */ 
-import Carousel, {Pagination} from 'react-native-snap-carousel';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import ViewPager from '@react-native-community/viewpager';
 
 /* Responsive design for iOS and android devices */
@@ -28,8 +32,9 @@ const { width, height } = Dimensions.get("screen");
 /* Instagram photos thumbnail */
 const thumbMeasure = (width - 48 - 32) / 3;
 
-
   export default function ProfileScreen({navigation}) {
+
+  //const [count, setCount] = useState(0);
 
      const [images, setImages] = useState ([
       "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
@@ -47,9 +52,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
       'https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80',
     ])
 
-    //const [activeSlide, setActiveSlide] = useState(0);
-
-    const _renderItem = ({ item }) => {
+    const _renderItem = ({ item, index }) => {
       return (
         <ViewPager style={styles.viewPager} initialPage={0}>
             <View key="1" row space="between" style={{ flexWrap: "wrap" }}>
@@ -62,30 +65,76 @@ const thumbMeasure = (width - 48 - 32) / 3;
                   />
                 ))}
               </View>
-            <View key="2" row space="between" style={{ flexWrap: "wrap" }}>
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </View>
-            <View key="3" row space="between" style={{ flexWrap: "wrap" }}>
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </View>
         </ViewPager>
       );
     };
-  
+
+    const [activeSlide, setActiveSlide] = useState(0);
+
+    const _renderEntry = ({ entries }) => {
+      return (
+        <Pagination
+        dotsLength={entries.length}
+        activeDotIndex={activeSlide}
+        containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
+        dotStyle={{
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            marginHorizontal: 8,
+            backgroundColor: 'rgba(255, 255, 255, 0.92)'
+        }}
+        inactiveDotStyle={{
+            // Define styles for inactive dots here
+        }}
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
+      />  
+      )
+    }
+
+      async function logIn() {
+        try {
+          await Instagram.initializeAsync('3002863106448794');
+          const {
+            type,
+            token,
+            expires,
+            permissions,
+            declinedPermissions,
+          } = await Instagram.logInWithReadPermissionsAsync({
+            permissions: ['public_profile'],
+          });
+          if (type === 'success') {
+            // Get the user's name and media access using Instagram's Basic display API
+            //setConnected = true;
+            const Instagramresponse = await fetch(`https://graph.instagram.com/me?access_token=${token}`);
+    
+            const credential = authF.InstagramAuthProvider.credential(token);
+            
+            auth.signInWithCredential(credential).then((user)=>{
+              //testing if is a new user
+              if(user.additionalUserInfo.isNewUser === true) {
+                //creating user profile in firebase
+                database.ref('users/' + user.user.uid).set({
+                  uid: user.user.uid,
+                  createdAt: Date.now(),
+                  active: true,
+                  photos: ['photo1', 'photo2', 'photo3'], 
+               })
+              }
+            }).catch((err)=>{
+              console.log('error de la muerte', err)
+            });
+            // navigation.navigate('Map')
+          } else {
+            // type === 'cancel'
+          }
+        } catch ({ message }) {
+          alert(`Instagram Login Error: ${message}`);
+        }
+      }
+      
   
  return (
   
@@ -139,19 +188,31 @@ const thumbMeasure = (width - 48 - 32) / 3;
               </Block>
 
               {/* Instagram Basic Display API */}
+              <SocialIcon
+                title='Se connecter avec Instagram'
+                onPress={
+                  () => logIn()
+                }
+                button
+                type=''
+                style={styles.signInFacebook}
+              />
+
               
 
               <View style={styles.wrapper}>
                   <Carousel 
                       data={sliderImg}
                       renderItem={_renderItem}
+                      onSnapToItem={(index) => setActiveSlide ({activeSlide: index})}
                       sliderWidth={width}
                       itemWidth={width - 70}
                       enableMomentum={false}
-                      lockScrollWhileSnapping
-                      autoplay
-                      loop
-                      autoplayInterval={3000}
+                      renderEntry={_renderEntry}
+                      //lockScrollWhileSnapping
+                      //autoplay
+                      //loop
+                      //autoplayInterval={3000}
                   />
               </View>
               
@@ -252,5 +313,14 @@ slideImg: {
   width: "100%",
   alignItems: "center",
   justifyContent: "center"
+},
+signInFacebook: {
+  width: 250,
+  height: 60,
+  fontSize: 15,
+  backgroundColor: '#4267B2',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 5
 }
 });

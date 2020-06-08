@@ -133,11 +133,7 @@ function MapScreen({navigation, user}) {
       <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.profileLink}>
         <Image source={require('../assets/Logos/ProfileScreenLogo.png')} style={{width: 75, height: 50}} />
       </TouchableOpacity>
-<<<<<<< HEAD
-      <TouchableOpacity onPress={() => navigation.navigate('MyChat')} style={styles.ChatLink}>
-=======
       <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={styles.ChatLink}>
->>>>>>> 4f4ed0171d64c0080f6fb116b8ac9f5bf2349ff3
         <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
       </TouchableOpacity>
       <MapView style={styles.mapStyle}
