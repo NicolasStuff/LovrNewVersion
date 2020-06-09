@@ -10,7 +10,7 @@ import {
 
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function ModalScreen ({navigation}) {
+function Modal {
 
 const [modalVisible, setModalVisible] = useState(false);
 
@@ -86,12 +86,12 @@ const styles = StyleSheet.create({
     padding: 10,
     shadowColor: "#FFFF",
     shadowOffset: {
-      width: 2,
-      height: 4
+      width: 0,
+      height: 2
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 15
+    elevation: 5
   },
   openButton2: {
     backgroundColor: "#36B547",
@@ -124,3 +124,5 @@ const styles = StyleSheet.create({
     textAlign: "center"
   }
 });
+
+export default Modal;
