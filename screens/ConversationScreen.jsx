@@ -18,6 +18,25 @@ export default function ConversationScreen({navigation}) {
       subtitle='Nicolas'
       chevron
     />
+    <ListItem
+      leftAvatar={{
+        title: "NI",
+        source: require("../assets/images/5.jpg"),
+      }}
+      title='Nicolas'
+      subtitle='Nicolas'
+      chevron
+    />
+    <ListItem
+      leftAvatar={{
+        title: "NI",
+        source: require("../assets/images/5.jpg"),
+      }}
+      title='Nicolas'
+      subtitle='Nicolas'
+      chevron
+    />
+    
     </View>
   );
 }

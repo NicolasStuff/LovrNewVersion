@@ -53,9 +53,10 @@ export default function ChatScreen({navigation}) {
           underlineColorAndroid="transparent"
           placeholder="Démarques-toi !"
         />
-      <TouchableOpacity>
-        <Ionicons name="md-send" size={25} color="black" style={styles.send}/>
-      </TouchableOpacity>
+        <TouchableOpacity>
+          <Ionicons name="md-send" size={25} color="black" style={styles.send}/>
+        </TouchableOpacity>
+        
       </View>
     </View>
   );
