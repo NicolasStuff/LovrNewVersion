@@ -49,19 +49,6 @@ function MyStack() {
   const [text, setText] = useState()
 
   return (
-<<<<<<< HEAD
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="EditProfile" component={EditProfile} />
-      <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="MyProfile" component={MyProfileScreen} />
-      <Stack.Screen name="Map" component={MapScreen} />
-      <Stack.Screen name="Settings" component={SettingScreen} />
-      <Stack.Screen name="Contacts" component={ContactsScreen} />
-      <Stack.Screen name="MyChat" component={MyChatScreen} />
-      <Stack.Screen name="Chat" component={ChatScreen} />
-    </Stack.Navigator>
-=======
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
@@ -85,7 +72,6 @@ function MyStack() {
         {/* <Stack.Screen name="Chat" component={ChatScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>
->>>>>>> 3e1ebbe6cfa31ab5ae19e7eb63e18257d8bf933b
   );
 }
 

@@ -45,6 +45,8 @@
     "react-navigation": "^4.3.9",
     "react-navigation-stack": "^2.5.1",
     "react-redux": "^7.2.0",
+    "react-swipeable-views": "^0.13.9",
+    "react-swipeable-views-native": "^0.13.2",
     "redux": "^4.0.5",
     "rn-sliding-up-panel": "^2.4.2"
   },

@@ -26,6 +26,7 @@ import { SliderBox } from "react-native-image-slider-box";
 /* Carousel for Instagram photos module */ 
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import ViewPager from '@react-native-community/viewpager';
+import { logInAsync } from 'expo-google-app-auth';
 
 /* Responsive design for iOS and android devices */
 const { width, height } = Dimensions.get("screen");
@@ -94,6 +95,7 @@ const thumbMeasure = (width - 46 - 30) / 3;
       )
     }
 
+    
     const ig = new InstagramBasicDisplayApi({
       appId: '3002863106448794',
       appSecret: '5ce0e3c60cac85ceb905df501b46d2ff',
@@ -176,7 +178,7 @@ const thumbMeasure = (width - 46 - 30) / 3;
               {/* <SocialIcon
                 title='Synchronisez vos photos Instagram'
                 onPress={
-                  () => logIn()
+                  () => logInAsync()
                 }
                 button
                 type='instagram'
@@ -190,7 +192,6 @@ const thumbMeasure = (width - 46 - 30) / 3;
                       sliderWidth={width}
                       itemWidth={width - 70}
                       enableMomentum={false}
-                      renderEntry={_renderEntry}
                       //lockScrollWhileSnapping
                       //autoplay
                       //loop
