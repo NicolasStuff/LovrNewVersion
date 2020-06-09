@@ -61,16 +61,13 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
+    alignItems: "center"
   },
   modalView: {
     height: 300,
     width: 300,
-    margin: 20,
     borderRadius: 20,
     overflow: 'hidden',
-    padding: 35,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -120,7 +117,7 @@ const styles = StyleSheet.create({
     color: '#FFFF',
     fontSize: 18,
     marginBottom: 20,
-    padding: 10,
+    padding: 50,
     textAlign: "center"
   }
 });

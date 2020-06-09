@@ -289,13 +289,11 @@ pictureBox: {
   centeredView: {
     zIndex: 1,
     position: 'absolute',
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 400,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 200,
     marginBottom: 100,
-    marginHorizontal: 100,
-    marginVertical: 100,
-    marginRight: 80
+    marginHorizontal: 40,
   },
   modalView: {
     zIndex: 1,
