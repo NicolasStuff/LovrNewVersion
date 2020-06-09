@@ -132,11 +132,9 @@ function MapScreen({navigation, user}) {
          )
       }
     })
-     
-
   return (
     <View>
-      <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.profileLink}>
+      <TouchableOpacity onPress={() => navigation.navigate('MyProfile')} style={styles.profileLink}>
         <Image source={require('../assets/Logos/ProfileScreenLogo.png')} style={{width: 75, height: 50}} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={styles.ChatLink}>

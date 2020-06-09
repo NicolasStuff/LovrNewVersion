@@ -153,11 +153,6 @@ function HomeScreen({navigation, onUser}) {
                 style={styles.signInGoogle}
               />
               <TouchableOpacity
-                  onPress={() => navigation.navigate('Settings')}
-                  style={styles.signInGoogle}>
-                  <Text style={styles.signInGoogleText}> Go to settings</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
                   onPress={() => Logout()}
                   style={styles.signInGoogle}>
                   <Text style={styles.signInGoogleText}> Logout</Text>

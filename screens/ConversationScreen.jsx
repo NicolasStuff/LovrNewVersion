@@ -69,7 +69,8 @@ function ConversationScreen({navigation, user, onReceiver}) {
 
 
   let myChatList = myChats.map((e,i) =>{
-    return (<ListItem style={{flex:1}}
+    return (
+    <ListItem
       key={i}
       leftAvatar={{
         source: { uri: e.userAvatar },
