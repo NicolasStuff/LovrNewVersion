@@ -146,9 +146,9 @@ function MapScreen({navigation, user}) {
           setModalVisible(true);
         }}
       >
-        <Text style={styles.textStyle1}>Devenir LOVABLE</Text>
+        <Text style={styles.textStyle1}>Devenir Lovable </Text>
       </TouchableHighlight>
-    <View style={styles.centeredView}>
+    <View>
       <Modal
         animationType="slide"
         transparent={true}
@@ -293,7 +293,6 @@ pictureBox: {
     alignItems: 'center',
     marginTop: 200,
     marginBottom: 100,
-    marginHorizontal: 40,
   },
   modalView: {
     zIndex: 1,
@@ -330,9 +329,14 @@ pictureBox: {
     zIndex: 1,
     flex: 1,
     position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: "#36B547",
-    borderRadius: 20,
-    padding: 10,
+    borderRadius: 30,
+    paddingLeft: 25,
+    paddingRight: 25,
+    paddingTop: 14,
+    paddingBottom: 14,
     shadowColor: "#FFFF",
     shadowOffset: {
       width: 0,
@@ -341,11 +345,14 @@ pictureBox: {
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    bottom: 100,
-    alignSelf: "center"
+    bottom: 20,
+    alignSelf: "center",
+    height: 30,
+
   },
   textStyle1: {
     color: "#FFFF",
+    fontSize: 18,
     fontWeight: "bold",
     textAlign: "center"
   },

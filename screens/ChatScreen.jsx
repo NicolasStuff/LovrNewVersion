@@ -84,9 +84,9 @@ function ChatScreen({navigation, user, receiver}) {
         />
         <Text style={{fontSize: 25}}>Elodie</Text>
       </View>
-
+      
         {listMessageItem}
-
+      
       <View style={styles.footer}>
         <TextInput
           value={text}
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   header: {
+    zIndex: 2,
     flex: 1,
     alignItems: 'center',
     top: 20,
