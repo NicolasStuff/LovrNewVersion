@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
+import { database } from './firebase';
+import {connect} from 'react-redux';
 
 /* Gradient Background Color Module */
 import { LinearGradient } from 'expo-linear-gradient';
@@ -7,12 +9,67 @@ import { Avatar } from 'react-native-elements';
 //icons
 import { Ionicons } from '@expo/vector-icons'; 
 
-export default function ChatScreen({navigation}) {
+function ChatScreen({navigation, user, receiver}) {
+  console.log("ChatScreen -> receiver", receiver)
+  const [idChat, setIdChat] = useState(user > receiver ? `${user}-${receiver}` : `${receiver}-${user}`)
+  const [text, setText] = useState("");
+  const [messageList, setMessageList] = useState([])
 
-  const [messages, setMessage] = useState(['Bonjour','Bonjour','Bonjour','Bonjour',])
-  const [text, setText] = useState("")
+  useEffect(() => {
+    function loadMessages() {
+      database.ref('chats/'+ idChat).on('value', function(snapshot) {
+          let messages = [];
+          snapshot.forEach(e =>{
+              messages.push(e.val())
+          });
+          setMessageList(messages)
+      });                
+      }
+      loadMessages()
+    return () => {
+      database.ref('chats/'+ idChat).off()
+    }
+  }, [])
 
-  
+  const sendMessageFirebase = () => {
+    database.ref('chats/' + idChat).push({
+        createdAt: Date.now(),
+        content: text,
+        sender: user,
+        read: false,
+    })
+    setText('')
+  }
+
+  var listMessageItem = messageList.map((msg, i)=>{
+    var dateCreated = new Date(msg.createdAt)
+    var timeDate = `${dateCreated.getHours()}:${dateCreated.getMinutes()}`;
+
+    if (msg.sender === user) {
+        return (
+          <View key={i} style={{flexDirection:'row'}}>
+            <View style={styles.user}>
+              <Text style={styles.textUser}>{msg.content}</Text>
+            </View>
+          </View>
+        )
+    } else {
+        return (
+          <View style={{flexDirection:'row', alignItems: 'center', margin: 10}}>
+                <Avatar
+                  rounded
+                  source={require("../assets/images/5.jpg")}
+                  size="small"
+                />
+                <View style={styles.sender}>
+                  <Text style={styles.textSender}>{msg.content}</Text>
+                </View>
+          </View>
+        )
+    }
+  });
+
+
   return (
 
     <View style={styles.container}>
@@ -28,32 +85,17 @@ export default function ChatScreen({navigation}) {
         <Text style={{fontSize: 25}}>Elodie</Text>
       </View>
 
-      <View style={{flexDirection:'row', alignItems: 'center', margin: 10}}>
-        <Avatar
-           rounded
-           source={require("../assets/images/5.jpg")}
-           size="small"
-        />
-        <View style={styles.sender}>
-          <Text style={styles.textSender}>Hello</Text>
-        </View>
-      </View>
-      <View style={{flexDirection:'row', alignItems: 'center'}}>
-        <View style={styles.user}>
-          <Text style={styles.textUser}>Coucou comment ça va ? :D</Text>
-        </View>
-      </View>
+        {listMessageItem}
 
-      
       <View style={styles.footer}>
         <TextInput
-          value=""
-          onChangeText={text => setText({text})}
+          value={text}
+          onChangeText={text => setText(text)}
           style={styles.input}
           underlineColorAndroid="transparent"
           placeholder="Démarques-toi !"
         />
-      <TouchableOpacity>
+      <TouchableOpacity onPress={()=> sendMessageFirebase() }>
         <Ionicons name="md-send" size={25} color="black" style={styles.send}/>
       </TouchableOpacity>
       </View>
@@ -117,3 +159,14 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
+//for redux
+function mapStateToProps(state) {
+  return { receiver : state.receiver, user : state.user }
+}
+
+
+export default connect(
+  mapStateToProps, 
+  null
+)(ChatScreen);
