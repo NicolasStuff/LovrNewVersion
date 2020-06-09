@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
 
-export default function SettingScreen({navigation}) {
+export default function NewMatchScreen({navigation}) {
   return (
     <LinearGradient colors={['#FFB199', '#FF164B']} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
