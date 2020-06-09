@@ -1,10 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import {connect} from 'react-redux';
+
 
 /* Gradient Background Color Module */
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function ChatScreen({navigation}) {
+function ChatScreen({navigation, receiver}) {
+  console.log("ChatScreen -> receiver", receiver)
   return (
     <View style={styles.container}>
        <LinearGradient
@@ -31,3 +34,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+//for redux
+function mapStateToProps(state) {
+  return { receiver : state.receiver }
+}
+
+
+export default connect(
+  mapStateToProps, 
+  null
+)(ChatScreen);

@@ -8,43 +8,99 @@ import { database } from './firebase';
 /* Gradient Background Color Module */
 import { LinearGradient } from 'expo-linear-gradient';
 
-function ConversationScreen({navigation, user}) {
-  const [myChats, setMyChats] = useState({})
-  console.log('qfdqsfqs =>', user)
+function ConversationScreen({navigation, user, onReceiver}) {
+  console.log('user in Conversation screen =>', user)
+
+  const [myChats, setMyChats] = useState([])
   
   useEffect(() => {
     //geting friends and last messages from fireabse
-    async function loadData() {
-      await database.ref('/friends/'+ user).orderByChild('updated').on('value', function(snapshot) {
-        let myFriends = [];
-        // console.log('snap valor', snapshot.val())
-        snapshot.forEach(e => {
-          console.log('este es el e', e)
-          // myFriends.push(e.val())
+    function loadData() {      
+      database.ref('/friends/'+ user).orderByChild('updated').on('value', function(snapshot) {
+        let myLastMessages = [];
+        snapshot.forEach(function (childSnapshot) {
+          database.ref('/users/'+ childSnapshot.key).once('value', function(userSnapshot){
+            let userInfo = userSnapshot.val()            
+            let infoFromBD = childSnapshot.val()          
+            let infoToPush = {
+              userId: childSnapshot.key,
+              userName: userInfo.first_name,
+              userAvatar: userInfo.avatar,
+              message: infoFromBD.lastMessage, 
+              unRead: infoFromBD.unreadMessages, 
+              date: infoFromBD.updated 
+            }
+            myLastMessages.push(infoToPush)            
+            console.log("al intetior -> myLastMessages", myLastMessages)
+            // setMyChats(myLastMessages)
+          })         
         })        
+        console.log("al exterior -> myLastMessages", myLastMessages)
       })
     }
     loadData();
 
     return () => {
       database.ref('/friends/'+ user).off()
-      console.log('killing listener')
+      console.log('friends listener killed')
     }
   }, [])
 
+  //for take usesr info
+  // const takeUserInfoFirebase = (snapshot) => {    
+  //   let myLastMessages = [];
+    
+  //   snapshot.forEach(function (childSnapshot) {
+  //     database.ref('/users/'+ childSnapshot.key).once('value', function (userSnapshot){
+  //         let userInfo = userSnapshot.val()            
+  //         let infoFromBD = childSnapshot.val()          
+  //         let infoToPush = {
+  //           userId: childSnapshot.key,
+  //           userName: userInfo.first_name,
+  //           userAvatar: userInfo.avatar,
+  //           message: infoFromBD.lastMessage, 
+  //           unRead: infoFromBD.unreadMessages, 
+  //           date: infoFromBD.updated 
+  //         }
+  //         myLastMessages.push(infoToPush)            
+  //         console.log("takeUserInfoFirebase -> myLastMessages", myLastMessages)
+          
+  //         setMyChats(myLastMessages)
+  //       }     
+  //     )
+  //   })   
+  // }
+
+
+  let myChatList = myChats.map((e,i) =>{
+    return (<ListItem style={{flex:1}}
+      key={i}
+      leftAvatar={{
+        source: { uri: !e.userAvatar ? null : e.userAvatar },
+      }}
+      title={e.userName}
+      subtitle={e.message}
+      badge={{ value: e.unRead, textStyle: { color: 'orange' }, containerStyle: { marginTop: -20 } }}
+      chevron
+      bottomDivider
+      onPress={()=>{onReceiver(e.userId); navigation.navigate('ChatScreen') }}
+    />)
+  })
 
   return (
     <View style={styles.container}>
-    <ListItem style={{flex:1}}
+    {/* <ListItem style={{flex:1}}
       leftAvatar={{
-        source: {uri : ("../assets/images/5.jpg")},
+        title: "NI",
+        source: require("../assets/images/5.jpg"),
       }}
-      title={"name"}
-      subtitle={"role"}
+      title='Nicolas'
+      subtitle='Nicolas'
       chevron
       bottomDivider
       onPress={()=>{console.log('pres on qsdfqsd')}}
-    />
+    /> */} 
+    { myChatList }
     </View>
   );
 }
@@ -53,8 +109,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    //alignItems: 'center',
+    //justifyContent: 'center',
   },
 });
 
@@ -63,7 +119,15 @@ function mapStateToProps(state) {
   return { user : state.user }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    onReceiver: function(receiver) { 
+      dispatch( {type: 'addReceiver', receiver }) 
+    }
+  }
+}
+
 export default connect(
   mapStateToProps, 
-  null
+  mapDispatchToProps
 )(ConversationScreen);

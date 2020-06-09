@@ -27,7 +27,8 @@ import ChatScreen from './screens/ChatScreen';
 import {createStore, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 import user from './reducers/user';
-const store = createStore(combineReducers({ user }));
+import receiver from './reducers/receiver';
+const store = createStore(combineReducers({ user, receiver }));
 
 /* createStackNavigator() */
 const Stack = createStackNavigator();
@@ -56,6 +57,7 @@ function MyStack() {
         <Stack.Screen name="Profile" component={ProfileScreen} options={{headerShown: false}}/>
         <Stack.Screen name="MyProfile" component={MyProfileScreen} options={{headerShown: false}}/>
         <Stack.Screen name="Settings" component={SettingScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="ChatScreen" component={ChatScreen} options={{headerShown: false}}/>
         <Stack.Screen name="Chat" component={MyTabs} options={{
               headerTitle: () => (
               <Input
