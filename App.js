@@ -21,6 +21,7 @@ import ConversationScreen from './screens/ConversationScreen';
 import RequestScreen from './screens/RequestScreen';
 
 import EditProfile from './screens/EditProfileScreen';
+import MyChatScreen from './screens/MyChatScreen';
 import ChatScreen from './screens/ChatScreen';
 
 // for Redux

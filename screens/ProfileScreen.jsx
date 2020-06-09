@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -8,6 +8,11 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
+
+/* Social Icon Module for Instagram API */
+import { SocialIcon } from 'react-native-elements';
+
+import InstagramBasicDisplayApi from 'instagram-basic-display';
 
 /* Galio Framework */
 import { Block, Text, theme } from "galio-framework";
@@ -19,17 +24,19 @@ import { Images } from "../constants";
 import { SliderBox } from "react-native-image-slider-box";
 
 /* Carousel for Instagram photos module */ 
-import Carousel, {Pagination} from 'react-native-snap-carousel';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import ViewPager from '@react-native-community/viewpager';
+import { logInAsync } from 'expo-google-app-auth';
 
 /* Responsive design for iOS and android devices */
 const { width, height } = Dimensions.get("screen");
 
 /* Instagram photos thumbnail */
-const thumbMeasure = (width - 48 - 32) / 3;
-
+const thumbMeasure = (width - 46 - 30) / 3;
 
   export default function ProfileScreen({navigation}) {
+
+  const [count, setCount] = useState(0);
 
      const [images, setImages] = useState ([
       "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
@@ -47,32 +54,10 @@ const thumbMeasure = (width - 48 - 32) / 3;
       'https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80',
     ])
 
-    //const [activeSlide, setActiveSlide] = useState(0);
-
-    const _renderItem = ({ item }) => {
+    const _renderItem = ({ item, index }) => {
       return (
         <ViewPager style={styles.viewPager} initialPage={0}>
-            <View key="1" row space="between" style={{ flexWrap: "wrap" }}>
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </View>
-            <View key="2" row space="between" style={{ flexWrap: "wrap" }}>
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </View>
-            <View key="3" row space="between" style={{ flexWrap: "wrap" }}>
+            <View key="1" style={{ flex: 1, flexWrap: 'wrap', flexDirection:'row', justifyContent:'space-between'}}>
                 {Images.Viewed.map((img, imgIndex) => (
                   <Image
                     source={{ uri: img }}
@@ -85,7 +70,57 @@ const thumbMeasure = (width - 48 - 32) / 3;
         </ViewPager>
       );
     };
-  
+
+    const [activeSlide, setActiveSlide] = useState(0);
+
+    const _renderEntry = ({ entries }) => {
+      return (
+        <Pagination
+        dotsLength={entries.length}
+        activeDotIndex={activeSlide}
+        containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
+        dotStyle={{
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            marginHorizontal: 8,
+            backgroundColor: 'rgba(255, 255, 255, 0.92)'
+        }}
+        inactiveDotStyle={{
+            // Define styles for inactive dots here
+        }}
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
+      />  
+      )
+    }
+
+    
+    const ig = new InstagramBasicDisplayApi({
+      appId: '3002863106448794',
+      appSecret: '5ce0e3c60cac85ceb905df501b46d2ff',
+      redirectUri: 'https://github.com/NicolasStuff/LovrNewVersion',
+      getCode: '',
+      apiBaseUrl: 'https://api.instagram.com',
+      graphBaseUrl: 'htts://graph.instagram.com',
+      userAccesToken: '',
+      userAccessTokenExpires: ''
+      
+  })
+
+      console.log(ig.authorizationUrl)
+// -> generates a user-code after successfull authorization
+ 
+    const code = 'IGQVJVNDlGeS0tWEJFTHhhOGpvUjRhMTRHcmt6SXFTaDFKbkczbnF4OHA3c1FwOHFaaG52ZA1ZAKUG96NF9tcm5SeGR0bDJHdWd1UGZA3QmNIdWdYTmczWXc2STdjRjF0anhHalZAxbU5n'
+ 
+      ig.retrieveToken(code).then(data => {
+    
+    const token = data.access_token
+ 
+      ig.retrieveUserNode(token).then(data => {
+        console.log(data)
+    })
+})
   
  return (
   
@@ -109,7 +144,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
               inactiveDotColor="rgba(81, 81, 81, 0.70)"
             />
 
-<Block middle style={styles.nameInfo}>
+    <Block middle style={styles.nameInfo}>
                   <Text bold size={28} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
                   Marie, 22
                   </Text>
@@ -138,17 +173,29 @@ const thumbMeasure = (width - 48 - 32) / 3;
                   </Text>
               </Block>
 
+              {/* Instagram Basic Display API */}
+              <Text size={10} style={{ textAlign: "left",  marginTop: 10, marginHorizontal: 18, marginBottom: 10 }}>{setCount} photos Instagram</Text>
+              {/* <SocialIcon
+                title='Synchronisez vos photos Instagram'
+                onPress={
+                  () => logInAsync()
+                }
+                button
+                type='instagram'
+              /> */}
+
               <View style={styles.wrapper}>
                   <Carousel 
                       data={sliderImg}
                       renderItem={_renderItem}
+                      onSnapToItem={(index) => setActiveSlide ({activeSlide: index})}
                       sliderWidth={width}
                       itemWidth={width - 70}
                       enableMomentum={false}
-                      lockScrollWhileSnapping
-                      autoplay
-                      loop
-                      autoplayInterval={3000}
+                      //lockScrollWhileSnapping
+                      //autoplay
+                      //loop
+                      //autoplayInterval={3000}
                   />
               </View>
               

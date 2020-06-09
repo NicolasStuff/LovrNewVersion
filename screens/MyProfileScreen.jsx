@@ -52,27 +52,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
     const _renderItem = ({ item }) => {
       return (
         <ViewPager style={styles.viewPager} initialPage={0}>
-            <View key="1" row space="between" style={{ flexWrap: "wrap" }}>
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </View>
-            <View key="2" row space="between" style={{ flexWrap: "wrap" }}>
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </View>
-            <View key="3" row space="between" style={{ flexWrap: "wrap" }}>
+            <View key="1" row space="between">
                 {Images.Viewed.map((img, imgIndex) => (
                   <Image
                     source={{ uri: img }}
@@ -129,8 +109,6 @@ const thumbMeasure = (width - 48 - 32) / 3;
                     <Block style={styles.divider} />
                   </Block>
               </Block>
-              
-              
               
               <Block middle style={{marginBottom: 20}}>
                   <Text size={16} color="#32325D" style={{ textAlign: "left",  marginTop: 10, marginHorizontal: 10 }}>
@@ -227,9 +205,9 @@ ChatLink: {
 viewPager: {
   flex: 1,
 },
-wrapper: {
-  height: 300
-},
+//wrapper: {
+  //height: 300
+//},
 slide: {
   flex: 1,
   justifyContent: "center",

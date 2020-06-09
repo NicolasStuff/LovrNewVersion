@@ -77,7 +77,7 @@ export default function EditProfile ({navigation, props}) {
   };
 
   var onClickAddImage = () => {
-    const BUTTONS = ['Prendre un photo', 'Choisir une photo depuis la gallerie', 'Annuler'];
+    const BUTTONS = ['Prendre un photo', 'Choisir une photo depuis la galerie', 'Annuler'];
     ActionSheet.show(
       {options: BUTTONS,
       cancelButtonIndex: 2,
