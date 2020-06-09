@@ -19,23 +19,32 @@ function ConversationScreen({navigation, user, onReceiver}) {
       database.ref('/friends/'+ user).orderByChild('updated').on('value', function(snapshot) {
         let myLastMessages = [];
         snapshot.forEach(function (childSnapshot) {
-          database.ref('/users/'+ childSnapshot.key).once('value', function(userSnapshot){
-            let userInfo = userSnapshot.val()            
-            let infoFromBD = childSnapshot.val()          
-            let infoToPush = {
-              userId: childSnapshot.key,
-              userName: userInfo.first_name,
-              userAvatar: userInfo.avatar,
-              message: infoFromBD.lastMessage, 
-              unRead: infoFromBD.unreadMessages, 
-              date: infoFromBD.updated 
-            }
-            myLastMessages.push(infoToPush)            
-            console.log("al intetior -> myLastMessages", myLastMessages)
-            // setMyChats(myLastMessages)
-          })         
+          let infoFromBD = childSnapshot.val()
+          let infoToPush = {
+            userId: childSnapshot.key,
+            userName: infoFromBD.name,
+            userAvatar: infoFromBD.avatar,
+            message: infoFromBD.lastMessage, 
+            unRead: infoFromBD.unreadMessages, 
+            date: infoFromBD.updated 
+          }
+          myLastMessages.push(infoToPush)            
+
+          // database.ref('/users/'+ childSnapshot.key).once('value', function(userSnapshot){
+          //   let userInfo = userSnapshot.val()            
+          //   let infoFromBD = childSnapshot.val()          
+          //   let infoToPush = {
+          //     userId: childSnapshot.key,
+          //     userName: userInfo.first_name,
+          //     userAvatar: userInfo.avatar,
+          //     message: infoFromBD.lastMessage, 
+          //     unRead: infoFromBD.unreadMessages, 
+          //     date: infoFromBD.updated 
+          //   }
+          // })         
         })        
-        console.log("al exterior -> myLastMessages", myLastMessages)
+        // takeUserInfoFirebase(myLastMessages)
+        setMyChats(myLastMessages)
       })
     }
     loadData();
@@ -46,27 +55,14 @@ function ConversationScreen({navigation, user, onReceiver}) {
     }
   }, [])
 
-  //for take usesr info
-  // const takeUserInfoFirebase = (snapshot) => {    
-  //   let myLastMessages = [];
-    
-  //   snapshot.forEach(function (childSnapshot) {
+  //for take useer info for users collection
+  // const takeUserInfoFirebase = (messagesArray) => { 
+
+  //   messagesArray.forEach(function (childSnapshot) {
   //     database.ref('/users/'+ childSnapshot.key).once('value', function (userSnapshot){
   //         let userInfo = userSnapshot.val()            
-  //         let infoFromBD = childSnapshot.val()          
-  //         let infoToPush = {
-  //           userId: childSnapshot.key,
-  //           userName: userInfo.first_name,
-  //           userAvatar: userInfo.avatar,
-  //           message: infoFromBD.lastMessage, 
-  //           unRead: infoFromBD.unreadMessages, 
-  //           date: infoFromBD.updated 
-  //         }
-  //         myLastMessages.push(infoToPush)            
-  //         console.log("takeUserInfoFirebase -> myLastMessages", myLastMessages)
-          
-  //         setMyChats(myLastMessages)
-  //       }     
+  //         console.log("takeUserInfoFirebase -> userInfo", userInfo)
+  //     }     
   //     )
   //   })   
   // }
@@ -76,7 +72,7 @@ function ConversationScreen({navigation, user, onReceiver}) {
     return (<ListItem style={{flex:1}}
       key={i}
       leftAvatar={{
-        source: { uri: !e.userAvatar ? null : e.userAvatar },
+        source: { uri: e.userAvatar },
       }}
       title={e.userName}
       subtitle={e.message}
@@ -89,17 +85,6 @@ function ConversationScreen({navigation, user, onReceiver}) {
 
   return (
     <View style={styles.container}>
-    {/* <ListItem style={{flex:1}}
-      leftAvatar={{
-        title: "NI",
-        source: require("../assets/images/5.jpg"),
-      }}
-      title='Nicolas'
-      subtitle='Nicolas'
-      chevron
-      bottomDivider
-      onPress={()=>{console.log('pres on qsdfqsd')}}
-    /> */} 
     { myChatList }
     </View>
   );
@@ -109,8 +94,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    //alignItems: 'center',
-    //justifyContent: 'center',
   },
 });
 

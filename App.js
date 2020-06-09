@@ -21,6 +21,7 @@ import ConversationScreen from './screens/ConversationScreen';
 import RequestScreen from './screens/RequestScreen';
 
 import EditProfile from './screens/EditProfileScreen';
+import MyChatScreen from './screens/MyChatScreen';
 import ChatScreen from './screens/ChatScreen';
 
 // for Redux
@@ -57,7 +58,7 @@ function MyStack() {
         <Stack.Screen name="Profile" component={ProfileScreen} options={{headerShown: false}}/>
         <Stack.Screen name="MyProfile" component={MyProfileScreen} options={{headerShown: false}}/>
         <Stack.Screen name="Settings" component={SettingScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="ChatScreen" component={ChatScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="ChatScreen" component={ChatScreen} options={{headerShown: false}} />
         <Stack.Screen name="Chat" component={MyTabs} options={{
               headerTitle: () => (
               <Input
