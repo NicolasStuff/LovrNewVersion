@@ -10,7 +10,7 @@ import {
 
 import { LinearGradient } from 'expo-linear-gradient';
 
-function Modal {
+function Modal() {
 
 const [modalVisible, setModalVisible] = useState(false);
 

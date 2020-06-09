@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState} from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, TouchableHighlight ,Dimensions, mapCustom, Alert, Modal } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, TouchableHighlight , Dimensions, mapCustom, Alert, Modal, Text, Block } from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -7,7 +7,7 @@ import { database } from './firebase';
 const geofire = require('geofire');
 import {connect} from 'react-redux';
 
-import { Block, Text, Button } from "galio-framework"
+import { LinearGradient } from 'expo-linear-gradient';
 
 function MapScreen({navigation, user}) {
   const [mapRegion, setMapRegion] = useState({ latitude: 48.8534, longitude: 2.3488, latitudeDelta: 0.0922, longitudeDelta: 0.0421})
@@ -142,9 +142,44 @@ function MapScreen({navigation, user}) {
       <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={styles.ChatLink}>
         <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Modal')} style={styles.TimerLink}>
-        <Image source={require('../assets/Logos/DevenirLovable.png')} style={{width: 200, height: 50}}/>
-      </TouchableOpacity>
+      <TouchableHighlight
+        style={styles.openButton2}
+        onPress={() => {
+          setModalVisible(true);
+        }}
+      >
+        <Text style={styles.textStyle1}>Devenir LOVABLE</Text>
+      </TouchableHighlight>
+    <View style={styles.centeredView}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Become Lovable has been closed.");
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+          <LinearGradient colors={['#FFB199', '#FF164B']} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={styles.modalText}>Félicitations, vous êtes maintenant LOVABLE durant</Text>
+
+            <TouchableHighlight
+              style={styles.openButton1}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <Text style={styles.textStyle2}>Continuer</Text>
+            </TouchableHighlight>
+            </LinearGradient>
+          </View>
+        </View>
+      </Modal>
+
+      
+    </View>   
+
       <MapView style={styles.mapStyle}
       region = { { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } }
       showsUserLocation = { false }
@@ -253,49 +288,83 @@ pictureBox: {
     overflow: 'hidden',
     elevation : 100,
   }, 
-TimerLink: {
-  zIndex: 1,
+  centeredView: {
+    zIndex: 1,
     position: 'absolute',
-    flexDirection: 'row',
-  padding: 630,
-  paddingHorizontal: 110,
-},
-centeredView: {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-  marginTop: 22
-},
-modalView: {
-  margin: 20,
-  backgroundColor: "white",
-  borderRadius: 20,
-  padding: 35,
-  alignItems: "center",
-  shadowColor: "#000",
-  shadowOffset: {
-    width: 0,
-    height: 2
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 400,
+    marginBottom: 100,
+    marginHorizontal: 100,
+    marginVertical: 100,
+    marginRight: 80
   },
-  shadowOpacity: 0.25,
-  shadowRadius: 3.84,
-  elevation: 5
-},
-openButton: {
-  backgroundColor: "#F194FF",
-  borderRadius: 20,
-  padding: 10,
-  elevation: 2
-},
-textStyle: {
-  color: "white",
-  fontWeight: "bold",
-  textAlign: "center"
-},
-modalText: {
-  marginBottom: 15,
-  textAlign: "center"
-}
+  modalView: {
+    zIndex: 1,
+    position: 'relative',
+    height: 300,
+    width: 300,
+    margin: 20,
+    borderRadius: 20,
+    overflow: 'hidden',
+    padding: 2,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton1: {
+    backgroundColor: "#FFFF",
+    borderRadius: 20,
+    padding: 10,
+    shadowColor: "#FFFF",
+    shadowOffset: {
+      width: 2,
+      height: 4
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 15
+  },
+  openButton2: {
+    zIndex: 1,
+    flex: 1,
+    position: 'absolute',
+    backgroundColor: "#36B547",
+    borderRadius: 20,
+    padding: 10,
+    shadowColor: "#FFFF",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    bottom: 100,
+    alignSelf: "center"
+  },
+  textStyle1: {
+    color: "#FFFF",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  textStyle2: {
+    color: "#FF164B",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    color: '#FFFF',
+    fontSize: 18,
+    marginBottom: 20,
+    padding: 10,
+    textAlign: "center"
+  }
 });
 
 // for redux
