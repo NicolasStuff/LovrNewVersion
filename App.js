@@ -23,9 +23,7 @@ import NewMatchScreen from './screens/NewMatchScreen';
 
 
 import EditProfile from './screens/EditProfileScreen';
-import MyChatScreen from './screens/MyChatScreen';
 import ChatScreen from './screens/ChatScreen';
-import ModalScreen from './screens/ModalScreen';
 
 // for Redux
 import {createStore, combineReducers} from 'redux';

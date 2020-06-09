@@ -332,7 +332,7 @@ pictureBox: {
     position: 'absolute',
     backgroundColor: "#36B547",
     borderRadius: 20,
-    padding: 10,
+    padding: 20,
     shadowColor: "#FFFF",
     shadowOffset: {
       width: 0,
@@ -341,7 +341,7 @@ pictureBox: {
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    bottom: 100,
+    bottom: 20,
     alignSelf: "center"
   },
   textStyle1: {
