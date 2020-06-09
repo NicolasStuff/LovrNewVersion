@@ -23,6 +23,7 @@ import RequestScreen from './screens/RequestScreen';
 import EditProfile from './screens/EditProfileScreen';
 import MyChatScreen from './screens/MyChatScreen';
 import ChatScreen from './screens/ChatScreen';
+import ModalScreen from './screens/ModalScreen';
 
 // for Redux
 import {createStore, combineReducers} from 'redux';
@@ -53,6 +54,7 @@ function MyStack() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
         <Stack.Screen name="Map" component={MapScreen} options={{headerShown: false}} />
+        <Stack.Screen name="Modal" component={ModalScreen} options={{headerShown: false}}/>
         <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}}/>
         <Stack.Screen name="Profile" component={ProfileScreen} options={{headerShown: false}}/>
         <Stack.Screen name="MyProfile" component={MyProfileScreen} options={{headerShown: false}}/>

@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity ,Dimensions, mapCustom, Alert} from 'react-native';
+import React, { Component, useEffect, useState} from 'react';
+import { StyleSheet, View, Image, TouchableOpacity, TouchableHighlight ,Dimensions, mapCustom, Alert, Modal } from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -7,11 +7,13 @@ import { database } from './firebase';
 const geofire = require('geofire');
 import {connect} from 'react-redux';
 
+import { Block, Text, Button } from "galio-framework"
+
 function MapScreen({navigation, user}) {
   const [mapRegion, setMapRegion] = useState({ latitude: 48.8534, longitude: 2.3488, latitudeDelta: 0.0922, longitudeDelta: 0.0421})
   const [location, setLocation] = useState({coords: { latitude: 48.8534, longitude: 2.3488}})  
   const [nearbyUsers, setNearbyUsers] = useState([]);
-                                              
+  const [modalVisible, setModalVisible] = useState(false);                                              
   
   useEffect(() => {
     //ref for GeoFire
@@ -140,6 +142,9 @@ function MapScreen({navigation, user}) {
       <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={styles.ChatLink}>
         <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Modal')} style={styles.TimerLink}>
+        <Image source={require('../assets/Logos/DevenirLovable.png')} style={{width: 200, height: 50}}/>
+      </TouchableOpacity>
       <MapView style={styles.mapStyle}
       region = { { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } }
       showsUserLocation = { false }
@@ -247,7 +252,50 @@ pictureBox: {
     borderRadius: 60 / 2,
     overflow: 'hidden',
     elevation : 100,
-  }
+  }, 
+TimerLink: {
+  zIndex: 1,
+    position: 'absolute',
+    flexDirection: 'row',
+  padding: 630,
+  paddingHorizontal: 110,
+},
+centeredView: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  marginTop: 22
+},
+modalView: {
+  margin: 20,
+  backgroundColor: "white",
+  borderRadius: 20,
+  padding: 35,
+  alignItems: "center",
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 2
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5
+},
+openButton: {
+  backgroundColor: "#F194FF",
+  borderRadius: 20,
+  padding: 10,
+  elevation: 2
+},
+textStyle: {
+  color: "white",
+  fontWeight: "bold",
+  textAlign: "center"
+},
+modalText: {
+  marginBottom: 15,
+  textAlign: "center"
+}
 });
 
 // for redux
