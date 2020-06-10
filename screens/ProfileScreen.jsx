@@ -62,6 +62,7 @@ function ProfileScreen({navigation, receiver, user}) {
     const takeUserInfoFirebase = async () => { 
       await database.ref('/users/'+ receiver).once('value', function(userSnap){
         let userInfo = userSnap.val()
+
         //adding user photos
         setSelectUser(userInfo)
         setImages(userInfo.photos)
@@ -116,8 +117,9 @@ function ProfileScreen({navigation, receiver, user}) {
       //send request to firebase
       database.ref('chatRequest/' + receiver + '/' + user).set({
         createdAt: Date.now(),
-        content: 'this is the message',
+        content: text
       })    
+      setModalVisible(!modalVisible)
       navigation.navigate('Map')
     }  
 
@@ -210,14 +212,14 @@ function ProfileScreen({navigation, receiver, user}) {
                     animationType="slide"
                     transparent={true}
                     visible={modalVisible}
-                    onRequestClose={() => {
-                      Alert.alert("Become Lovable has been closed.");
-                    }}>
+                    onRequestClose={() => setModalVisible(!modalVisible)}
+                      // () => {Alert.alert("Become Lovable has been closed.")}}
+                    >
                     <View style={styles.centeredView}>
                       <View style={styles.modalView}>
                         {/* Inside my modal */}
                         <View>
-                          <Image source={require('../assets/images/Franck.jpg')} style={styles.imageCenter}></Image>
+                          <Image source={{ uri: selectUser.avatar }} style={styles.imageCenter}></Image>
                           <Image source={require('../assets/Logos/icon.png')} style={styles.logo}></Image>
                         </View>
                         <Text style={{marginTop: 45, textAlign: 'center', fontSize: 25,}}>Tente ta chance, {'\n'} envoies lui un message</Text>
@@ -231,7 +233,7 @@ function ProfileScreen({navigation, receiver, user}) {
                             placeholder="Ecrire un message"
                             placeholderTextColor='rgba(255, 28, 78, 0.34)'
                           />
-                          <TouchableOpacity onPress= { () => setModalVisible(!modalVisible)}>
+                          <TouchableOpacity onPress= { () => chatRequest() }>
                             <Ionicons name="md-send" size={25} color="black" style={styles.send}/>
                           </TouchableOpacity>
                         </View>

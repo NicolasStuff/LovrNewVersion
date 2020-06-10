@@ -54,7 +54,7 @@ function ChatScreen({navigation, user, receiver}) {
         )
     } else {
         return (
-          <View style={{flexDirection:'row', alignItems: 'center', margin: 10}}>
+          <View key={i} style={{flexDirection:'row', alignItems: 'center', margin: 10}}>
                 <Avatar
                   rounded
                   source={require("../assets/images/5.jpg")}

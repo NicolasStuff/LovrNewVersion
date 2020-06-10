@@ -39,7 +39,7 @@ function MapScreen({navigation, user, onReceiver}) {
       //for GeoFire query
       let geoQuery = geoFireInstance.query({
         center: [location.coords.latitude, location.coords.longitude],
-        radius: 5
+        radius: 100
       }); 
 
       var nearbyUsersArray = [];
@@ -84,7 +84,7 @@ function MapScreen({navigation, user, onReceiver}) {
       // detaching listener
       let geoQuery = geoFireInstance.query({
         center: [location.coords.latitude, location.coords.longitude],
-        radius: 5
+        radius: 100
       });
       geoQuery.cancel();
     };
@@ -125,8 +125,7 @@ function MapScreen({navigation, user, onReceiver}) {
             style={styles.FrontMarker}
             key={i}
             coordinate={user.coords}
-            anchor={{x: 0.5, y: 0.5}}>
-                
+            anchor={{x: 0.5, y: 0.5}}>                
               <View style={styles.marker}>
                   <Image source={ !user.avatar ? require('../assets/images/5.jpg') : {uri: user.avatar}} style={styles.pictureBox}/>
               </View>
@@ -134,6 +133,7 @@ function MapScreen({navigation, user, onReceiver}) {
          )
       }
     })
+
   return (
     <View>
       <TouchableOpacity onPress={() => navigation.navigate('MyProfile')} style={styles.profileLink}>
@@ -183,8 +183,8 @@ function MapScreen({navigation, user, onReceiver}) {
       <MapView style={styles.mapStyle}
       region = { { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } }
       showsUserLocation = { false }
-      minZoomLevel={12}
-      maxZoomLevel={19}
+      minZoomLevel={7}
+      maxZoomLevel={9}
       showsCompass = { false }
       enableHighAccuracy = {true}
       rotateEnabled = { false }
