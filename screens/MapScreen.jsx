@@ -184,8 +184,8 @@ function MapScreen({navigation, user, onReceiver}) {
       <MapView style={styles.mapStyle}
       region = { { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } }
       showsUserLocation = { false }
-      minZoomLevel={7}
-      maxZoomLevel={9}
+      minZoomLevel={15}
+      maxZoomLevel={15}
       toolbarEnabled={false}
       showsCompass = { false }
       enableHighAccuracy = {true}
@@ -200,7 +200,7 @@ function MapScreen({navigation, user, onReceiver}) {
                           <View style={styles.radiusTwo}>
                               {/* <View style={styles.marker}>
                                   <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/>
-                              </View> */}
+                              </View>  */}
                           </View>
                       </View>
                   </View>
