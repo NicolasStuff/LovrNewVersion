@@ -143,6 +143,24 @@ function MapScreen({navigation, user, onReceiver}) {
       }
     })
 
+    var CountdownCounter = () => {
+      return (
+        <CountDown
+        size={30}
+        until={5400}
+        onFinish={() => alert("Vous n'êtes plus LOVABLE")}
+        digitStyle={{backgroundColor: 'transparent', borderWidth: 2, borderColor: 'transparent'}}
+        digitTxtStyle={{color: '#FFFF'}}
+        timeLabelStyle={{color: '#FFFF', fontWeight: 'bold'}}
+        separatorStyle={{color: '#FFFF', paddingBottom: 28}}
+        timeToShow={['H', 'M', 'S']}
+        timeLabels={{h: 'heure', m: 'minutes', s: 'secondes'}}
+        showSeparator
+      />
+      )
+      
+    }
+
   return (
     <View>
       <TouchableOpacity onPress={() => navigation.navigate('MyProfile')} style={styles.profileLink}>
@@ -172,18 +190,8 @@ function MapScreen({navigation, user, onReceiver}) {
           <View style={styles.modalView}>
           <LinearGradient colors={['#FFB199', '#FF164B']} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={styles.modalText}>Félicitations, vous êtes maintenant LOVABLE durant</Text>
-            <CountDown
-                  size={30}
-                  until={5400}
-                  onFinish={() => alert("Vous n'êtes plus LOVABLE")}
-                  digitStyle={{backgroundColor: 'transparent', borderWidth: 2, borderColor: 'transparent'}}
-                  digitTxtStyle={{color: '#FFFF'}}
-                  timeLabelStyle={{color: '#FFFF', fontWeight: 'bold'}}
-                  separatorStyle={{color: '#FFFF', paddingBottom: 28}}
-                  timeToShow={['H', 'M', 'S']}
-                  timeLabels={{h: 'heure', m: 'minutes', s: 'secondes'}}
-                  showSeparator
-                />
+          <CountdownCounter/>
+         
             <TouchableOpacity
               style={styles.openButton1}
               onPress={() => {
