@@ -29,6 +29,7 @@ import {createStore, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 import user from './reducers/user';
 import receiver from './reducers/receiver';
+import { Value } from 'react-native-reanimated';
 const store = createStore(combineReducers({ user, receiver }));
 
 /* createStackNavigator() */
@@ -53,16 +54,17 @@ function MyStack() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Chat" component={MyTabs} options={{
-              headerTitle: () => (
-              <Input
-                placeholder='Rechercher'
-                placeholderTextColor= '#FF3C5E'
-                leftIcon={{ type: 'Feather', name: 'search' , color: '#FF3C5E'}}
-                onChangeText={value => setText( value )}
-                style={{borderBottomColor: 'red' }}
-              />
+           headerTitle: () => (
+            <Input
+                   placeholder='Rechercher'
+                   placeholderTextColor= '#FF3C5E'
+                   leftIcon={{ type: 'Feather', name: 'search' , color: '#FF3C5E'}}
+                   onChangeText={text => setText(text)}
+                   style={{borderBottomColor: '#FF3C5E' }}
+                  />
             ),
-          }}/>
+          }}
+          />
           <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
         <Stack.Screen name="Map" component={MapScreen} options={{headerShown: false}} />
         <Stack.Screen name="MyProfile" component={MyProfileScreen} options={{headerShown: false}}/>
