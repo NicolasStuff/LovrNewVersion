@@ -7,10 +7,14 @@ import {
   ImageBackground,
   View,
   TouchableOpacity,
+  Alert, 
+  Modal,
+  TextInput,
 } from "react-native";
 
 /* Social Icon Module for Instagram API */
 import { SocialIcon } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons'; 
 
 /* Galio Framework */
 import { Block, Text, theme } from "galio-framework";
@@ -35,6 +39,9 @@ const thumbMeasure = (width - 46 - 30) / 3;
   export default function ProfileScreen({navigation}) {
 
   const [count, setCount] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [text, setText] = useState("");                             
+
 
      const [images, setImages] = useState ([
       "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
@@ -170,10 +177,46 @@ const thumbMeasure = (width - 46 - 30) / 3;
                           <Image source={require('../assets/Logos/SignalLogo.png')} style={{ width: 60, height: 60 }}/>
                 </TouchableOpacity>
                 <TouchableOpacity
-                          onPress={() => navigation.navigate('Chat')}
+                          onPress={() => {
+                            setModalVisible(!modalVisible);
+                          }}
                           style={styles.button}>
                           <Image source={require('../assets/Logos/AskForChatLogo.png')} style={{ width: 60, height: 60 }}/>
                 </TouchableOpacity>
+                <View>
+                  <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                      Alert.alert("Become Lovable has been closed.");
+                    }}>
+                    <View style={styles.centeredView}>
+                      <View style={styles.modalView}>
+                        {/* Inside my modal */}
+                        <View>
+                          <Image source={require('../assets/images/Franck.jpg')} style={styles.imageCenter}></Image>
+                          <Image source={require('../assets/Logos/icon.png')} style={styles.logo}></Image>
+                        </View>
+                        <Text style={{marginTop: 45, textAlign: 'center', fontSize: 25,}}>Tente ta chance, {'\n'} envoies lui un message</Text>
+
+                        <View style={styles.footer}>
+                          <TextInput
+                            value={text}
+                            onChangeText={text => setText(text)}
+                            style={styles.input}
+                            underlineColorAndroid="transparent"
+                            placeholder="Ecrire un message"
+                            placeholderTextColor='rgba(255, 28, 78, 0.34)'
+                          />
+                          <TouchableOpacity onPress= { () => setModalVisible(!modalVisible)}>
+                            <Ionicons name="md-send" size={25} color="black" style={styles.send}/>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
+                </View>
               </View>
         </ScrollView>
       </ImageBackground>
@@ -194,6 +237,7 @@ profileContainer: {
   padding: 0,
   zIndex: 1
 },
+
 profileCard: {
   position: "relative",
   borderTopLeftRadius: 6,
@@ -254,11 +298,62 @@ slide: {
   alignItems: "center",
   backgroundColor: "#ffff"
 },
+centeredView: {
+  zIndex: 1,
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+modalView: {
+  zIndex: 1,
+  flex: 1,
+  height: 600,
+  width: 300,
+  borderRadius: 20,
+  overflow: 'hidden',
+  padding: 2,
+  backgroundColor: 'white',
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+imageCenter: {
+  width: 140,
+  height: 140,
+  borderRadius: 70,
+},
+logo: {
+  width: 30,
+  height: 30,
+  borderRadius: 70,
+  position: 'absolute',
+  left: 55,
+  bottom:-13,
+},
 slideImg: {
   flex: 1,
   height: "100%",
   width: "100%",
   alignItems: "center",
-  justifyContent: "center"
-}
+  justifyContent: "center",
+},
+footer: {
+  marginTop: 50,
+  margin:10,
+  flexDirection: 'row',
+  backgroundColor: 'white',
+  borderColor: '#FF1C4E',
+  borderWidth: 1,
+  borderRadius: 25,
+},
+input: {
+  flex: 1,
+  paddingHorizontal: 20,
+  paddingVertical: 10,
+  fontSize: 18,
+},
+send: {
+  alignSelf: 'center',
+  color: '#FF1C4E',
+  padding: 20,
+},
 });
