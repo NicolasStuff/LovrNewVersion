@@ -17,6 +17,7 @@ function ConversationScreen({navigation, user, onReceiver}) {
     //geting friends and last messages from fireabse
     function loadData() {      
       database.ref('/friends/'+ user).orderByChild('updated').on('value', function(snapshot) {
+      console.log("loadData -> snapshot", snapshot)
         let myLastMessages = [];
         snapshot.forEach(function (childSnapshot) {
           let infoFromBD = childSnapshot.val()
@@ -46,7 +47,7 @@ function ConversationScreen({navigation, user, onReceiver}) {
     let conversationList = [];
     await Promise.all(messagesArray.map(async function (item) {
       await database.ref('/users/'+ item.userId).once('value', function (userSnapshot){
-        let userInfo = userSnapshot.val()            
+        let userInfo = userSnapshot.val()      
         item.userName = userInfo.first_name;
         item.userAvatar = userInfo.avatar
         conversationList.push(item)

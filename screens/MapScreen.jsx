@@ -51,8 +51,9 @@ function MapScreen({navigation, user, onReceiver}) {
         
         // for first time
         if(firsTime){
-          console.log('inside first if')
-          let userToPush = {id : key, avatar: null, coords: {latitude: location[0], longitude: location[1]}}
+          let fakeLatitude = location[0] + (0.00090 * Math.random() * 5)
+          let fakeLongitude = location[1] + (0.00090 * Math.random() * 5)
+          let userToPush = {id : key, avatar: null, coords: {latitude: fakeLatitude, longitude: fakeLongitude}}
           nearbyUsersArray.push(userToPush)            
         }
         
@@ -197,9 +198,9 @@ function MapScreen({navigation, user, onReceiver}) {
                   <View style={styles.radiusFour}>
                       <View style={styles.radiusThree}>
                           <View style={styles.radiusTwo}>
-                              <View style={styles.marker}>
-                                  {/* <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/> */}
-                              </View>
+                              {/* <View style={styles.marker}>
+                                  <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/>
+                              </View> */}
                           </View>
                       </View>
                   </View>
