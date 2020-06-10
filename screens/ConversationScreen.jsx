@@ -22,29 +22,15 @@ function ConversationScreen({navigation, user, onReceiver}) {
           let infoFromBD = childSnapshot.val()
           let infoToPush = {
             userId: childSnapshot.key,
-            userName: infoFromBD.name,
-            userAvatar: infoFromBD.avatar,
+            userName: null,
+            userAvatar: null,
             message: infoFromBD.lastMessage, 
             unRead: infoFromBD.unreadMessages, 
             date: infoFromBD.updated 
           }
-          myLastMessages.push(infoToPush)            
-
-          // database.ref('/users/'+ childSnapshot.key).once('value', function(userSnapshot){
-          //   let userInfo = userSnapshot.val()            
-          //   let infoFromBD = childSnapshot.val()          
-          //   let infoToPush = {
-          //     userId: childSnapshot.key,
-          //     userName: userInfo.first_name,
-          //     userAvatar: userInfo.avatar,
-          //     message: infoFromBD.lastMessage, 
-          //     unRead: infoFromBD.unreadMessages, 
-          //     date: infoFromBD.updated 
-          //   }
-          // })         
+          myLastMessages.push(infoToPush)  
         })        
-        // takeUserInfoFirebase(myLastMessages)
-        setMyChats(myLastMessages)
+        takeUserInfoFirebase(myLastMessages)
       })
     }
     loadData();
@@ -55,17 +41,19 @@ function ConversationScreen({navigation, user, onReceiver}) {
     }
   }, [])
 
-  //for take useer info for users collection
-  // const takeUserInfoFirebase = (messagesArray) => { 
-
-  //   messagesArray.forEach(function (childSnapshot) {
-  //     database.ref('/users/'+ childSnapshot.key).once('value', function (userSnapshot){
-  //         let userInfo = userSnapshot.val()            
-  //         console.log("takeUserInfoFirebase -> userInfo", userInfo)
-  //     }     
-  //     )
-  //   })   
-  // }
+  //for take useer info from users collection
+  const takeUserInfoFirebase = async (messagesArray) => { 
+    let conversationList = [];
+    await Promise.all(messagesArray.map(async function (item) {
+      await database.ref('/users/'+ item.userId).once('value', function (userSnapshot){
+        let userInfo = userSnapshot.val()            
+        item.userName = userInfo.first_name;
+        item.userAvatar = userInfo.avatar
+        conversationList.push(item)
+      })
+    }))   
+    setMyChats(conversationList)
+  }
 
 
   let myChatList = myChats.map((e,i) =>{
