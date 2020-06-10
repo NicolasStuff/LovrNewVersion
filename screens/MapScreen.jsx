@@ -55,9 +55,8 @@ function MapScreen({navigation, user, onReceiver}) {
         
         // for first time
         if(firsTime){
-          let fakeLatitude = location[0] + (0.00090 * Math.random() * 5)
-          let fakeLongitude = location[1] + (0.00090 * Math.random() * 5)
-          let userToPush = {id : key, avatar: null, coords: {latitude: fakeLatitude, longitude: fakeLongitude}}
+          console.log('inside first if')
+          let userToPush = {id : key, avatar: null, coords: {latitude: location[0], longitude: location[1]}}
           nearbyUsersArray.push(userToPush)            
         }
         
@@ -139,10 +138,6 @@ function MapScreen({navigation, user, onReceiver}) {
       }
     })
 
-    //Countdown initialization
-    // var LovableTimer = 
-
-
   return (
     <View>
       <TouchableOpacity onPress={() => navigation.navigate('MyProfile')} style={styles.profileLink}>
@@ -154,8 +149,7 @@ function MapScreen({navigation, user, onReceiver}) {
       <TouchableOpacity
         style={styles.openButton2}
         onPress={() => {
-          setModalVisible(true);
-          setCountdownVisible(true);
+            setModalVisible(true);
         }}
       >
         <Text style={styles.textStyle1}>Devenir Lovable </Text>
@@ -216,9 +210,9 @@ function MapScreen({navigation, user, onReceiver}) {
                   <View style={styles.radiusFour}>
                       <View style={styles.radiusThree}>
                           <View style={styles.radiusTwo}>
-                              {/* <View style={styles.marker}>
-                                  <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/>
-                              </View> */}
+                              <View style={styles.marker}>
+                                  {/* <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/> */}
+                              </View>
                           </View>
                       </View>
                   </View>
