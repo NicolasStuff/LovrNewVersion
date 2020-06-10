@@ -1,31 +1,98 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import {connect} from 'react-redux';
+import { database } from './firebase';
 
 /* Gradient Background Color Module */
 
-export default function ContactsScreen({navigation}) {
-  return (
-    <View style={styles.container}>
-      <View>
-        <ListItem
+function RequestScreen({navigation, user}) {
+  const [myChatRequest, setMyChatRequest] = useState([])
+
+  useEffect(() => {
+    const takeChatRequests = async () => { 
+      await database.ref('/chatRequest/'+ user).on('value', function(chatSnap){
+        let chatsRequestArray = [];
+        chatSnap.forEach(function (childSnapshot) {
+          let infoFromBD = childSnapshot.val()
+          let infoToPush = {
+            senderId: childSnapshot.key,
+            content: infoFromBD.content,
+            date: infoFromBD.createdAt
+          }
+          chatsRequestArray.push(infoToPush)  
+        })        
+        takeUserAvatar(chatsRequestArray)
+      });
+    }
+    takeChatRequests()
+    
+  }, [])
+
+  const takeUserAvatar = async (array) => {
+    let requestList = [];
+    await Promise.all(array.map(async function (item) {
+      await database.ref('/users/'+ item.senderId).once('value', function (snapshot){
+        let userInfo = snapshot.val()            
+        item.senderAvatar = userInfo.avatar
+        item.senderName = userInfo.first_name
+        requestList.push(item)
+      })
+    }))
+    setMyChatRequest(requestList)
+  }
+
+  const handleAccept = (senderId) => {
+    //add sender to friends
+    database.ref('/friends/' + user + '/' + senderId).set(
+      {
+        lastMessage: 'New match, say hello!',
+        unreadMessages: 1,
+        updated: Date.now()
+      }
+    )
+  
+    //delete chat request request
+    database.ref('/chatRequest/' + user + '/' + senderId).remove()
+  }
+
+  const handleRefuse = (senderId) => {
+    //delete chat request request
+    database.ref('/chatRequest/' + user + '/' + senderId).remove()
+  }
+
+  let myRequestList = myChatRequest.map((e,i) =>{
+    return (
+      <ListItem
+          key={i}
           leftAvatar={{
-            title: "NI",
-            source: require("../assets/images/5.jpg"),
+            source: { uri: e.senderAvatar },
           }}
-          title='Nicolas'
-          subtitle='Nicolas'
+          title={e.senderName}
+          subtitle= {e.content}
           rightElement={<View style={{flexDirection: 'row'}}>
-                          <TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={()=> handleAccept(e.senderId)}
+                          >
                             <Image source={require('../assets/Logos/AcceptChatLogo.png')} style={styles.responseChat}></Image>
                           </TouchableOpacity>
 
-                          <TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={()=> handleRefuse(e.senderId)}
+                          >
                             <Image source={require('../assets/Logos/RefuseChatLogo.png')} style={styles.responseChat}></Image>
                           </TouchableOpacity>
                         </View>}
-        />
+      />
+    )
+  })
+
+
+  return (
+    <View style={styles.container}>
+      <View>
+        {myRequestList}
       </View>
     </View>
   );
@@ -42,3 +109,14 @@ const styles = StyleSheet.create({
     
   }
 });
+
+//for redux
+function mapStateToProps(state) {
+  return { user : state.user }
+}
+
+
+export default connect(
+  mapStateToProps, 
+  null
+)(RequestScreen);

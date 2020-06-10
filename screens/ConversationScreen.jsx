@@ -31,7 +31,6 @@ function ConversationScreen({navigation, user, onReceiver}) {
           myLastMessages.push(infoToPush)  
         })        
         takeUserInfoFirebase(myLastMessages)
-        // setMyChats(myLastMessages)
       })
     }
     loadData();

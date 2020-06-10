@@ -54,14 +54,12 @@ function ProfileScreen({navigation, receiver, user}) {
   
   useEffect(() => {
     //for take useer info from users collection
-    const takeUserInfoFirebase = async (messagesArray) => { 
+    const takeUserInfoFirebase = async () => { 
       await database.ref('/users/'+ receiver).once('value', function(userSnap){
         let userInfo = userSnap.val()
         //adding user photos
         setSelectUser(userInfo)
         setImages(userInfo.photos)
-
-
       });
     }
     takeUserInfoFirebase()
@@ -117,7 +115,7 @@ function ProfileScreen({navigation, receiver, user}) {
       })    
       navigation.navigate('Map')
     }  
-    
+
  return (
   
   <View>
