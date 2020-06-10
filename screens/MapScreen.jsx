@@ -9,14 +9,10 @@ import {connect} from 'react-redux';
 
 import { LinearGradient } from 'expo-linear-gradient';
 
-<<<<<<< HEAD
 /* Countdown Become Lovable */
 import { CountDown, TimerCountdown } from 'react-native-countdown-component';
 
-function MapScreen({navigation, user}) {
-=======
 function MapScreen({navigation, user, onReceiver}) {
->>>>>>> 08ebad0b68ec96f6610e3638a292c11f44e9db6f
   const [mapRegion, setMapRegion] = useState({ latitude: 48.8534, longitude: 2.3488, latitudeDelta: 0.0922, longitudeDelta: 0.0421})
   const [location, setLocation] = useState({coords: { latitude: 48.8534, longitude: 2.3488}})  
   const [nearbyUsers, setNearbyUsers] = useState([]);
@@ -142,13 +138,10 @@ function MapScreen({navigation, user, onReceiver}) {
       }
     })
 
-<<<<<<< HEAD
     //Countdown initialization
     // var LovableTimer = 
 
 
-=======
->>>>>>> 08ebad0b68ec96f6610e3638a292c11f44e9db6f
   return (
     <View>
       <TouchableOpacity onPress={() => navigation.navigate('MyProfile')} style={styles.profileLink}>
