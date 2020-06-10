@@ -184,14 +184,13 @@ function MapScreen({navigation, user, onReceiver}) {
                   timeLabels={{h: 'heure', m: 'minutes', s: 'secondes'}}
                   showSeparator
                 />
-            <TouchableHighlight
+            <TouchableOpacity
               style={styles.openButton1}
               onPress={() => {
                 setModalVisible(!modalVisible);
-              }}
-            >
+              }}>
               <Text style={styles.textStyle2}>Continuer</Text>
-            </TouchableHightLight>
+            </TouchableOpacity>
             </LinearGradient>
           </View>
         </View>
@@ -322,7 +321,6 @@ pictureBox: {
     width: 300,
     borderRadius: 20,
     overflow: 'hidden',
-    padding: 2,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -377,7 +375,7 @@ pictureBox: {
     color: "#FFFF",
     fontSize: 17,
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
   },
   textStyle2: {
     color: "#FF164B",
