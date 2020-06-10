@@ -120,21 +120,26 @@ function MapScreen({navigation, user, onReceiver}) {
   };
 
   //creating markers
+  let myInfo = nearbyUsers != [] ? nearbyUsers.find(e => e.id === user) : null
+
   var NewUsers = 
     nearbyUsers.map((user,i) => {
+      //todo => dont show my fake position
       if(user.coords != null){
-        return (
-          <Marker
-            onPress={()=>{onReceiver(user.id); navigation.navigate('Profile')}}
-            style={styles.FrontMarker}
-            key={i}
-            coordinate={user.coords}
-            anchor={{x: 0.5, y: 0.5}}>                
-              <View style={styles.marker}>
-                  <Image source={ !user.avatar ? require('../assets/images/5.jpg') : {uri: user.avatar}} style={styles.pictureBox}/>
-              </View>
-          </Marker>
-         )
+        if (user.id != user.id) {
+          return (
+            <Marker
+              onPress={()=>{onReceiver(user.id); navigation.navigate('Profile')}}
+              style={styles.FrontMarker}
+              key={i}
+              coordinate={user.coords}
+              anchor={{x: 0.5, y: 0.5}}>                
+                <View style={styles.marker}>
+                    <Image source={ !user.avatar ? require('../assets/images/5.jpg') : {uri: user.avatar}} style={styles.pictureBox}/>
+                </View>
+            </Marker>
+           )
+        }
       }
     })
 
@@ -197,8 +202,8 @@ function MapScreen({navigation, user, onReceiver}) {
       <MapView style={styles.mapStyle}
       region = { { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } }
       showsUserLocation = { false }
-      minZoomLevel={7}
-      maxZoomLevel={9}
+      minZoomLevel={15}
+      maxZoomLevel={15}
       showsCompass = { false }
       enableHighAccuracy = {true}
       rotateEnabled = { false }
@@ -211,7 +216,7 @@ function MapScreen({navigation, user, onReceiver}) {
                       <View style={styles.radiusThree}>
                           <View style={styles.radiusTwo}>
                               <View style={styles.marker}>
-                                  {/* <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/> */}
+                                  <Image source={ !myInfo ? require('../assets/images/5.jpg') : {uri: myInfo.avatar}} style={styles.pictureBox}/>
                               </View>
                           </View>
                       </View>
