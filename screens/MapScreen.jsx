@@ -117,6 +117,8 @@ function MapScreen({navigation, user, onReceiver}) {
   };
 
   //creating markers
+  let myInfo = nearbyUsers != [] ? nearbyUsers.find(e => e.id === user) : null
+
   var NewUsers = 
     nearbyUsers.map((user,i) => {
       if(user.coords != null){
@@ -184,8 +186,8 @@ function MapScreen({navigation, user, onReceiver}) {
       <MapView style={styles.mapStyle}
       region = { { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } }
       showsUserLocation = { false }
-      minZoomLevel={7}
-      maxZoomLevel={9}
+      minZoomLevel={15}
+      maxZoomLevel={15}
       showsCompass = { false }
       enableHighAccuracy = {true}
       rotateEnabled = { false }
@@ -197,9 +199,9 @@ function MapScreen({navigation, user, onReceiver}) {
                   <View style={styles.radiusFour}>
                       <View style={styles.radiusThree}>
                           <View style={styles.radiusTwo}>
-                              {/* <View style={styles.marker}>
-                                  <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/>
-                              </View> */}
+                              <View style={styles.marker}>
+                                  <Image source={ !myInfo ? require('../assets/images/5.jpg') : {uri: myInfo.avatar}} style={styles.pictureBox}/>
+                              </View>
                           </View>
                       </View>
                   </View>
