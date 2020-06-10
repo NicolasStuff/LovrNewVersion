@@ -58,7 +58,7 @@ function MyStack() {
               headerTitle: () => (
               <Input
                 placeholder='Rechercher'
-                placeholderTextColor= 'red'
+                placeholderTextColor= '#FF3C5E'
                 leftIcon={{ type: 'Feather', name: 'search' , color: '#FF3C5E'}}
                 onChangeText={value => setText( value )}
                 style={{borderBottomColor: 'red' }}
