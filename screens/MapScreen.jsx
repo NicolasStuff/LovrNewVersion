@@ -47,16 +47,16 @@ function MapScreen({navigation, user}) {
       geoQuery.on('key_entered', function(key, location, distance) {
         console.log("inside user", key)
         
-        let objectIndex = nearbyUsersArray.findIndex(obj => {obj.id === key})
-        
         // for first time
-        if(firsTime && objectIndex === -1){
+        if(firsTime){
+          console.log('inside first if')
           let userToPush = {id : key, avatar: null, coords: {latitude: location[0], longitude: location[1]}}
           nearbyUsersArray.push(userToPush)            
         }
         
         //adding new users to state
-        if(!firsTime && objectIndex === -1){   
+        if(!firsTime){   
+          console.log('inside second if')
           newNearbyUser(key, location)
         }
       })    
@@ -100,8 +100,10 @@ function MapScreen({navigation, user}) {
 
   //to set state of neraby users after first time
   const newNearbyUser = async (user, location) => {
-    let usersCopy = [...nearbyUsers];
     let avatarNewUser = await database.ref('/users/'+ user + '/avatar').once('value')
+    let usersCopy = [...nearbyUsers];
+    console.log("newNearbyUser -> usersCopy", usersCopy)
+    
     let userToPush = {id : user, avatar: avatarNewUser.val(), coords: {latitude: location[0], longitude: location[1]}};
     usersCopy.push(userToPush)
     setNearbyUsers(usersCopy)
