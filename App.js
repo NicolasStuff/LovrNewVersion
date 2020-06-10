@@ -2,12 +2,14 @@
 console.disableYellowBox = true;
 
 import React, {useEffect, useState} from 'react';
+import {Image, StyleSheet} from 'react-native';
+
 import { Input } from 'react-native-elements';
 
 
 /* Navigation Between Screens */
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 /* Screens */
@@ -39,7 +41,10 @@ const Tab = createMaterialTopTabNavigator();
 function MyTabs() {
   
   return (
-    <Tab.Navigator tabBarOptions= {{labelStyle: { textTransform: 'none' }}}>
+    <Tab.Navigator tabBarOptions= {{
+      labelStyle: { textTransform: 'none' },
+      indicatorStyle: {backgroundColor: 'red'}
+      }}>
       <Tab.Screen name="Conversation" component={ConversationScreen} />
       <Tab.Screen name="Demande de chat" component={RequestScreen} />
     </Tab.Navigator>
@@ -54,24 +59,37 @@ function MyStack() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
-        <Stack.Screen name="Chat" component={MyTabs} options={{
-           headerTitle: () => (
-            <Input
-                   placeholder='Rechercher'
-                   placeholderTextColor= '#FF3C5E'
-                   leftIcon={{ type: 'Feather', name: 'search' , color: '#FF3C5E'}}
-                   onChangeText={text => setText(text)}
-                   style={{borderBottomColor: '#FF3C5E' }}
-                  />
-            ),
-          }}/>
         <Stack.Screen name="Map" component={MapScreen} options={{headerShown: false}} />
+        <Stack.Screen name="Chat" component={MyTabs} 
+          options={{
+            headerTitle: () => (
+              <Input
+                placeholder='Rechercher'
+                placeholderTextColor= 'red'
+                leftIcon={{ type: 'Feather', name: 'search' , color: '#FF3C5E'}}
+                onChangeText={value => setText( value )}
+                inputContainerStyle={{borderBottomColor: "red", paddingTop: 15}}
+              />
+              ),
+              headerStyle: {
+                height: 120,
+                padding: 0,
+              },
+              headerBackImage: () => (
+                <Image source={require('./assets/Logos/MapScreenLogoFromChat.png')} style={styles.MapLink}></Image>
+              ),
+              headerLeftContainerStyle: {
+                margin: 0,
+                left: 0,
+              },
+
+            }}/>
+        <Stack.Screen name="Profile" component={ProfileScreen} options={{headerShown: false}}/>
         <Stack.Screen name="MyProfile" component={MyProfileScreen} options={{headerShown: false}}/>
         <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}}/>
         <Stack.Screen name="Settings" component={SettingScreen} options={{headerShown: false}}/>
         <Stack.Screen name="NewMatch" component={NewMatchScreen} options={{headerShown: false}}/>
         <Stack.Screen name="ChatScreen" component={ChatScreen} options={{headerShown: false}} />
-        <Stack.Screen name="Profile" component={ProfileScreen} options={{headerShown: false}} />
         {/* <Stack.Screen name="Contacts" component={ContactsScreen} /> */} 
         {/* <Stack.Screen name="Chat" component={ChatScreen} /> */}
       </Stack.Navigator>
@@ -86,3 +104,12 @@ export default function App() {
     </Provider>
   );
 }
+const styles = StyleSheet.create({
+  MapLink: {
+    width: 75,
+    height: 50,
+    margin: 0,
+    padding: 0,
+    left: -12,
+  },
+})

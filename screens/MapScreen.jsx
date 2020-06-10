@@ -150,7 +150,7 @@ function MapScreen({navigation, user, onReceiver}) {
       <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={styles.ChatLink}>
         <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
       </TouchableOpacity>
-      <TouchableHighlight
+      <TouchableOpacity
         style={styles.openButton2}
         onPress={() => {
           setModalVisible(true);
@@ -158,7 +158,7 @@ function MapScreen({navigation, user, onReceiver}) {
         }}
       >
         <Text style={styles.textStyle1}>Devenir Lovable </Text>
-      </TouchableHighlight>
+      </TouchableOpacity>
     <View>
       <Modal
         animationType="slide"
@@ -191,7 +191,7 @@ function MapScreen({navigation, user, onReceiver}) {
               }}
             >
               <Text style={styles.textStyle2}>Continuer</Text>
-            </TouchableHighlight>
+            </TouchableHightLight>
             </LinearGradient>
           </View>
         </View>
@@ -311,18 +311,15 @@ pictureBox: {
   centeredView: {
     zIndex: 1,
     flex: 1,
-    position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 200,
-    marginBottom: 100,
   },
   modalView: {
     zIndex: 1,
-    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
     height: 300,
     width: 300,
-    marginStart: 50,
     borderRadius: 20,
     overflow: 'hidden',
     padding: 2,
@@ -334,7 +331,7 @@ pictureBox: {
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    bottom: 20    
+    bottom: 20,
   },
   openButton1: {
     backgroundColor: "#FFFF",
