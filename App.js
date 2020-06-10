@@ -52,8 +52,6 @@ function MyStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
-        <Stack.Screen name="Map" component={MapScreen} options={{headerShown: false}} />
         <Stack.Screen name="Chat" component={MyTabs} options={{
               headerTitle: () => (
               <Input
@@ -65,6 +63,8 @@ function MyStack() {
               />
             ),
           }}/>
+          <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
+        <Stack.Screen name="Map" component={MapScreen} options={{headerShown: false}} />
         <Stack.Screen name="MyProfile" component={MyProfileScreen} options={{headerShown: false}}/>
         <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}}/>
         <Stack.Screen name="Settings" component={SettingScreen} options={{headerShown: false}}/>
