@@ -123,9 +123,6 @@ function MapScreen({navigation, user, onReceiver}) {
     nearbyUsers.map((user,i) => {
       //todo => dont show my fake position
       if(user.coords != null){
-        console.log("MapScreen -> user", user)
-        console.log("MapScreen -> user.id", user.id)
-        
         if (user.id != user.id) {
           return (
             <Marker
