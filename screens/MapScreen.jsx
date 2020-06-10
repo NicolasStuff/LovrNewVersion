@@ -9,11 +9,15 @@ import {connect} from 'react-redux';
 
 import { LinearGradient } from 'expo-linear-gradient';
 
+/* Countdown Become Lovable */
+import { CountDown, TimerCountdown } from 'react-native-countdown-component';
+
 function MapScreen({navigation, user}) {
   const [mapRegion, setMapRegion] = useState({ latitude: 48.8534, longitude: 2.3488, latitudeDelta: 0.0922, longitudeDelta: 0.0421})
   const [location, setLocation] = useState({coords: { latitude: 48.8534, longitude: 2.3488}})  
   const [nearbyUsers, setNearbyUsers] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);                                              
+  const [modalVisible, setModalVisible] = useState(false); 
+  const [countdownVisible, setCountdownVisible] = useState (false);                                             
   
   useEffect(() => {
     //ref for GeoFire
@@ -132,6 +136,11 @@ function MapScreen({navigation, user}) {
          )
       }
     })
+
+    //Countdown initialization
+    // var LovableTimer = 
+
+
   return (
     <View>
       <TouchableOpacity onPress={() => navigation.navigate('MyProfile')} style={styles.profileLink}>
@@ -144,6 +153,7 @@ function MapScreen({navigation, user}) {
         style={styles.openButton2}
         onPress={() => {
           setModalVisible(true);
+          setCountdownVisible(true);
         }}
       >
         <Text style={styles.textStyle1}>Devenir Lovable </Text>
@@ -161,7 +171,18 @@ function MapScreen({navigation, user}) {
           <View style={styles.modalView}>
           <LinearGradient colors={['#FFB199', '#FF164B']} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={styles.modalText}>Félicitations, vous êtes maintenant LOVABLE durant</Text>
-
+            <CountDown
+                  size={30}
+                  until={5400}
+                  onFinish={() => alert("Vous n'êtes plus LOVABLE")}
+                  digitStyle={{backgroundColor: 'transparent', borderWidth: 2, borderColor: 'transparent'}}
+                  digitTxtStyle={{color: '#FFFF'}}
+                  timeLabelStyle={{color: '#FFFF', fontWeight: 'bold'}}
+                  separatorStyle={{color: '#FFFF', paddingBottom: 28}}
+                  timeToShow={['H', 'M', 'S']}
+                  timeLabels={{h: 'heure', m: 'minutes', s: 'secondes'}}
+                  showSeparator
+                />
             <TouchableHighlight
               style={styles.openButton1}
               onPress={() => {
@@ -318,6 +339,7 @@ pictureBox: {
     backgroundColor: "#FFFF",
     borderRadius: 20,
     padding: 10,
+    marginTop: 30,
     shadowColor: "#FFFF",
     shadowOffset: {
       width: 2,
