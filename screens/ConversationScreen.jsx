@@ -41,7 +41,7 @@ function ConversationScreen({navigation, user, onReceiver}) {
     }
   }, [])
 
-  //for take useer info from users collection
+  //for take user info from users collection
   const takeUserInfoFirebase = async (messagesArray) => { 
     let conversationList = [];
     await Promise.all(messagesArray.map(async function (item) {

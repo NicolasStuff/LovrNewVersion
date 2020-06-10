@@ -185,6 +185,7 @@ function MapScreen({navigation, user, onReceiver}) {
       showsUserLocation = { false }
       minZoomLevel={7}
       maxZoomLevel={9}
+      toolbarEnabled={false}
       showsCompass = { false }
       enableHighAccuracy = {true}
       rotateEnabled = { false }
