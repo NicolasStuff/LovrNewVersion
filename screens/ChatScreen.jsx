@@ -4,7 +4,6 @@ import { database } from './firebase';
 import {connect} from 'react-redux';
 
 /* Gradient Background Color Module */
-import { LinearGradient } from 'expo-linear-gradient';
 import { Avatar } from 'react-native-elements';
 //icons
 import { Ionicons } from '@expo/vector-icons'; 
