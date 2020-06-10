@@ -117,6 +117,8 @@ function MapScreen({navigation, user, onReceiver}) {
   };
 
   //creating markers
+  let myInfo = nearbyUsers != [] ? nearbyUsers.find(e => e.id === user) : null
+
   var NewUsers = 
     nearbyUsers.map((user,i) => {
       if(user.coords != null){
@@ -198,9 +200,9 @@ function MapScreen({navigation, user, onReceiver}) {
                   <View style={styles.radiusFour}>
                       <View style={styles.radiusThree}>
                           <View style={styles.radiusTwo}>
-                              {/* <View style={styles.marker}>
-                                  <Image source={ require('../assets/images/5.jpg')} style={styles.pictureBox}/>
-                              </View>  */}
+                              <View style={styles.marker}>
+                                  <Image source={ !myInfo ? require('../assets/images/5.jpg') : {uri: myInfo.avatar}} style={styles.pictureBox}/>
+                              </View>
                           </View>
                       </View>
                   </View>
