@@ -37,7 +37,7 @@ const thumbMeasure = (width - 46 - 30) / 3;
 import {connect} from 'react-redux';
 import { database } from './firebase';
 
-function ProfileScreen({navigation, receiver}) {
+function ProfileScreen({navigation, receiver, user}) {
 
   
   const [count, setCount] = useState(0);
@@ -137,7 +137,15 @@ function ProfileScreen({navigation, receiver}) {
         console.log(data)
     })
 })
-  
+
+  const chatRequest = () => {
+    //send request to firebase
+    database.ref('chatRequest/' + receiver + '/' + user).set({
+      createdAt: Date.now(),
+      content: 'this is the message',
+    })    
+    navigation.navigate('Map')
+  }  
  return (
   
   <View>
@@ -223,7 +231,7 @@ function ProfileScreen({navigation, receiver}) {
                           <Image source={require('../assets/Logos/SignalLogo.png')} style={{ width: 60, height: 60 }}/>
                 </TouchableOpacity>
                 <TouchableOpacity
-                          onPress={() => navigation.navigate('Chat')}
+                          onPress={() => chatRequest() }
                           style={styles.button}>
                           <Image source={require('../assets/Logos/AskForChatLogo.png')} style={{ width: 60, height: 60 }}/>
                 </TouchableOpacity>
@@ -318,7 +326,7 @@ slideImg: {
 
 //for redux
 function mapStateToProps(state) {
-  return { receiver : state.receiver }
+  return { receiver : state.receiver, user : state.user }
 }
 
 export default connect(
