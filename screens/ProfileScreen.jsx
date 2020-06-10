@@ -115,7 +115,7 @@ function ProfileScreen({navigation, receiver, user}) {
   
     const chatRequest = () => {
       //send request to firebase
-      database.ref('chatRequest/' + receiver + '/' + user).set({
+      database.ref('/chatRequest/' + receiver + '/' + user).set({
         createdAt: Date.now(),
         content: text
       })    
