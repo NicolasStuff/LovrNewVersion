@@ -12,7 +12,7 @@ function RequestScreen({navigation, user}) {
 
   useEffect(() => {
     const takeChatRequests = async () => { 
-      await database.ref('/chatRequest/'+ user).once('value', function(chatSnap){
+      await database.ref('/chatRequest/'+ user).on('value', function(chatSnap){
         let chatsRequestArray = [];
         chatSnap.forEach(function (childSnapshot) {
           let infoFromBD = childSnapshot.val()
