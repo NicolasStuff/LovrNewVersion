@@ -23,10 +23,6 @@ import NewMatchScreen from './screens/NewMatchScreen';
 
 
 import EditProfile from './screens/EditProfileScreen';
-<<<<<<< HEAD
-=======
-
->>>>>>> 7603aa167389ade4813a127a935308d8b363691e
 import ChatScreen from './screens/ChatScreen';
 
 // for Redux

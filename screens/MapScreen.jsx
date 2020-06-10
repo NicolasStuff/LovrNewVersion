@@ -288,6 +288,7 @@ pictureBox: {
   }, 
   centeredView: {
     zIndex: 1,
+    flex: 1,
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
@@ -299,7 +300,7 @@ pictureBox: {
     position: 'relative',
     height: 300,
     width: 300,
-    margin: 20,
+    marginStart: 50,
     borderRadius: 20,
     overflow: 'hidden',
     padding: 2,
@@ -310,7 +311,8 @@ pictureBox: {
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
+    bottom: 20    
   },
   openButton1: {
     backgroundColor: "#FFFF",
@@ -332,16 +334,11 @@ pictureBox: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: "#36B547",
-<<<<<<< HEAD
-    borderRadius: 20,
-    padding: 20,
-=======
     borderRadius: 30,
     paddingLeft: 25,
     paddingRight: 25,
     paddingTop: 14,
     paddingBottom: 14,
->>>>>>> 7603aa167389ade4813a127a935308d8b363691e
     shadowColor: "#FFFF",
     shadowOffset: {
       width: 0,
@@ -351,17 +348,14 @@ pictureBox: {
     shadowRadius: 3.84,
     elevation: 5,
     bottom: 20,
-<<<<<<< HEAD
-    alignSelf: "center"
-=======
     alignSelf: "center",
-    height: 30,
+    height: 45,
+    width: 200
 
->>>>>>> 7603aa167389ade4813a127a935308d8b363691e
   },
   textStyle1: {
     color: "#FFFF",
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "bold",
     textAlign: "center"
   },
