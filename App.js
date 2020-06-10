@@ -2,7 +2,6 @@
 console.disableYellowBox = true;
 
 import React, {useEffect, useState} from 'react';
-import { Button } from 'react-native';
 import { Input } from 'react-native-elements';
 
 
@@ -23,9 +22,7 @@ import NewMatchScreen from './screens/NewMatchScreen';
 
 
 import EditProfile from './screens/EditProfileScreen';
-
 import ChatScreen from './screens/ChatScreen';
-import ModalScreen from './screens/ModalScreen';
 
 // for Redux
 import {createStore, combineReducers} from 'redux';

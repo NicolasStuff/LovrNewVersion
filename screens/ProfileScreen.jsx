@@ -12,8 +12,6 @@ import {
 /* Social Icon Module for Instagram API */
 import { SocialIcon } from 'react-native-elements';
 
-import InstagramBasicDisplayApi from 'instagram-basic-display';
-
 /* Galio Framework */
 import { Block, Text, theme } from "galio-framework";
 
@@ -94,33 +92,6 @@ const thumbMeasure = (width - 46 - 30) / 3;
       />  
       )
     }
-
-    
-    const ig = new InstagramBasicDisplayApi({
-      appId: '3002863106448794',
-      appSecret: '5ce0e3c60cac85ceb905df501b46d2ff',
-      redirectUri: 'https://github.com/NicolasStuff/LovrNewVersion',
-      getCode: '',
-      apiBaseUrl: 'https://api.instagram.com',
-      graphBaseUrl: 'htts://graph.instagram.com',
-      userAccesToken: '',
-      userAccessTokenExpires: ''
-      
-  })
-
-      console.log(ig.authorizationUrl)
-// -> generates a user-code after successfull authorization
- 
-    const code = 'IGQVJVNDlGeS0tWEJFTHhhOGpvUjRhMTRHcmt6SXFTaDFKbkczbnF4OHA3c1FwOHFaaG52ZA1ZAKUG96NF9tcm5SeGR0bDJHdWd1UGZA3QmNIdWdYTmczWXc2STdjRjF0anhHalZAxbU5n'
- 
-      ig.retrieveToken(code).then(data => {
-    
-    const token = data.access_token
- 
-      ig.retrieveUserNode(token).then(data => {
-        console.log(data)
-    })
-})
   
  return (
   
@@ -175,14 +146,7 @@ const thumbMeasure = (width - 46 - 30) / 3;
 
               {/* Instagram Basic Display API */}
               <Text size={10} style={{ textAlign: "left",  marginTop: 10, marginHorizontal: 18, marginBottom: 10 }}>{setCount} photos Instagram</Text>
-              {/* <SocialIcon
-                title='Synchronisez vos photos Instagram'
-                onPress={
-                  () => logInAsync()
-                }
-                button
-                type='instagram'
-              /> */}
+         
 
               <View style={styles.wrapper}>
                   <Carousel 
