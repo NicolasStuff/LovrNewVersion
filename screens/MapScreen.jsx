@@ -121,19 +121,25 @@ function MapScreen({navigation, user, onReceiver}) {
 
   var NewUsers = 
     nearbyUsers.map((user,i) => {
+      //todo => dont show my fake position
       if(user.coords != null){
-        return (
-          <Marker
-            onPress={()=>{onReceiver(user.id); navigation.navigate('Profile')}}
-            style={styles.FrontMarker}
-            key={i}
-            coordinate={user.coords}
-            anchor={{x: 0.5, y: 0.5}}>                
-              <View style={styles.marker}>
-                  <Image source={ !user.avatar ? require('../assets/images/5.jpg') : {uri: user.avatar}} style={styles.pictureBox}/>
-              </View>
-          </Marker>
-         )
+        console.log("MapScreen -> user", user)
+        console.log("MapScreen -> user.id", user.id)
+        
+        if (user.id != user.id) {
+          return (
+            <Marker
+              onPress={()=>{onReceiver(user.id); navigation.navigate('Profile')}}
+              style={styles.FrontMarker}
+              key={i}
+              coordinate={user.coords}
+              anchor={{x: 0.5, y: 0.5}}>                
+                <View style={styles.marker}>
+                    <Image source={ !user.avatar ? require('../assets/images/5.jpg') : {uri: user.avatar}} style={styles.pictureBox}/>
+                </View>
+            </Marker>
+           )
+        }
       }
     })
 
