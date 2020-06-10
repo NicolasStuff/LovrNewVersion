@@ -2,7 +2,6 @@
 console.disableYellowBox = true;
 
 import React, {useEffect, useState} from 'react';
-import { Button } from 'react-native';
 import { Input } from 'react-native-elements';
 
 
