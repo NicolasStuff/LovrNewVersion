@@ -19,10 +19,13 @@ import MyProfileScreen from './screens/MyProfileScreen';
 import MapScreen from'./screens/MapScreen';
 import ConversationScreen from './screens/ConversationScreen';
 import RequestScreen from './screens/RequestScreen';
+import NewMatchScreen from './screens/NewMatchScreen';
+
 
 import EditProfile from './screens/EditProfileScreen';
-import MyChatScreen from './screens/MyChatScreen';
+
 import ChatScreen from './screens/ChatScreen';
+import ModalScreen from './screens/ModalScreen';
 
 // for Redux
 import {createStore, combineReducers} from 'redux';
@@ -54,11 +57,6 @@ function MyStack() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
         <Stack.Screen name="Map" component={MapScreen} options={{headerShown: false}} />
-        <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}}/>
-        <Stack.Screen name="Profile" component={ProfileScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="MyProfile" component={MyProfileScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="Settings" component={SettingScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="ChatScreen" component={ChatScreen} options={{headerShown: false}} />
         <Stack.Screen name="Chat" component={MyTabs} options={{
               headerTitle: () => (
               <Input
@@ -70,6 +68,12 @@ function MyStack() {
               />
             ),
           }}/>
+        <Stack.Screen name="MyProfile" component={MyProfileScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}}/>
+        <Stack.Screen name="Settings" component={SettingScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="NewMatch" component={NewMatchScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="ChatScreen" component={ChatScreen} options={{headerShown: false}} />
+        <Stack.Screen name="Profile" component={ProfileScreen} options={{headerShown: false}}/>
         {/* <Stack.Screen name="Contacts" component={ContactsScreen} /> */} 
         {/* <Stack.Screen name="Chat" component={ChatScreen} /> */}
       </Stack.Navigator>

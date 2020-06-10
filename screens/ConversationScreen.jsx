@@ -42,7 +42,7 @@ function ConversationScreen({navigation, user, onReceiver}) {
     }
   }, [])
 
-  //for take useer info for users collection
+  //for take useer info from users collection
   const takeUserInfoFirebase = async (messagesArray) => { 
     let conversationList = [];
     await Promise.all(messagesArray.map(async function (item) {
@@ -58,7 +58,8 @@ function ConversationScreen({navigation, user, onReceiver}) {
 
 
   let myChatList = myChats.map((e,i) =>{
-    return (<ListItem 
+    return (
+    <ListItem
       key={i}
       leftAvatar={{
         source: { uri: e.userAvatar },

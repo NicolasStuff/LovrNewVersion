@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity ,Dimensions, mapCustom, Alert} from 'react-native';
+import React, { Component, useEffect, useState} from 'react';
+import { StyleSheet, View, Image, TouchableOpacity, TouchableHighlight , Dimensions, mapCustom, Alert, Modal, Text, Block } from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -7,11 +7,13 @@ import { database } from './firebase';
 const geofire = require('geofire');
 import {connect} from 'react-redux';
 
-function MapScreen({navigation, user}) {
+import { LinearGradient } from 'expo-linear-gradient';
+
+function MapScreen({navigation, user, onReceiver}) {
   const [mapRegion, setMapRegion] = useState({ latitude: 48.8534, longitude: 2.3488, latitudeDelta: 0.0922, longitudeDelta: 0.0421})
   const [location, setLocation] = useState({coords: { latitude: 48.8534, longitude: 2.3488}})  
   const [nearbyUsers, setNearbyUsers] = useState([]);
-                                              
+  const [modalVisible, setModalVisible] = useState(false);                                              
   
   useEffect(() => {
     //ref for GeoFire
@@ -119,7 +121,7 @@ function MapScreen({navigation, user}) {
       if(user.coords != null){
         return (
           <Marker
-            onPress={()=>{Alert.alert('send to user profile id: ' + user.id)}}
+            onPress={()=>{onReceiver(user.id); navigation.navigate('Profile')}}
             style={styles.FrontMarker}
             key={i}
             coordinate={user.coords}
@@ -132,16 +134,52 @@ function MapScreen({navigation, user}) {
          )
       }
     })
-     
-
   return (
     <View>
-      <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.profileLink}>
+      <TouchableOpacity onPress={() => navigation.navigate('MyProfile')} style={styles.profileLink}>
         <Image source={require('../assets/Logos/ProfileScreenLogo.png')} style={{width: 75, height: 50}} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={styles.ChatLink}>
         <Image source={require('../assets/Logos/ChatScreenLogo.png')} style={{width: 75, height: 50}}/>
       </TouchableOpacity>
+      <TouchableHighlight
+        style={styles.openButton2}
+        onPress={() => {
+          setModalVisible(true);
+        }}
+      >
+        <Text style={styles.textStyle1}>Devenir Lovable </Text>
+      </TouchableHighlight>
+    <View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Become Lovable has been closed.");
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+          <LinearGradient colors={['#FFB199', '#FF164B']} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={styles.modalText}>Félicitations, vous êtes maintenant LOVABLE durant</Text>
+
+            <TouchableHighlight
+              style={styles.openButton1}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <Text style={styles.textStyle2}>Continuer</Text>
+            </TouchableHighlight>
+            </LinearGradient>
+          </View>
+        </View>
+      </Modal>
+
+      
+    </View>   
+
       <MapView style={styles.mapStyle}
       region = { { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } }
       showsUserLocation = { false }
@@ -249,6 +287,88 @@ pictureBox: {
     borderRadius: 60 / 2,
     overflow: 'hidden',
     elevation : 100,
+  }, 
+  centeredView: {
+    zIndex: 1,
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 200,
+    marginBottom: 100,
+  },
+  modalView: {
+    zIndex: 1,
+    position: 'relative',
+    height: 300,
+    width: 300,
+    margin: 20,
+    borderRadius: 20,
+    overflow: 'hidden',
+    padding: 2,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton1: {
+    backgroundColor: "#FFFF",
+    borderRadius: 20,
+    padding: 10,
+    shadowColor: "#FFFF",
+    shadowOffset: {
+      width: 2,
+      height: 4
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 15
+  },
+  openButton2: {
+    zIndex: 1,
+    flex: 1,
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "#36B547",
+    borderRadius: 30,
+    paddingLeft: 25,
+    paddingRight: 25,
+    paddingTop: 14,
+    paddingBottom: 14,
+    shadowColor: "#FFFF",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    bottom: 20,
+    alignSelf: "center",
+    height: 30,
+
+  },
+  textStyle1: {
+    color: "#FFFF",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  textStyle2: {
+    color: "#FF164B",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    color: '#FFFF',
+    fontSize: 18,
+    marginBottom: 20,
+    padding: 10,
+    textAlign: "center"
   }
 });
 
@@ -257,7 +377,15 @@ function mapStateToProps(state) {
   return { user : state.user }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    onReceiver: function(receiver) { 
+      dispatch( {type: 'addReceiver', receiver }) 
+    }
+  }
+}
+
 export default connect(
   mapStateToProps, 
-  null
+  mapDispatchToProps
 )(MapScreen);

@@ -110,7 +110,7 @@ export default function EditProfile ({navigation, props}) {
     return (
         <Root>
             <View>
-              <TouchableOpacity style={styles.BackButton} onPress={() => navigation.navigate('Profile')}>
+              <TouchableOpacity style={styles.BackButton} onPress={() => navigation.navigate('MyProfile')}>
                 <Image source={require('../assets/Logos/BackLogoFromChatRequets.png')} style={{width: 75, height: 50}}></Image>
               </TouchableOpacity>
                 

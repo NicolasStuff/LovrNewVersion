@@ -34,25 +34,41 @@ const { width, height } = Dimensions.get("screen");
 /* Instagram photos thumbnail */
 const thumbMeasure = (width - 46 - 30) / 3;
 
-  export default function ProfileScreen({navigation}) {
+import {connect} from 'react-redux';
+import { database } from './firebase';
 
+function ProfileScreen({navigation, receiver}) {
+
+  
   const [count, setCount] = useState(0);
+  
+  const [selectUser, setSelectUser] = useState({})
+  const [images, setImages] = useState ([]);  
+  
+  const [sliderImg, setSliderImg] = useState ([
+    'https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80',
+    'https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80',
+    'https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80',
+    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80',
+    'https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80',
+    'https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80',
+  ])
+  
+  useEffect(() => {
+    //for take useer info from users collection
+    const takeUserInfoFirebase = async (messagesArray) => { 
+      await database.ref('/users/'+ receiver).once('value', function(userSnap){
+        let userInfo = userSnap.val()
+        //adding user photos
+        setSelectUser(userInfo)
+        setImages(userInfo.photos)
 
-     const [images, setImages] = useState ([
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-    ])   
 
-    const [sliderImg, setSliderImg] = useState ([
-      'https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80',
-    ])
+      });
+    }
+    takeUserInfoFirebase()
+    
+  }, [])
 
     const _renderItem = ({ item, index }) => {
       return (
@@ -146,10 +162,10 @@ const thumbMeasure = (width - 46 - 30) / 3;
 
     <Block middle style={styles.nameInfo}>
                   <Text bold size={28} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
-                  Marie, 22
+                  {selectUser.first_name}, 22
                   </Text>
                   <Text light size={16} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
-                  Vit à : Paris
+                  Vit à : {selectUser.city}
                   </Text>
                   <Block middle style={{ marginTop: 10, marginBottom: 1 }}>
                     <Block style={styles.divider} />
@@ -157,7 +173,7 @@ const thumbMeasure = (width - 46 - 30) / 3;
                   <View style={{flex: 1, flexDirection: "row", marginHorizontal: 12, alignItems: 'center', marginVertical: 15}}>
                     <Image source={require('../assets/Logos/JobLogo.png')} style={{ width: 24, height: 21 }}/>
                     <Text light size={16} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
-                    Photographe
+                    {selectUser.job}
                     </Text>
                   </View>
                   <Block middle style={{ marginTop: 10, marginBottom: 1 }}>
@@ -169,7 +185,8 @@ const thumbMeasure = (width - 46 - 30) / 3;
               
               <Block middle style={{marginBottom: 20}}>
                   <Text size={16} color="#32325D" style={{ textAlign: "left",  marginTop: 10, marginHorizontal: 10 }}>
-                  Salut, Je suis Marie j'habite à Paris et je suis dispo pour aller boire un verre et rencontrer de nouvelles têtes!
+                  {selectUser.desc}
+                  {/* Salut, Je suis Marie j'habite à Paris et je suis dispo pour aller boire un verre et rencontrer de nouvelles têtes! */}
                   </Text>
               </Block>
 
@@ -298,3 +315,13 @@ slideImg: {
   justifyContent: "center"
 }
 });
+
+//for redux
+function mapStateToProps(state) {
+  return { receiver : state.receiver }
+}
+
+export default connect(
+  mapStateToProps, 
+  null
+)(ProfileScreen);
