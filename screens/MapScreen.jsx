@@ -9,10 +9,14 @@ import {connect} from 'react-redux';
 
 import { LinearGradient } from 'expo-linear-gradient';
 
+<<<<<<< HEAD
 /* Countdown Become Lovable */
 import { CountDown, TimerCountdown } from 'react-native-countdown-component';
 
 function MapScreen({navigation, user}) {
+=======
+function MapScreen({navigation, user, onReceiver}) {
+>>>>>>> 08ebad0b68ec96f6610e3638a292c11f44e9db6f
   const [mapRegion, setMapRegion] = useState({ latitude: 48.8534, longitude: 2.3488, latitudeDelta: 0.0922, longitudeDelta: 0.0421})
   const [location, setLocation] = useState({coords: { latitude: 48.8534, longitude: 2.3488}})  
   const [nearbyUsers, setNearbyUsers] = useState([]);
@@ -43,7 +47,7 @@ function MapScreen({navigation, user}) {
       //for GeoFire query
       let geoQuery = geoFireInstance.query({
         center: [location.coords.latitude, location.coords.longitude],
-        radius: 5
+        radius: 100
       }); 
 
       var nearbyUsersArray = [];
@@ -53,16 +57,16 @@ function MapScreen({navigation, user}) {
       geoQuery.on('key_entered', function(key, location, distance) {
         console.log("inside user", key)
         
-        let objectIndex = nearbyUsersArray.findIndex(obj => {obj.id === key})
-        
         // for first time
-        if(firsTime && objectIndex === -1){
+        if(firsTime){
+          console.log('inside first if')
           let userToPush = {id : key, avatar: null, coords: {latitude: location[0], longitude: location[1]}}
           nearbyUsersArray.push(userToPush)            
         }
         
         //adding new users to state
-        if(!firsTime && objectIndex === -1){   
+        if(!firsTime){   
+          console.log('inside second if')
           newNearbyUser(key, location)
         }
       })    
@@ -88,7 +92,7 @@ function MapScreen({navigation, user}) {
       // detaching listener
       let geoQuery = geoFireInstance.query({
         center: [location.coords.latitude, location.coords.longitude],
-        radius: 5
+        radius: 100
       });
       geoQuery.cancel();
     };
@@ -106,8 +110,10 @@ function MapScreen({navigation, user}) {
 
   //to set state of neraby users after first time
   const newNearbyUser = async (user, location) => {
-    let usersCopy = [...nearbyUsers];
     let avatarNewUser = await database.ref('/users/'+ user + '/avatar').once('value')
+    let usersCopy = [...nearbyUsers];
+    console.log("newNearbyUser -> usersCopy", usersCopy)
+    
     let userToPush = {id : user, avatar: avatarNewUser.val(), coords: {latitude: location[0], longitude: location[1]}};
     usersCopy.push(userToPush)
     setNearbyUsers(usersCopy)
@@ -123,12 +129,11 @@ function MapScreen({navigation, user}) {
       if(user.coords != null){
         return (
           <Marker
-            onPress={()=>{Alert.alert('send to user profile id: ' + user.id)}}
+            onPress={()=>{onReceiver(user.id); navigation.navigate('Profile')}}
             style={styles.FrontMarker}
             key={i}
             coordinate={user.coords}
-            anchor={{x: 0.5, y: 0.5}}>
-                
+            anchor={{x: 0.5, y: 0.5}}>                
               <View style={styles.marker}>
                   <Image source={ !user.avatar ? require('../assets/images/5.jpg') : {uri: user.avatar}} style={styles.pictureBox}/>
               </View>
@@ -137,10 +142,13 @@ function MapScreen({navigation, user}) {
       }
     })
 
+<<<<<<< HEAD
     //Countdown initialization
     // var LovableTimer = 
 
 
+=======
+>>>>>>> 08ebad0b68ec96f6610e3638a292c11f44e9db6f
   return (
     <View>
       <TouchableOpacity onPress={() => navigation.navigate('MyProfile')} style={styles.profileLink}>
@@ -202,8 +210,8 @@ function MapScreen({navigation, user}) {
       <MapView style={styles.mapStyle}
       region = { { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } }
       showsUserLocation = { false }
-      minZoomLevel={12}
-      maxZoomLevel={19}
+      minZoomLevel={7}
+      maxZoomLevel={9}
       showsCompass = { false }
       enableHighAccuracy = {true}
       rotateEnabled = { false }
@@ -400,7 +408,15 @@ function mapStateToProps(state) {
   return { user : state.user }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    onReceiver: function(receiver) { 
+      dispatch( {type: 'addReceiver', receiver }) 
+    }
+  }
+}
+
 export default connect(
   mapStateToProps, 
-  null
+  mapDispatchToProps
 )(MapScreen);

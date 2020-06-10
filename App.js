@@ -53,8 +53,7 @@ function MyStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-         <Stack.Screen name="Map" component={MapScreen} options={{headerShown: false}} />
-        <Stack.Screen name="Profile" component={ProfileScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
         <Stack.Screen name="Chat" component={MyTabs} options={{
            headerTitle: () => (
             <Input
@@ -65,15 +64,14 @@ function MyStack() {
                    style={{borderBottomColor: '#FF3C5E' }}
                   />
             ),
-          }}
-          />
-          <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
-        {/* <Stack.Screen name="Map" component={MapScreen} options={{headerShown: false}} /> */}
+          }}/>
+        <Stack.Screen name="Map" component={MapScreen} options={{headerShown: false}} />
         <Stack.Screen name="MyProfile" component={MyProfileScreen} options={{headerShown: false}}/>
         <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}}/>
         <Stack.Screen name="Settings" component={SettingScreen} options={{headerShown: false}}/>
         <Stack.Screen name="NewMatch" component={NewMatchScreen} options={{headerShown: false}}/>
         <Stack.Screen name="ChatScreen" component={ChatScreen} options={{headerShown: false}} />
+        <Stack.Screen name="Profile" component={ProfileScreen} options={{headerShown: false}} />
         {/* <Stack.Screen name="Contacts" component={ContactsScreen} /> */} 
         {/* <Stack.Screen name="Chat" component={ChatScreen} /> */}
       </Stack.Navigator>
