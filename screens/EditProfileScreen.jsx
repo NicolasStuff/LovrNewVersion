@@ -164,11 +164,6 @@ export default function EditProfile ({navigation, props}) {
                       placeholder={'Poste'}/>
                     <TouchableOpacity style={styles.LovrButton} onPress={ () => {}}>
                       <Text style={styles.TextButton}>Sauvegarder</Text>
-                  
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.LovrButton} onPress={ () => {}}>
-                      <Text style={styles.TextButton}>COucou</Text>
-                  
                     </TouchableOpacity>
                   </View>
                 </SlidingUpPanel>
@@ -195,14 +190,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     fontWeight: '900',
     fontSize: 30,
-    paddingTop: 50,
+    marginVertical: 50,
     left: 20
   },
   AboutMe: {
     position: "absolute",
     fontWeight: '500',
     fontSize: 15,
-    paddingTop: 100,
+    marginVertical: 100,
     left: 20
   },
   DescriptionTextBox: {
@@ -210,14 +205,14 @@ const styles = StyleSheet.create({
     width: Dimensions.get('screen').width,
     height: 80,
     backgroundColor: 'white',
-    bottom:500
-
+    marginVertical: 140,
+    padding: 25,
   },
   Job: {
     position: "absolute",
     fontWeight: '500',
     fontSize: 15,
-    marginVertical: 268,
+    marginVertical: 230,
     left: 20,
   },
   JobTextBox: {
@@ -225,8 +220,8 @@ const styles = StyleSheet.create({
     width: Dimensions.get('screen').width,
     height: 80,
     backgroundColor: 'white',
-    bottom: 380,
-    marginVertical: -30,
+    marginVertical: 270,
+    padding: 25,
   },
   LovrButton: {
     position: "absolute",
@@ -234,7 +229,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#FF3C5E',
     borderRadius: 25,
-    bottom: 250
+    marginVertical: 400
   },
   TextButton: {
     alignSelf: "center",
