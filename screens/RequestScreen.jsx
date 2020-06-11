@@ -7,12 +7,13 @@ import { database } from './firebase';
 
 /* Gradient Background Color Module */
 
-function RequestScreen({navigation, user, onMatch}) {
+function RequestScreen({navigation, user}) {
   const [myChatRequest, setMyChatRequest] = useState([])
 
   useEffect(() => {
-    const takeChatRequests = async () => { 
-      await database.ref('/chatRequest/'+ user).on('value', function(chatSnap){
+    console.log('requesChat Screen up!!')
+    const takeChatRequests = () => { 
+      database.ref('/chatRequest/'+ user).on('value', function(chatSnap){
         let chatsRequestArray = [];
         chatSnap.forEach(function (childSnapshot) {
           let infoFromBD = childSnapshot.val()
@@ -25,21 +26,6 @@ function RequestScreen({navigation, user, onMatch}) {
         })        
         takeUserAvatar(chatsRequestArray)
       });
-
-      //testing newMatch screen
-      // database.ref('/chatRequest/'+ user).on("child_added", function(snapshot){
-      //   let stateCopy = [...myChatRequest];
-      //   let newRequest = snapshot.val();
-      //   let infoToPush = {
-      //     senderId: snapshot.key,
-      //     content: newRequest.content,
-      //     date: newRequest.createdAt
-      //   }        
-      //   onMatch(infoToPush)
-      //   stateCopy.push(infoToPush)
-      //   takeUserAvatar(stateCopy)
-      //   navigation.navigate('NewMatch')
-      // })
     }
     takeChatRequests()
   }, [])
@@ -129,15 +115,7 @@ function mapStateToProps(state) {
   return { user : state.user}
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onMatch: function(newMatch) { 
-      dispatch( {type: 'addNewMatch', newMatch }) 
-    }
-  }
-}
-
 export default connect(
   mapStateToProps, 
-  mapDispatchToProps
+  null
 )(RequestScreen);

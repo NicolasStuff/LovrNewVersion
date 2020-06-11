@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
+import {database} from './firebase';
 
 function NewMatchScreen({navigation, newMatch}) {
   console.log("NewMatchScreen -> newMatch", newMatch)
+  const [matchInfo, setMatchInfo] = useState({})
+
+  useEffect(() => {
+    database.ref('/users/'+ newMatch.senderId).once('value', function(userSnap){
+      let userInfo = userSnap.val()
+      setMatchInfo(userInfo)
+    })    
+  }, [])
+
+
+
   
   return (
     <LinearGradient colors={['#FFB199', '#FF164B']} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -13,20 +25,21 @@ function NewMatchScreen({navigation, newMatch}) {
       <View style={styles.container}>
         <View style={styles.structure}>
           <Image source={require('../assets/Logos/NewMatchLogoBlanck.png')} style={styles.cercles}></Image>
-          <Image source={require('../assets/images/Franck.jpg')} style={styles.imageCenter}></Image>
+          <Image source={{ uri : matchInfo.avatar}} style={styles.imageCenter}></Image>
         </View>
 
-        <Text style={{color: "white", fontSize: 14, alignItems: 'center', justifyContent: 'center', marginTop:50}}>YES! Franck t'as envoyé un message</Text>
+        <Text style={{color: "white", fontSize: 14, alignItems: 'center', justifyContent: 'center', marginTop:50}}>YES! {matchInfo.first_name} t'as envoyé un message</Text>
 
-        <TouchableOpacity style={styles.SendMessage}>
-            <Text style={{color: "#FF164B"}}>Envoyer un message</Text>
+        <TouchableOpacity 
+        onPress={()=> navigation.navigate('Chat')}
+        style={styles.SendMessage}>
+            <Text style={{color: "#FF164B"}}>Go to my demandes des chat</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
             <Text style={styles.PassMessage}>passer</Text>
         </TouchableOpacity>
       </View>
-      
     </LinearGradient>
   );
 }

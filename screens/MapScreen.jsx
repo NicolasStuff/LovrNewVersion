@@ -12,7 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 /* Countdown Become Lovable */
 import { CountDown, TimerCountdown } from 'react-native-countdown-component';
 
-function MapScreen({navigation, user, onReceiver}) {
+function MapScreen({navigation, user, onReceiver, onMatch}) {
   const [mapRegion, setMapRegion] = useState({ latitude: 48.8534, longitude: 2.3488, latitudeDelta: 0.0922, longitudeDelta: 0.0421})
   const [location, setLocation] = useState({coords: { latitude: 48.8534, longitude: 2.3488}})  
   const [nearbyUsers, setNearbyUsers] = useState([]);
@@ -52,7 +52,6 @@ function MapScreen({navigation, user, onReceiver}) {
       // geoquery listeners
       geoQuery.on('key_entered', function(key, location, distance) {
         console.log("inside user", key)
-        
         // for first time
         if(firsTime){
           console.log('inside first if')
@@ -63,16 +62,17 @@ function MapScreen({navigation, user, onReceiver}) {
         //adding new users to state
         if(!firsTime){   
           console.log('inside second if')
-          newNearbyUser(key, location)
+          let newUserToPush = {id : key, avatar: null, coords: {latitude: location[0], longitude: location[1]}}
+          nearbyUsersArray.push(newUserToPush) 
+          updateUsersState(nearbyUsersArray)
         }
       })    
       
       geoQuery.on("key_exited", function(key) {
         console.log('user go out', key)
-        // removing user from state
-        var usersCopy = [...nearbyUsers]
-        var filteredUsers = usersCopy.filter(obj => obj.id != key)
-        setNearbyUsers(filteredUsers)        
+        // removing user from array
+        var filteredUsers = nearbyUsersArray.filter(obj => obj.id != key)
+        updateUsersState(filteredUsers)
       });
   
       geoQuery.on("ready", function() {
@@ -83,7 +83,22 @@ function MapScreen({navigation, user, onReceiver}) {
 
     };
     _getLocationAsync();
-    
+
+    const fakeNotification = () => {
+      database.ref('/chatRequest/'+ user).on("child_added", function(snapshot){
+        let newRequest = snapshot.val();
+        let infoToSend = {
+          senderId: snapshot.key,
+          content: newRequest.content,
+          date: newRequest.createdAt
+        }
+        onMatch(infoToSend)                
+        navigation.navigate('NewMatch')
+      })
+    }
+    fakeNotification()
+
+        
     return () => {
       // detaching listener
       let geoQuery = geoFireInstance.query({
@@ -91,6 +106,7 @@ function MapScreen({navigation, user, onReceiver}) {
         radius: 100
       });
       geoQuery.cancel();
+      database.ref('/chatRequest/'+ user).off()
     };
   }, []);
 
@@ -102,17 +118,6 @@ function MapScreen({navigation, user, onReceiver}) {
       return obj
     }))
     setNearbyUsers(usersArray)
-  }
-
-  //to set state of neraby users after first time
-  const newNearbyUser = async (user, location) => {
-    let avatarNewUser = await database.ref('/users/'+ user + '/avatar').once('value')
-    let usersCopy = [...nearbyUsers];
-    console.log("newNearbyUser -> usersCopy", usersCopy)
-    
-    let userToPush = {id : user, avatar: avatarNewUser.val(), coords: {latitude: location[0], longitude: location[1]}};
-    usersCopy.push(userToPush)
-    setNearbyUsers(usersCopy)
   }
 
   const _handleMapRegionChange = mapRegion => {
@@ -406,6 +411,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onReceiver: function(receiver) { 
       dispatch( {type: 'addReceiver', receiver }) 
+    },
+    onMatch: function(newMatch) { 
+      dispatch( {type: 'addNewMatch', newMatch }) 
     }
   }
 }

@@ -9,15 +9,12 @@ import { database } from './firebase';
 import { LinearGradient } from 'expo-linear-gradient';
 
 function ConversationScreen({navigation, user, onReceiver}) {
-  console.log('user in Conversation screen =>', user)
-
   const [myChats, setMyChats] = useState([])
   
   useEffect(() => {
     //geting friends and last messages from fireabse
     function loadData() {
       database.ref('/friends/'+ user).orderByChild('updated').on('value', function(snapshot) {
-      console.log("loadData -> snapshot", snapshot)
         let myLastMessages = [];
         snapshot.forEach(function (childSnapshot) {
           let infoFromBD = childSnapshot.val()

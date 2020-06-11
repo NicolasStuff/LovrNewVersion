@@ -12,10 +12,17 @@ function ChatScreen({navigation, user, receiver}) {
   console.log("ChatScreen -> receiver", receiver)
   const [idChat, setIdChat] = useState(user > receiver ? `${user}-${receiver}` : `${receiver}-${user}`)
   const [text, setText] = useState("");
-  const [messageList, setMessageList] = useState([])
+  const [messageList, setMessageList] = useState([]);
+  const [reciverInfo, setReceiverInfo] = useState({})
 
   useEffect(() => {
     function loadMessages() {
+      //taking receiver info
+      database.ref('/users/'+ receiver).once('value', function(userSnap){
+        let userInfo = userSnap.val()
+        setReceiverInfo(userInfo)
+      });
+      //taking messages
       database.ref('chats/'+ idChat).on('value', function(snapshot) {
           let messages = [];
           snapshot.forEach(e =>{
@@ -70,7 +77,7 @@ function ChatScreen({navigation, user, receiver}) {
           <View key={i} style={{flexDirection:'row', alignItems: 'center', margin: 10}}>
                 <Avatar
                   rounded
-                  source={require("../assets/images/5.jpg")}
+                  source={{ uri : reciverInfo.avatar}}
                   size="small"
                 />
                 <View style={styles.sender}>
@@ -92,10 +99,10 @@ function ChatScreen({navigation, user, receiver}) {
         <View style={styles.header}>
           <Avatar
             rounded
-            source={require("../assets/images/5.jpg")}
+            source={{ uri : reciverInfo.avatar}}
             size="large"
           />
-          <Text style={{fontSize: 25}}>Elodie</Text>
+          <Text style={{fontSize: 25}}>{reciverInfo.first_name}</Text>
         </View>
       </View>
       <ScrollView contentContainerStyle={styles.contentContainer}>
