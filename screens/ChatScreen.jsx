@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { database, counterRef } from './firebase';
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ScrollView, Dimensions  } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ScrollView, SafeAreaView, Dimensions  } from 'react-native';
 import {connect} from 'react-redux';
+import Constants from 'expo-constants';
 
 /* Gradient Background Color Module */
 import { Avatar } from 'react-native-elements';
@@ -59,7 +60,7 @@ function ChatScreen({navigation, user, receiver}) {
 
     if (msg.sender === user) {
         return (
-          <View key={i} style={{flexDirection:'row'}}>
+          <View key={i} style={{flexDirection:'row-reverse', alignItems: 'center'}}>
             <View style={styles.user}>
               <Text style={styles.textUser}>{msg.content}</Text>
             </View>
@@ -67,7 +68,7 @@ function ChatScreen({navigation, user, receiver}) {
         )
     } else {
         return (
-          <View key={i} style={{flexDirection:'row', alignItems: 'center', margin: 10}}>
+          <View key={i} style={{flexDirection:'row', alignItems: 'center'}}>
                 <Avatar
                   rounded
                   source={require("../assets/images/5.jpg")}
@@ -88,7 +89,7 @@ function ChatScreen({navigation, user, receiver}) {
       <TouchableOpacity style={styles.BackButton} onPress={() => navigation.navigate('Chat')}>
           <Image source={require('../assets/Logos/MapScreenLogoFromChat.png')} style={{width: 75, height: 50}}></Image>
       </TouchableOpacity>
-      <View style={{flex: 1, }}>
+      <View style={{ height: 50, width: 100, zIndex: 2, elevation: 2 }}>
         <View style={styles.header}>
           <Avatar
             rounded
@@ -98,10 +99,11 @@ function ChatScreen({navigation, user, receiver}) {
           <Text style={{fontSize: 25}}>Elodie</Text>
         </View>
       </View>
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-        {listMessageItem}
-      </ScrollView>
-      
+      <SafeAreaView style={{flex: 1, marginTop: 100 }}>
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          {listMessageItem}
+        </ScrollView>
+      </SafeAreaView>
       <View style={styles.footer}>
         <TextInput
           value={text}
@@ -126,7 +128,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     width: (Dimensions.get('window').width),
-    height: (Dimensions.get('window').height),
   },
   send: {
     alignSelf: 'center',
@@ -157,26 +158,25 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   sender: {
-    flex: 1,
     padding: 15,
-    paddingRight: 15,
     backgroundColor: '#FF3C5E',
     borderRadius: 25,
-    margin: 20,
+    margin: 10,
   },
   textSender: {
     color: 'white',
   },
   user: {
-    flex: 1,
-    flexDirection: 'row-reverse',
+    //flex: 1,
+    //flexDirection: 'row',
     padding: 15,
     backgroundColor: '#9C9C9C',
     borderRadius: 25,
-    margin: 20,
+    margin: 10,
   },
   textUser: {
     color: 'white',
+    textAlign: 'right',
   },
 });
 
