@@ -210,8 +210,8 @@ function MapScreen({navigation, user, onReceiver}) {
       <MapView style={styles.mapStyle}
       region = { { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } }
       showsUserLocation = { false }
-      minZoomLevel={15}
-      maxZoomLevel={15}
+      minZoomLevel={10}
+      maxZoomLevel={10}
       toolbarEnabled={false}
       showsCompass = { false }
       enableHighAccuracy = {true}

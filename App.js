@@ -83,7 +83,7 @@ function MyStack() {
                 left: 0,
               },
               headerTitleAlign: "left",
-              headerBackTitle: ""
+              
             }}/>
         <Stack.Screen name="Profile" component={ProfileScreen} options={{headerShown: false}}/>
         <Stack.Screen name="MyProfile" component={MyProfileScreen} options={{headerShown: false}}/>

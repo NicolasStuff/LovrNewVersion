@@ -132,7 +132,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
                 <TouchableOpacity
                           onPress={() => navigation.navigate('Settings')}
                           style={styles.button}>
-                          <Image source={require('../assets/Logos/icon.png')} style={{ width: 60, height: 60, borderRadius: 30 }}/>
+                          <Image source={require('../assets/Logos/icon.png')} style={{ width: 60, height: 60, borderRadius: 30, marginBottom: 20, }}/>
                 </TouchableOpacity>
               </View>
         </ScrollView>

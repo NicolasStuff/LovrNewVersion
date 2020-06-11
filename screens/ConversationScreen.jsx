@@ -15,7 +15,7 @@ function ConversationScreen({navigation, user, onReceiver}) {
   
   useEffect(() => {
     //geting friends and last messages from fireabse
-    function loadData() {      
+    function loadData() {
       database.ref('/friends/'+ user).orderByChild('updated').on('value', function(snapshot) {
       console.log("loadData -> snapshot", snapshot)
         let myLastMessages = [];
