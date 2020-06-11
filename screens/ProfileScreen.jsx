@@ -62,14 +62,12 @@ function ProfileScreen({navigation, receiver, user}) {
     const takeUserInfoFirebase = async () => { 
       await database.ref('/users/'+ receiver).once('value', function(userSnap){
         let userInfo = userSnap.val()
-
         //adding user photos
         setSelectUser(userInfo)
         setImages(userInfo.photos)
       });
     }
-    takeUserInfoFirebase()
-    
+    takeUserInfoFirebase()    
   }, [])
 
     const _renderItem = ({ item, index }) => {

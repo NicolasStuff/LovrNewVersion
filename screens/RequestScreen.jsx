@@ -33,7 +33,7 @@ function RequestScreen({navigation, user}) {
     let requestList = [];
     await Promise.all(array.map(async function (item) {
       await database.ref('/users/'+ item.senderId).once('value', function (snapshot){
-        let userInfo = snapshot.val()            
+        let userInfo = snapshot.val()
         item.senderAvatar = userInfo.avatar
         item.senderName = userInfo.first_name
         requestList.push(item)
@@ -103,9 +103,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   responseChat: {
-    width: 40,
-    height: 40,
-    
+    width: 30,
+    height: 30,
+    marginRight: 10,
   }
 });
 

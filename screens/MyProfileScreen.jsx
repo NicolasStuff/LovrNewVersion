@@ -128,19 +128,19 @@ console.log("ProfileScreen -> user", user)
                 <TouchableOpacity
                           onPress={() => navigation.navigate('Settings')}
                           style={styles.button}>
-                          <Image source={require('../assets/Logos/SettingLogo.png')} style={{ width: 60, height: 60, marginRight: 70 }}/>
+                          <Image source={require('../assets/Logos/SettingLogo.png')} style={{ width: 60, height: 60, marginRight: 70, borderRadius: 30 }}/>
                 </TouchableOpacity>
                 <TouchableOpacity
                           onPress={() => navigation.navigate('EditProfile')}
                           style={styles.button}>
-                          <Image source={require('../assets/Logos/EditLogo.png')} style={{ width: 60, height: 60 }}/>
+                          <Image source={require('../assets/Logos/EditLogo.png')} style={{ width: 60, height: 60, borderRadius: 30 }}/>
                 </TouchableOpacity>
               </View>
-              <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 10}}>
+              <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical:-10}}>
                 <TouchableOpacity
                           onPress={() => navigation.navigate('Settings')}
                           style={styles.button}>
-                          <Image source={require('../assets/Logos/icon.png')} style={{ width: 60, height: 60 }}/>
+                          <Image source={require('../assets/Logos/icon.png')} style={{ width: 60, height: 60, borderRadius: 30, marginBottom: 20, }}/>
                 </TouchableOpacity>
               </View>
         </ScrollView>
@@ -154,7 +154,7 @@ console.log("ProfileScreen -> user", user)
 
 const styles = StyleSheet.create({
 profile: {
-  flex: 1
+  flex: 1,
 },
 profileContainer: {
   width: width,

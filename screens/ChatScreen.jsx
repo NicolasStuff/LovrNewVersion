@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
 import { database, counterRef } from './firebase';
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ScrollView, Dimensions  } from 'react-native';
 import {connect} from 'react-redux';
 
 /* Gradient Background Color Module */
@@ -84,18 +84,21 @@ function ChatScreen({navigation, user, receiver}) {
 
     <View style={styles.container}>
       <TouchableOpacity style={styles.BackButton} onPress={() => navigation.navigate('Chat')}>
-        <Image source={require('../assets/Logos/MapScreenLogoFromChat.png')} style={{width: 75, height: 50}}></Image>
+          <Image source={require('../assets/Logos/MapScreenLogoFromChat.png')} style={{width: 75, height: 50}}></Image>
       </TouchableOpacity>
-      <View style={styles.header}>
-        <Avatar
-          rounded
-          source={require("../assets/images/5.jpg")}
-          size="large"
-        />
-        <Text style={{fontSize: 25}}>Elodie</Text>
+      <View style={{flex: 1, }}>
+        <View style={styles.header}>
+          <Avatar
+            rounded
+            source={require("../assets/images/5.jpg")}
+            size="large"
+          />
+          <Text style={{fontSize: 25}}>Elodie</Text>
+        </View>
       </View>
-      
+      <ScrollView contentContainerStyle={styles.contentContainer}>
         {listMessageItem}
+      </ScrollView>
       
       <View style={styles.footer}>
         <TextInput
@@ -105,7 +108,7 @@ function ChatScreen({navigation, user, receiver}) {
           underlineColorAndroid="transparent"
           placeholder="Démarques-toi !"
         />
-      <TouchableOpacity onPress={()=> sendMessageFirebase() }>
+      <TouchableOpacity onPress={()=> sendMessageFirebase()}>
         <Ionicons name="md-send" size={25} color="black" style={styles.send}/>
       </TouchableOpacity>
       </View>
@@ -118,6 +121,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: '#fff',
+  },
+  contentContainer: {
+    width: Dimensions.get('window').width,
   },
   send: {
     alignSelf: 'center',
