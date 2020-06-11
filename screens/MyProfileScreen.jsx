@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -28,43 +28,51 @@ const { width, height } = Dimensions.get("screen");
 /* Instagram photos thumbnail */
 const thumbMeasure = (width - 48 - 32) / 3;
 
+import {connect} from 'react-redux';
+import { database } from './firebase';
 
-  export default function ProfileScreen({navigation}) {
 
-     const [images, setImages] = useState ([
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-    ])   
+function ProfileScreen({navigation, user}) {
+console.log("ProfileScreen -> user", user)
 
-    const [sliderImg, setSliderImg] = useState ([
-      'https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80',
-    ])
+  const [images, setImages] = useState ([]);  
+  const [myInfo, setMyInfo] = useState({})
+  //const [activeSlide, setActiveSlide] = useState(0);
 
-    //const [activeSlide, setActiveSlide] = useState(0);
+  useEffect(() => {
+    //take myinfo from users collection
+    const takeMyInfoFirebase = async () => { 
+      await database.ref('/users/'+ user).once('value', function(userSnap){
+        let userInfo = userSnap.val()
+        console.log("takeMyInfoFirebase -> userInfo", userInfo)
 
-    const _renderItem = ({ item }) => {
-      return (
-        <ViewPager style={styles.viewPager} initialPage={0}>
-            <View key="1" row space="between">
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </View>
-        </ViewPager>
-      );
-    };
+        //adding user info to states
+        setMyInfo(userInfo)
+        setImages(userInfo.photos)
+      });
+    }
+    takeMyInfoFirebase()
+    
+  }, [])
+
+  
+
+  const _renderItem = ({ item }) => {
+    return (
+      <ViewPager style={styles.viewPager} initialPage={0}>
+          <View key="1" row space="between">
+              {Images.Viewed.map((img, imgIndex) => (
+                <Image
+                  source={{ uri: img }}
+                  key={`viewed-${img}`}
+                  resizeMode="cover"
+                  style={styles.thumb}
+                />
+              ))}
+            </View>
+      </ViewPager>
+    );
+  };
   
   
  return (
@@ -91,10 +99,10 @@ const thumbMeasure = (width - 48 - 32) / 3;
 
               <Block middle style={styles.nameInfo}>
                   <Text bold size={28} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
-                  Marie, 22
+                  {myInfo.first_name}, 22
                   </Text>
                   <Text light size={16} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
-                  Vit à : Paris
+                  Vit à : {myInfo.city}
                   </Text>
                   <Block middle style={{ marginTop: 10, marginBottom: 1 }}>
                     <Block style={styles.divider} />
@@ -102,7 +110,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
                   <View style={{flex: 1, flexDirection: "row", marginHorizontal: 12, alignItems: 'center', marginVertical: 15}}>
                     <Image source={require('../assets/Logos/JobLogo.png')} style={{ width: 24, height: 21 }}/>
                     <Text light size={16} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
-                    Photographe
+                    {myInfo.job}
                     </Text>
                   </View>
                   <Block middle style={{ marginTop: 10, marginBottom: 1 }}>
@@ -112,7 +120,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
               
               <Block middle style={{marginBottom: 20}}>
                   <Text size={16} color="#32325D" style={{ textAlign: "left",  marginTop: 10, marginHorizontal: 10 }}>
-                  Salut, Je suis Marie j'habite à Paris et je suis dispo pour aller boire un verre et rencontrer de nouvelles têtes!
+                    {myInfo.desc}
                   </Text>
               </Block>
               
@@ -222,3 +230,14 @@ slideImg: {
   justifyContent: "center"
 }
 });
+
+// for redux
+function mapStateToProps(state) {
+  return { user : state.user }
+}
+
+
+export default connect(
+  mapStateToProps, 
+  null
+)(ProfileScreen);

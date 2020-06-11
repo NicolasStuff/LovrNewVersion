@@ -1,18 +1,22 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, FlatList, Dimensions, View, Image, TouchableOpacity, TextInput, Animated, Block} from 'react-native';
-import firebase from 'firebase';
 import {ActionSheet, Root} from 'native-base';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import Constants from 'expo-constants';
 import * as ImagePicker from 'expo-image-picker';
+import {connect} from 'react-redux';
+import { database, storage } from './firebase';
+import * as Random from 'expo-random';
 
 const height = Dimensions.get('screen').height;
 
-export default function EditProfile ({navigation, props}) {
+function EditProfile ({navigation, user}) {
+  console.log("EditProfile -> user", user)
   
   const [name, setName] = useState(null)
   const [fileList, setFileList] = useState([ { uri: 'a' }, { uri: 'a' }, { uri: 'a' }, { uri: 'a' }, { uri: 'a' }, { uri: 'a' }, { uri: 'a' }, { uri: 'a' }, { uri: 'a' } ])
-  const [urlArray, setUrlArray] = useState([])
+  const [urlArray, setUrlArray] = useState([]);
+  const [myInfo, setMyInfo] = useState({})
   
   var draggedValue = new Animated.Value(180);
 
@@ -25,7 +29,61 @@ export default function EditProfile ({navigation, props}) {
         }
       }
     })();
+    //take myinfo from users collection
+    const takeMyInfoFirebase = async () => { 
+      await database.ref('/users/'+ user).once('value', function(userSnap){
+        let userInfo = userSnap.val()
+        //adding user info to states
+        setMyInfo(userInfo)
+      });
+    }
+    takeMyInfoFirebase()
   }, []);
+
+  const uploadTest = async () => {
+    console.log("uploadTest -> user", user)
+    let imgPickerUri = "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540j1ca%252Flovr/ImagePicker/3ae64f00-0c19-4f22-ac83-4828a046c6c6.jpg"
+    let randomArray = await Random.getRandomBytesAsync(4);
+
+    let storageRef = storage.ref(user + '/uploadTest3');
+    let fileExtension = imgPickerUri.split('.').pop()
+    console.log("uploadTest -> fileExtension", fileExtension)
+
+    // const testPicture = await fetch("file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540j1ca%252Flovr/ImagePicker/3ae64f00-0c19-4f22-ac83-4828a046c6c6.jpg")
+    // const imgBlob = await testPicture.blob()
+    
+    // storageRef.put(imgBlob).catch((err) => {console.log('error de la muerte', err)})
+  }
+
+  const takingDownUrl = async () => {
+    let storageRef = storage.ref().child(user);
+    // storageRef.getDownloadURL().then(function(url){
+    //   console.log('this is the url', url)
+    // }).catch(function(error) {
+    //   console.log('error de la muerte', error)
+    // });
+
+    storageRef.listAll().then(function(res){
+      res.items.forEach(function(itemRef) {
+        // All the items under listRef.
+        console.log('this is the reference', itemRef.toString())
+        getImgUrl(itemRef)
+      });
+    }).catch(function(error) {
+      console.log('error de la muerte', error)
+    });
+
+  }
+
+  const getImgUrl = (images) => {
+    images.getDownloadURL().then(function(url){
+      console.log('this is the url', url)
+    }).catch(function(error) {
+      console.log('error de la muerte2', error)
+    });
+  }
+
+
 
   var onSelectedImage = (image) => {
     //console.log("resulat recu", image)
@@ -151,8 +209,8 @@ export default function EditProfile ({navigation, props}) {
                     <TouchableOpacity onPress={() => onClickAddImage()} style={styles.CameraBox}>
                       <Image source={require('../assets/Logos/AddPictureLogo.png')} style={styles.Camera}/>
                     </TouchableOpacity>
-                  
-                    <Text style={styles.ProfileName}>{name}, 22</Text>
+
+                    <Text style={styles.ProfileName}>{myInfo.first_name}, 22</Text>
                     <Text style={styles.AboutMe}>A Propos de {name}</Text>
                     <TextInput
                       style={styles.DescriptionTextBox}
@@ -161,7 +219,7 @@ export default function EditProfile ({navigation, props}) {
                     <Text style={styles.Job}>Job et études</Text>
                     <TextInput
                       style={styles.JobTextBox}
-                      placeholder={'Poste'}/>
+                      placeholder={'  Poste'}/>
                     <TouchableOpacity style={styles.LovrButton} onPress={ () => {}}>
                       <Text style={styles.TextButton}>Sauvegarder</Text>
                     </TouchableOpacity>
@@ -286,3 +344,13 @@ const styles = StyleSheet.create({
       width: 20,
   },
 });
+
+// for redux
+function mapStateToProps(state) {
+  return { user : state.user }
+}
+
+export default connect(
+  mapStateToProps, 
+  null
+)(EditProfile);

@@ -126,7 +126,7 @@ function MapScreen({navigation, user, onReceiver}) {
     nearbyUsers.map((user,i) => {
       //todo => dont show my fake position
       if(user.coords != null){
-        if (user.id != user.id) {
+        if (user.id) {
           return (
             <Marker
               onPress={()=>{onReceiver(user.id); navigation.navigate('Profile')}}
@@ -209,8 +209,8 @@ function MapScreen({navigation, user, onReceiver}) {
       <MapView style={styles.mapStyle}
       region = { { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } }
       showsUserLocation = { false }
-      minZoomLevel={15}
-      maxZoomLevel={15}
+      minZoomLevel={9}
+      maxZoomLevel={9}
       toolbarEnabled={false}
       showsCompass = { false }
       enableHighAccuracy = {true}
