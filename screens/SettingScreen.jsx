@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Switch } from 'react-native';
+import {auth} from "./firebase";
 
 export default function SettingScreen({navigation}) {
 
