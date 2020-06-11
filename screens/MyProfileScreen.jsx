@@ -28,43 +28,35 @@ const { width, height } = Dimensions.get("screen");
 /* Instagram photos thumbnail */
 const thumbMeasure = (width - 48 - 32) / 3;
 
+import {connect} from 'react-redux';
+import { database } from './firebase';
 
-  export default function ProfileScreen({navigation}) {
 
-     const [images, setImages] = useState ([
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-      "https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80",
-    ])   
+function ProfileScreen({navigation, user}) {
+console.log("ProfileScreen -> user", user)
 
-    const [sliderImg, setSliderImg] = useState ([
-      'https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80',
-      'https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80',
-    ])
+  const [images, setImages] = useState ([]);  
+  const [myInfo, setMyInfo] = useState({})
 
-    //const [activeSlide, setActiveSlide] = useState(0);
+  
+  //const [activeSlide, setActiveSlide] = useState(0);
 
-    const _renderItem = ({ item }) => {
-      return (
-        <ViewPager style={styles.viewPager} initialPage={0}>
-            <View key="1" row space="between">
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </View>
-        </ViewPager>
-      );
-    };
+  const _renderItem = ({ item }) => {
+    return (
+      <ViewPager style={styles.viewPager} initialPage={0}>
+          <View key="1" row space="between">
+              {Images.Viewed.map((img, imgIndex) => (
+                <Image
+                  source={{ uri: img }}
+                  key={`viewed-${img}`}
+                  resizeMode="cover"
+                  style={styles.thumb}
+                />
+              ))}
+            </View>
+      </ViewPager>
+    );
+  };
   
   
  return (
@@ -222,3 +214,14 @@ slideImg: {
   justifyContent: "center"
 }
 });
+
+// for redux
+function mapStateToProps(state) {
+  return { user : state.user }
+}
+
+
+export default connect(
+  mapStateToProps, 
+  null
+)(ProfileScreen);

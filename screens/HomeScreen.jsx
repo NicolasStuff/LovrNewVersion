@@ -124,11 +124,7 @@ function HomeScreen({navigation, onUser}) {
     }    
   }
 
-  const Logout = () => {
-    auth.signOut()
-  }
-
-
+  
   return (
     <LinearGradient colors={['#FFB199', '#FF164B']} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Image source={require('../assets/Logos/Logo-White.png')} style={styles.Logo}/>
@@ -152,11 +148,6 @@ function HomeScreen({navigation, onUser}) {
                 light='true'
                 style={styles.signInGoogle}
               />
-              <TouchableOpacity
-                  onPress={() => Logout()}
-                  style={styles.signInGoogle}>
-                  <Text style={styles.signInGoogleText}> Logout</Text>
-              </TouchableOpacity>
             </View>
         </LinearGradient>
 

@@ -9,6 +9,10 @@ export default function SettingScreen({navigation}) {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const toggleSwitch2 = () => setIsEnabled2(previousState2 => !previousState2);
 
+  const Logout = () => {
+    auth.signOut()
+  }
+
   return (
     <View>
       <TouchableOpacity style={styles.BackButton} onPress={() => navigation.goBack()}>
@@ -46,7 +50,9 @@ export default function SettingScreen({navigation}) {
         </TouchableOpacity>
       </View>
       <View style={{margin: 20, padding: 20, backgroundColor: "white", alignItems: 'center', justifyContent: 'center', }}>
-        <TouchableOpacity >
+        <TouchableOpacity 
+          onPress={()=> Logout()}
+        >
           <Text style={styles.OthersSettings} > Se Déconnecter </Text>
         </TouchableOpacity>
       </View>
