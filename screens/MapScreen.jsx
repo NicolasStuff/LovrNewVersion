@@ -147,7 +147,7 @@ function MapScreen({navigation, user, onReceiver}) {
       return (
         <CountDown
         size={30}
-        until={5400}
+        until={Math.floor(new Date().getTime()/1000.0)}
         onFinish={() => alert("Vous n'êtes plus LOVABLE")}
         digitStyle={{backgroundColor: 'transparent', borderWidth: 2, borderColor: 'transparent'}}
         digitTxtStyle={{color: '#FFFF'}}
