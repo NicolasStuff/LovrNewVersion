@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, FlatList, Dimensions, View, Image, TouchableOpacity, TextInput, Animated} from 'react-native';
+import { StyleSheet, Text, FlatList, Dimensions, View, Image, TouchableOpacity, TextInput, Animated, Block} from 'react-native';
 import firebase from 'firebase';
 import {ActionSheet, Root} from 'native-base';
 import SlidingUpPanel from 'rn-sliding-up-panel';
@@ -77,11 +77,11 @@ export default function EditProfile ({navigation, props}) {
   };
 
   var onClickAddImage = () => {
-    const BUTTONS = ['Prendre un photo', 'Choisir une photo depuis la galerie', 'Annuler'];
+    const BUTTONS = ['Prendre une photo', 'Choisir une photo depuis la galerie', 'Annuler'];
     ActionSheet.show(
       {options: BUTTONS,
       cancelButtonIndex: 2,
-      title: 'Selectionner une photo'},
+      title: 'Sélectionner une photo'},
       buttonIndex => {
         switch (buttonIndex) {
           case 0:
@@ -115,6 +115,7 @@ export default function EditProfile ({navigation, props}) {
               </TouchableOpacity>
                 
                 <FlatList
+                  style={{ marginTop: 20}}
                   onEndReachedThreshold={0}
                   contentContainerStyle={styles.list}
                   data= {fileList}
@@ -150,18 +151,20 @@ export default function EditProfile ({navigation, props}) {
                     <TouchableOpacity onPress={() => onClickAddImage()} style={styles.CameraBox}>
                       <Image source={require('../assets/Logos/AddPictureLogo.png')} style={styles.Camera}/>
                     </TouchableOpacity>
-
+                  
                     <Text style={styles.ProfileName}>{name}, 22</Text>
                     <Text style={styles.AboutMe}>A Propos de {name}</Text>
                     <TextInput
                       style={styles.DescriptionTextBox}
-                      placeholder={'  N\'\hésites pas'}/>
+                      placeholder={"Le meilleur moyen de séduire c'est de s'ouvrir"}
+                      />
                     <Text style={styles.Job}>Job et études</Text>
                     <TextInput
                       style={styles.JobTextBox}
-                      placeholder={'  Poste'}/>
+                      placeholder={'Poste'}/>
                     <TouchableOpacity style={styles.LovrButton} onPress={ () => {}}>
-                      <Text style={styles.TextButton}>Obtenir Lovr+</Text>
+                      <Text style={styles.TextButton}>Sauvegarder</Text>
+                  
                     </TouchableOpacity>
                   </View>
                 </SlidingUpPanel>
@@ -177,7 +180,8 @@ const styles = StyleSheet.create({
     zIndex: 2,
     backgroundColor: '#DEDEDE',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'space-between',
+    padding: 12,
   },
   RectangleBox: {
     position: 'absolute',
@@ -187,14 +191,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     fontWeight: '900',
     fontSize: 30,
-    paddingBottom: 580,
+    paddingTop: 50,
     left: 20
   },
   AboutMe: {
     position: "absolute",
     fontWeight: '500',
     fontSize: 15,
-    paddingBottom: 510,
+    paddingTop: 100,
     left: 20
   },
   DescriptionTextBox: {
@@ -203,13 +207,14 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: 'white',
     bottom:500
+
   },
   Job: {
     position: "absolute",
     fontWeight: '500',
     fontSize: 15,
-    paddingBottom: 260,
-    left: 20
+    marginVertical: 268,
+    left: 20,
   },
   JobTextBox: {
     position: "absolute",
@@ -217,6 +222,7 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: 'white',
     bottom: 380,
+    marginVertical: -30,
   },
   LovrButton: {
     position: "absolute",

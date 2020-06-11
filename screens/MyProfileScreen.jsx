@@ -128,7 +128,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
                           <Image source={require('../assets/Logos/EditLogo.png')} style={{ width: 60, height: 60, borderRadius: 30 }}/>
                 </TouchableOpacity>
               </View>
-              <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 10}}>
+              <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical:-10}}>
                 <TouchableOpacity
                           onPress={() => navigation.navigate('Settings')}
                           style={styles.button}>
@@ -146,7 +146,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
 
 const styles = StyleSheet.create({
 profile: {
-  flex: 1
+  flex: 1,
 },
 profileContainer: {
   width: width,
