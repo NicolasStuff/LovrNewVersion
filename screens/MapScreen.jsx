@@ -202,8 +202,6 @@ function MapScreen({navigation, user, onReceiver}) {
           </View>
         </View>
       </Modal>
-
-      
     </View>   
 
       <MapView style={styles.mapStyle}

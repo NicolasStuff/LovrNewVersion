@@ -2,8 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
+import {connect} from 'react-redux';
 
-export default function NewMatchScreen({navigation}) {
+function NewMatchScreen({navigation, newMatch}) {
+  console.log("NewMatchScreen -> newMatch", newMatch)
+  
   return (
     <LinearGradient colors={['#FFB199', '#FF164B']} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
@@ -72,3 +75,12 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
 });
+
+function mapStateToProps(state) {
+  return { newMatch : state.newMatch }
+}
+
+export default connect(
+  mapStateToProps, 
+  null
+)(NewMatchScreen);
