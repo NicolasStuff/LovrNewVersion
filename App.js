@@ -31,8 +31,9 @@ import {createStore, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 import user from './reducers/user';
 import receiver from './reducers/receiver';
+import newMatch from './reducers/newMatch'
 import { Value } from 'react-native-reanimated';
-const store = createStore(combineReducers({ user, receiver }));
+const store = createStore(combineReducers({ user, receiver, newMatch }));
 
 /* createStackNavigator() */
 const Stack = createStackNavigator();

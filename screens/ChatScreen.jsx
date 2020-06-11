@@ -27,11 +27,13 @@ function ChatScreen({navigation, user, receiver}) {
       database.ref(`/friends/${user}/${receiver}/`).update({
         unreadMessages : 0
       })
-
     }
     loadMessages()
     return () => {
       database.ref('chats/'+ idChat).off()
+      database.ref(`/friends/${user}/${receiver}/`).update({
+        unreadMessages : 0
+      })
     }
   }, [])
 
@@ -43,7 +45,7 @@ function ChatScreen({navigation, user, receiver}) {
         read: false,
     })
     setText('')
-    //and update lastmessage and counter of receiver
+    //update lastmessage and counter of receiver
     database.ref(`/friends/${receiver}/${user}`).update({
       lastMessage : text,
       unreadMessages : counterRef.ServerValue.increment(1),

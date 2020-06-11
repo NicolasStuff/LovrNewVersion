@@ -7,7 +7,7 @@ import { database } from './firebase';
 
 /* Gradient Background Color Module */
 
-function RequestScreen({navigation, user}) {
+function RequestScreen({navigation, user, onMatch}) {
   const [myChatRequest, setMyChatRequest] = useState([])
 
   useEffect(() => {
@@ -25,6 +25,21 @@ function RequestScreen({navigation, user}) {
         })        
         takeUserAvatar(chatsRequestArray)
       });
+
+      //testing newMatch screen
+      // database.ref('/chatRequest/'+ user).on("child_added", function(snapshot){
+      //   let stateCopy = [...myChatRequest];
+      //   let newRequest = snapshot.val();
+      //   let infoToPush = {
+      //     senderId: snapshot.key,
+      //     content: newRequest.content,
+      //     date: newRequest.createdAt
+      //   }        
+      //   onMatch(infoToPush)
+      //   stateCopy.push(infoToPush)
+      //   takeUserAvatar(stateCopy)
+      //   navigation.navigate('NewMatch')
+      // })
     }
     takeChatRequests()
   }, [])
@@ -111,11 +126,18 @@ const styles = StyleSheet.create({
 
 //for redux
 function mapStateToProps(state) {
-  return { user : state.user }
+  return { user : state.user}
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    onMatch: function(newMatch) { 
+      dispatch( {type: 'addNewMatch', newMatch }) 
+    }
+  }
+}
 
 export default connect(
   mapStateToProps, 
-  null
+  mapDispatchToProps
 )(RequestScreen);
