@@ -147,7 +147,7 @@ function MapScreen({navigation, user, onReceiver}) {
       return (
         <CountDown
         size={30}
-        until={5400}
+        until={Math.floor(new Date().getTime()/1000.0)}
         onFinish={() => alert("Vous n'êtes plus LOVABLE")}
         digitStyle={{backgroundColor: 'transparent', borderWidth: 2, borderColor: 'transparent'}}
         digitTxtStyle={{color: '#FFFF'}}
@@ -158,7 +158,6 @@ function MapScreen({navigation, user, onReceiver}) {
         showSeparator
       />
       )
-      
     }
 
   return (
@@ -210,8 +209,8 @@ function MapScreen({navigation, user, onReceiver}) {
       <MapView style={styles.mapStyle}
       region = { { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } }
       showsUserLocation = { false }
-      minZoomLevel={10}
-      maxZoomLevel={10}
+      minZoomLevel={15}
+      maxZoomLevel={15}
       toolbarEnabled={false}
       showsCompass = { false }
       enableHighAccuracy = {true}
