@@ -166,6 +166,10 @@ export default function EditProfile ({navigation, props}) {
                       <Text style={styles.TextButton}>Sauvegarder</Text>
                   
                     </TouchableOpacity>
+                    <TouchableOpacity style={styles.LovrButton} onPress={ () => {}}>
+                      <Text style={styles.TextButton}>COucou</Text>
+                  
+                    </TouchableOpacity>
                   </View>
                 </SlidingUpPanel>
             </View>
