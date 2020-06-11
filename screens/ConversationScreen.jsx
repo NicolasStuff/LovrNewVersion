@@ -66,7 +66,7 @@ function ConversationScreen({navigation, user, onReceiver}) {
       }}
       title={e.userName}
       subtitle={e.message}
-      badge={{ value: e.unRead, textStyle: { color: 'orange' }, containerStyle: { marginTop: -20 } }}
+      badge={e.unRead !=0 ? { value: e.unRead, textStyle: { color: 'white' } } : null}
       chevron
       bottomDivider
       onPress={()=>{onReceiver(e.userId); navigation.navigate('ChatScreen') }}

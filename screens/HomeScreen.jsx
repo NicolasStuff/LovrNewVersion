@@ -61,7 +61,7 @@ function HomeScreen({navigation, onUser}) {
               job: 'test job',
               desc: 'test descrip',
               avatar: user.user.photoURL,
-              photos: ['photo1', 'photo2', 'photo3'],
+              photos: [user.user.photoURL],
               lovable: false,
               premium: false,
               lovable_date: Date.now()    
@@ -106,7 +106,7 @@ function HomeScreen({navigation, onUser}) {
               job: 'test job',
               desc: 'test descrip',
               avatar: user.additionalUserInfo.profile.picture,
-              photos: ['photo1', 'photo2', 'photo3'],
+              photos: [user.additionalUserInfo.profile.picture],
               lovable: false,
               premium: false,
               lovable_date: Date.now()    

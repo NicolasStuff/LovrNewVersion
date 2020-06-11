@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -37,9 +37,25 @@ console.log("ProfileScreen -> user", user)
 
   const [images, setImages] = useState ([]);  
   const [myInfo, setMyInfo] = useState({})
+  //const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    //take myinfo from users collection
+    const takeMyInfoFirebase = async () => { 
+      await database.ref('/users/'+ user).once('value', function(userSnap){
+        let userInfo = userSnap.val()
+        console.log("takeMyInfoFirebase -> userInfo", userInfo)
+
+        //adding user info to states
+        setMyInfo(userInfo)
+        setImages(userInfo.photos)
+      });
+    }
+    takeMyInfoFirebase()
+    
+  }, [])
 
   
-  //const [activeSlide, setActiveSlide] = useState(0);
 
   const _renderItem = ({ item }) => {
     return (
@@ -83,10 +99,10 @@ console.log("ProfileScreen -> user", user)
 
               <Block middle style={styles.nameInfo}>
                   <Text bold size={28} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
-                  Marie, 22
+                  {myInfo.first_name}, 22
                   </Text>
                   <Text light size={16} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
-                  Vit à : Paris
+                  Vit à : {myInfo.city}
                   </Text>
                   <Block middle style={{ marginTop: 10, marginBottom: 1 }}>
                     <Block style={styles.divider} />
@@ -94,7 +110,7 @@ console.log("ProfileScreen -> user", user)
                   <View style={{flex: 1, flexDirection: "row", marginHorizontal: 12, alignItems: 'center', marginVertical: 15}}>
                     <Image source={require('../assets/Logos/JobLogo.png')} style={{ width: 24, height: 21 }}/>
                     <Text light size={16} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
-                    Photographe
+                    {myInfo.job}
                     </Text>
                   </View>
                   <Block middle style={{ marginTop: 10, marginBottom: 1 }}>
@@ -104,7 +120,7 @@ console.log("ProfileScreen -> user", user)
               
               <Block middle style={{marginBottom: 20}}>
                   <Text size={16} color="#32325D" style={{ textAlign: "left",  marginTop: 10, marginHorizontal: 10 }}>
-                  Salut, Je suis Marie j'habite à Paris et je suis dispo pour aller boire un verre et rencontrer de nouvelles têtes!
+                    {myInfo.desc}
                   </Text>
               </Block>
               

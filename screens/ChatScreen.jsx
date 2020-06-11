@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
-import { database } from './firebase';
+import { database, counterRef } from './firebase';
 import {connect} from 'react-redux';
 
 /* Gradient Background Color Module */
@@ -22,9 +22,14 @@ function ChatScreen({navigation, user, receiver}) {
               messages.push(e.val())
           });
           setMessageList(messages)
-      });                
-      }
-      loadMessages()
+      });
+      //setting unreadMessages to 0
+      database.ref(`/friends/${user}/${receiver}/`).update({
+        unreadMessages : 0
+      })
+
+    }
+    loadMessages()
     return () => {
       database.ref('chats/'+ idChat).off()
     }
@@ -38,6 +43,12 @@ function ChatScreen({navigation, user, receiver}) {
         read: false,
     })
     setText('')
+    //and update lastmessage and counter of receiver
+    database.ref(`/friends/${receiver}/${user}`).update({
+      lastMessage : text,
+      unreadMessages : counterRef.ServerValue.increment(1),
+      updated: Date.now()
+    })
   }
 
   var listMessageItem = messageList.map((msg, i)=>{
