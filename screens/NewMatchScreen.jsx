@@ -31,7 +31,7 @@ function NewMatchScreen({navigation, newMatch}) {
         <Text style={{color: "white", fontSize: 14, alignItems: 'center', justifyContent: 'center', marginTop:50}}>YES! {matchInfo.first_name} t'as envoyé un message</Text>
 
         <TouchableOpacity 
-        onPress={()=> navigation.navigate('Chat')}
+        onPress={()=> navigation.navigate('Chat', { screen: "Demande de chat" })}
         style={styles.SendMessage}>
             <Text style={{color: "#FF164B"}}>Go to my demandes des chat</Text>
         </TouchableOpacity>
