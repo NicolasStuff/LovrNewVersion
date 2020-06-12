@@ -7,7 +7,7 @@ import { database } from './firebase';
 
 /* Gradient Background Color Module */
 
-function RequestScreen({navigation, user}) {
+function RequestScreen({navigation, user, onReceiver}) {
   const [myChatRequest, setMyChatRequest] = useState([])
 
   useEffect(() => {
@@ -65,6 +65,7 @@ function RequestScreen({navigation, user}) {
   let myRequestList = myChatRequest.map((e,i) =>{
     return (
       <ListItem
+          onPress={()=> {onReceiver(e.senderId); navigation.navigate('Profile')}}
           key={i}
           leftAvatar={{
             source: { uri: e.senderAvatar },
@@ -115,7 +116,15 @@ function mapStateToProps(state) {
   return { user : state.user}
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    onReceiver: function(receiver) { 
+      dispatch( {type: 'addReceiver', receiver }) 
+    }
+  }
+}
+
 export default connect(
   mapStateToProps, 
-  null
+  mapDispatchToProps
 )(RequestScreen);
