@@ -64,7 +64,8 @@ function HomeScreen({navigation, onUser}) {
               photos: [user.user.photoURL],
               lovable: false,
               premium: false,
-              lovable_date: Date.now()    
+              lovable_date: Date.now(),
+              age : '-'    
            })
           }
         }).catch((err)=>{
@@ -109,7 +110,8 @@ function HomeScreen({navigation, onUser}) {
               photos: [user.additionalUserInfo.profile.picture],
               lovable: false,
               premium: false,
-              lovable_date: Date.now()    
+              lovable_date: Date.now(),
+              age : '-'  
            })
           }
         }).catch((err)=>{

@@ -52,7 +52,7 @@ export default function SettingScreen({navigation}) {
       </View>
       <View style={{margin: 20, padding: 20, backgroundColor: "white", alignItems: 'center', justifyContent: 'center', }}>
         <TouchableOpacity 
-          onPress={()=> Logout()}
+          onPress={()=> {Logout(); navigation.navigate('Home')}}
         >
           <Text style={styles.OthersSettings} > Se Déconnecter </Text>
         </TouchableOpacity>

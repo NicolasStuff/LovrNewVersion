@@ -99,7 +99,7 @@ console.log("ProfileScreen -> user", user)
 
               <Block middle style={styles.nameInfo}>
                   <Text bold size={28} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
-                  {myInfo.first_name}, 22
+                  {myInfo.first_name}, {myInfo.age}
                   </Text>
                   <Text light size={16} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
                   Vit à : {myInfo.city}

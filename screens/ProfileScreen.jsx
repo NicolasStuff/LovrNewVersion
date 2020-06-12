@@ -145,7 +145,7 @@ function ProfileScreen({navigation, receiver, user}) {
 
     <Block middle style={styles.nameInfo}>
                   <Text bold size={28} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
-                  {selectUser.first_name}, 22
+                  {selectUser.first_name}, {selectUser.age}
                   </Text>
                   <Text light size={16} color="#363636" style={{ textAlign: "left", marginHorizontal: 10 }}>
                   Vit à : {selectUser.city}
