@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { database, counterRef } from './firebase';
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ScrollView, SafeAreaView, Dimensions  } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, SafeAreaView, Dimensions  } from 'react-native';
 import {connect} from 'react-redux';
-import Constants from 'expo-constants';
+import AutoScroll from 'react-native-auto-scroll'
 
 /* Gradient Background Color Module */
 import { Avatar } from 'react-native-elements';
@@ -115,9 +115,9 @@ function ChatScreen({navigation, user, receiver}) {
         </View>
       </View>
       <SafeAreaView style={{flex: 1, marginTop: 100 }}>
-        <ScrollView contentContainerStyle={styles.contentContainer}>
+        <AutoScroll contentContainerStyle={styles.contentContainer}>
           {listMessageItem}
-        </ScrollView>
+        </AutoScroll>
       </SafeAreaView>
       <View style={styles.footer}>
         <TextInput

@@ -34,6 +34,7 @@
     "react-instagram-login": "^1.4.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
     "react-native-androw": "0.0.34",
+    "react-native-auto-scroll": "0.0.1",
     "react-native-countdown-component": "^2.7.1",
     "react-native-dynamic-search-bar": "^1.2.0",
     "react-native-dynamic-vector-icons": "^0.1.1",
