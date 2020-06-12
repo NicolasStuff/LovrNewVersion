@@ -63,26 +63,34 @@ function ChatScreen({navigation, user, receiver}) {
 
   var listMessageItem = messageList.map((msg, i)=>{
     var dateCreated = new Date(msg.createdAt)
-    var timeDate = `${dateCreated.getHours()}:${dateCreated.getMinutes()}`;
+    var timeDate = `${dateCreated.getHours()}:${dateCreated.getMinutes() < 10 ? '0'+dateCreated.getMinutes() : dateCreated.getMinutes()}`;
 
     if (msg.sender === user) {
         return (
-          <View key={i} style={{flexDirection:'row-reverse', alignItems: 'center'}}>
+          <View key={i} style={{flexDirection:'row-reverse',  alignItems: 'flex-end', flexDirection:'column', alignSelf:'flex-end'}}>
             <View style={styles.user}>
               <Text style={styles.textUser}>{msg.content}</Text>
+            </View>
+            <View>
+              <Text style={{marginRight: 15, fontSize:12}}>{timeDate}</Text>
             </View>
           </View>
         )
     } else {
         return (
-          <View key={i} style={{flexDirection:'row', alignItems: 'center'}}>
-                <Avatar
-                  rounded
-                  source={{ uri : reciverInfo.avatar}}
-                  size="small"
-                />
-                <View style={styles.sender}>
-                  <Text style={styles.textSender}>{msg.content}</Text>
+          <View key={i} style={{flexDirection:'row', alignItems: 'flex-start', flexDirection:'column', alignSelf:'flex-start'}}>
+                <View style={{flexDirection:'row', alignItems: 'flex-end'}}>
+                  <Avatar
+                    rounded
+                    source={{ uri : reciverInfo.avatar}}
+                    size="small"
+                  />
+                  <View style={styles.sender}>
+                    <Text style={styles.textSender}>{msg.content}</Text>
+                  </View>                  
+                </View>
+                <View>
+                  <Text style={{marginLeft: 5, fontSize:12}}>{timeDate}</Text>
                 </View>
           </View>
         )
@@ -169,6 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF3C5E',
     borderRadius: 25,
     margin: 10,
+    marginBottom: 2,
   },
   textSender: {
     color: 'white',
@@ -180,6 +189,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#9C9C9C',
     borderRadius: 25,
     margin: 10,
+    marginBottom: 2,
   },
   textUser: {
     color: 'white',
